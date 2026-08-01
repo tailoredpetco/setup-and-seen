@@ -1,2 +1,3 @@
-# setup-and-seen
-Set Up &amp; Seen business website
+# Set Up & Seen
+
+Public website for Set Up & Seen, hosted on Netlify.

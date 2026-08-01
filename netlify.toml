@@ -1,0 +1,8 @@
+[build]
+  publish = "netlify-site"
+
+[[redirects]]
+  from = "https://setupandseen.co.uk/*"
+  to = "https://www.setupandseen.co.uk/:splat"
+  status = 301
+  force = true

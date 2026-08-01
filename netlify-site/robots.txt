@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://www.setupandseen.co.uk/sitemap.xml
+Host: https://www.setupandseen.co.uk
