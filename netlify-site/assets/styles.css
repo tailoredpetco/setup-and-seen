@@ -9,3 +9,70 @@
 :focus-visible{outline:3px solid #d98567!important;outline-offset:4px}
 .form-honeypot{position:absolute!important;left:-9999px!important}
 @media(max-width:700px){.case-links{flex-direction:column;align-items:stretch}.case-links .button{text-align:center}.tailored-showcase{overflow:hidden}}
+
+/* Our Work portfolio correction */
+.case-links .case-social{
+  background:var(--blue)!important;
+  color:#fff!important;
+  border:1px solid var(--blue)!important;
+}
+.case-links .case-social:hover{
+  background:#294661!important;
+  border-color:#294661!important;
+}
+.tailored-laptop{
+  width:88%;
+  aspect-ratio:1.89;
+  left:0;
+  top:29%;
+  transform:none;
+}
+.screenshot-screen img{
+  object-fit:contain;
+  object-position:top left;
+}
+.tailored-phone{
+  width:21%;
+  aspect-ratio:.5;
+  right:1%;
+  bottom:4%;
+  transform:none;
+}
+.tailored-brand-tile{
+  width:21%;
+  right:5%;
+  top:2%;
+  transform:none;
+}
+.tailored-mobile-head img{display:none}
+.tailored-mobile-head:before{
+  content:"The Tailored Pet Co";
+  max-width:70%;
+  font-family:Fraunces,serif;
+  font-size:clamp(7px,.72vw,10px);
+  font-weight:500;
+  line-height:1;
+  letter-spacing:-.025em;
+  text-transform:none;
+}
+.tailored-mobile-hero{
+  background:
+    linear-gradient(rgba(55,59,43,.3),rgba(55,59,43,.68)),
+    url(/tailored-pet-co-website.webp) 72% center/auto 118% no-repeat;
+}
+@media(max-width:700px){
+  .tailored-phone{
+    width:36%;
+    left:32%;
+    right:auto;
+    top:57%;
+    bottom:auto;
+    transform:none;
+  }
+  .tailored-brand-tile{
+    width:25%;
+    right:4%;
+    top:0;
+    transform:none;
+  }
+}
