@@ -108,8 +108,35 @@ source = source.replace(
 )
 competition.write_text(source, encoding="utf-8")
 
+privacy = root / "privacy" / "index.html"
+source = privacy.read_text(encoding="utf-8")
+old_privacy_provider = "We use service providers only where needed to run the website and business. These include Netlify, OpenAI Sites and Cloudflare for website hosting, enquiry handling, form notifications, database storage and security; Stripe when a customer uses an agreed payment link; and our email and document providers. Information may also be shared with professional advisers or public authorities where legally required."
+new_privacy_provider = "We use service providers only where needed to run the website and business. These include Netlify for website hosting, deployment, security, spam filtering, and the processing and storage of enquiries and prize draw entries submitted through Netlify Forms; Stripe when a customer uses an agreed payment link; and our email and document providers. Information may also be shared with professional advisers or public authorities where legally required."
+source = source.replace(
+    "Last updated 28 August 2026",
+    "Last updated 1 September 2026",
+)
+source = source.replace(old_privacy_provider, new_privacy_provider)
+privacy.write_text(source, encoding="utf-8")
+
+homepage_bundle = root / "assets" / "page-CRbireym.js"
+source = homepage_bundle.read_text(encoding="utf-8")
+source = source.replace(
+    "Thank you. Your message is safely with us.",
+    "Thank you — we’ve received your enquiry and will be in touch shortly.",
+)
+source = source.replace(
+    "We will review your enquiry and contact you as soon as possible. A confirmation email has also been requested for the address you supplied.",
+    "No further action is needed.",
+)
+homepage_bundle.write_text(source, encoding="utf-8")
+
 assert 'data-netlify="true"' in home.read_text(encoding="utf-8")
 assert 'data-netlify="true"' in competition.read_text(encoding="utf-8")
+assert old_privacy_provider not in privacy.read_text(encoding="utf-8")
+assert privacy.read_text(encoding="utf-8").count(new_privacy_provider) == 2
+assert privacy.read_text(encoding="utf-8").count("Last updated 1 September 2026") == 2
+assert "confirmation email" not in homepage_bundle.read_text(encoding="utf-8").lower()
 assert (root / "404.html").read_text(encoding="utf-8").strip() == "Not Found"
 assert len(list(root.rglob("*.html"))) == 20
 PY

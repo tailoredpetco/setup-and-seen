@@ -64,7 +64,9 @@ The live client closes entry at `2026-09-30T22:59:00Z`, equivalent to 11:59 pm U
 
 The migration registers a Netlify Form named `website-starter-prize-draw-2026`, retains the honeypot, validates every required field in the browser and blocks the form after the published UTC closing instant. It submits URL-encoded data asynchronously and preserves the current inline confirmation/error states.
 
-Netlify Forms stores the submitted fields and submission time. Entries can be reviewed and exported from Netlify as CSV. Before the draw, the owner must export the Netlify entries, remove clearly labelled preview tests, reject submissions after the closing instant, and apply the published first-valid-entry rule using normalised entrant email and business name. This produces an auditable eligible-entry list without exposing a database key or credential in GitHub.
+Netlify Forms stores the submitted fields and the platform's authoritative submission timestamp. Entries can be reviewed and exported from Netlify as CSV. For final eligibility, the owner must use that Netlify timestamp—not the entrant's device time—and exclude every submission received after `2026-09-30T22:59:00Z` (11:59 pm UK time on 30 September 2026). The owner must then remove clearly labelled preview tests and apply the published first-valid-entry rule using normalised entrant email and business name. This produces an auditable eligible-entry list without exposing a database key or credential in GitHub.
+
+Preview test submissions must remain stored and clearly labelled until the working CSV is exported. They are excluded from the eligible-entry dataset during the documented export/filter step; they must not be deleted from Netlify as part of migration testing.
 
 ## Existing ChatGPT Sites data boundary
 

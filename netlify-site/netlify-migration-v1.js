@@ -52,8 +52,7 @@
       '<div class="enquiry-confirmation" role="status" tabindex="-1">' +
       '<span aria-hidden="true">✓</span>' +
       '<p class="eyebrow">Enquiry received</p>' +
-      '<h3>Thank you. Your message is safely with us.</h3>' +
-      '<p>We will review your enquiry and contact you as soon as possible. A confirmation email has also been requested for the address you supplied.</p>' +
+      '<h3>Thank you — we’ve received your enquiry and will be in touch shortly.</h3>' +
       '<button class="text-button" type="button" data-send-another-enquiry>Send another enquiry</button>' +
       "</div>";
 
