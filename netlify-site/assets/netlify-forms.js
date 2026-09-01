@@ -145,6 +145,33 @@
     true
   );
 
+  // The preserved ChatGPT Sites bundle contains its original client router.
+  // On Netlify, use ordinary same-origin navigation so links request the exact
+  // published path and do not attempt a Sites-only RSC transition.
+  document.addEventListener(
+    "click",
+    function (event) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+
+      if (!(event.target instanceof Element)) return;
+      var link = event.target.closest("a[href]");
+      if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+
+      var rawHref = link.getAttribute("href");
+      if (!rawHref || rawHref.charAt(0) === "#") return;
+
+      var destination = new URL(link.href, window.location.href);
+      if (destination.origin !== window.location.origin) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.location.assign(rawHref);
+    },
+    true
+  );
+
   document.addEventListener("DOMContentLoaded", function () {
     var competitionForm = document.querySelector("form.draw-form");
     if (competitionForm && Date.now() > competitionClosesAt) {
