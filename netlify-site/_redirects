@@ -23,6 +23,7 @@ https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
 /thank-you /thank-you/index.html 200!
 
 # Match the current public site's known not-found routes.
-/index.html /404.html 404!
-/services /404.html 404!
-/faqs /404.html 404!
+/index.html /404.txt 404!
+/services /404.txt 404!
+/faqs /404.txt 404!
+/* /404.txt 404

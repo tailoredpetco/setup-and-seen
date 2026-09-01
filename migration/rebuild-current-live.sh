@@ -62,6 +62,7 @@ curl --compressed --silent --show-error --location --retry 3 \
   --user-agent "Set Up and Seen migration preservation" \
   "$source_origin/404-migration-preservation-check" \
   --output "$migration_stage/404.html"
+cp "$migration_stage/404.html" "$migration_stage/404.txt"
 
 cp netlify-site/_headers "$migration_stage/_headers"
 cp netlify-site/_redirects "$migration_stage/_redirects"
@@ -116,6 +117,6 @@ PY
 rsync --archive --delete "$migration_stage/" netlify-site/
 
 node --check netlify-site/assets/netlify-forms.js
-test "$(find netlify-site -type f | wc -l)" -eq 39
+test "$(find netlify-site -type f | wc -l)" -eq 40
 test "$(grep -l 'data-netlify="true"' netlify-site/index.html netlify-site/competition/index.html | wc -l)" -eq 2
 test "$(grep -l 'G-C860VPVLNT' netlify-site/index.html | wc -l)" -eq 1
