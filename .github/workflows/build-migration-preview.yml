@@ -1,0 +1,38 @@
+name: Build migration branch from preserved live site
+
+on:
+  push:
+    branches:
+      - migration/current-live-site
+    paths:
+      - .github/workflows/build-migration-preview.yml
+      - migration/rebuild-current-live.sh
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the protected migration branch
+        uses: actions/checkout@v4
+        with:
+          ref: migration/current-live-site
+          fetch-depth: 0
+
+      - name: Reconstruct the preserved public site
+        run: bash migration/rebuild-current-live.sh
+
+      - name: Commit only to the migration branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add netlify-site
+          if git diff --cached --quiet; then
+            echo "No migration output changed."
+            exit 0
+          fi
+          git commit -m "Reconstruct current live site for migration preview"
+          git push origin HEAD:migration/current-live-site
