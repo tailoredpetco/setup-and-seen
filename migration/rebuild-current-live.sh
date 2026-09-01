@@ -141,6 +141,8 @@ assert (root / "404.html").read_text(encoding="utf-8").strip() == "Not Found"
 assert len(list(root.rglob("*.html"))) == 20
 PY
 
+python3 migration/apply-seo-fixes.py "$migration_stage"
+
 rsync --archive --delete "$migration_stage/" netlify-site/
 
 node --check netlify-site/netlify-migration-v1.js
