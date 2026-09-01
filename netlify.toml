@@ -1,6 +1,9 @@
 [build]
   publish = "netlify-site"
 
+[build.processing.html]
+  pretty_urls = false
+
 [[redirects]]
   from = "https://setupandseen.co.uk/*"
   to = "https://www.setupandseen.co.uk/:splat"

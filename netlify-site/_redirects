@@ -1,1 +1,28 @@
 https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
+
+# Serve the live site's canonical, no-trailing-slash routes without changing
+# the browser URL. Netlify normalises trailing slashes before redirect rules,
+# so the trailing-slash variant will also resolve rather than loop.
+/packages /packages/index.html 200!
+/our-work /our-work/index.html 200!
+/advice /advice/index.html 200!
+/advice/diy-website-or-professional-website /advice/diy-website-or-professional-website/index.html 200!
+/competition /competition/index.html 200!
+/competition/terms /competition/terms/index.html 200!
+/competition/thank-you /competition/thank-you/index.html 200!
+/services/website-audit /services/website-audit/index.html 200!
+/services/website-design /services/website-design/index.html 200!
+/services/express-websites /services/express-websites/index.html 200!
+/services/branding-logo-design /services/branding-logo-design/index.html 200!
+/services/social-media-setup /services/social-media-setup/index.html 200!
+/services/social-media-management /services/social-media-management/index.html 200!
+/services/website-hosting-care /services/website-hosting-care/index.html 200!
+/services/marketing-support /services/marketing-support/index.html 200!
+/privacy /privacy/index.html 200!
+/terms /terms/index.html 200!
+/thank-you /thank-you/index.html 200!
+
+# Match the current public site's known not-found routes.
+/index.html /404.html 404!
+/services /404.html 404!
+/faqs /404.html 404!
