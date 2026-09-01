@@ -66,7 +66,7 @@ cp "$migration_stage/404.html" "$migration_stage/404.txt"
 
 cp netlify-site/_headers "$migration_stage/_headers"
 cp netlify-site/_redirects "$migration_stage/_redirects"
-cp netlify-site/assets/netlify-forms.js "$migration_stage/assets/netlify-forms.js"
+cp netlify-site/netlify-migration-v1.js "$migration_stage/netlify-migration-v1.js"
 
 MIGRATION_STAGE="$migration_stage" python3 <<'PY'
 import os
@@ -74,7 +74,7 @@ import re
 from pathlib import Path
 
 root = Path(os.environ["MIGRATION_STAGE"])
-script_tag = '<script defer src="/assets/netlify-forms.js"></script>'
+script_tag = '<script defer src="/netlify-migration-v1.js"></script>'
 
 for path in root.rglob("*.html"):
     if path.name == "404.html":
@@ -116,7 +116,7 @@ PY
 
 rsync --archive --delete "$migration_stage/" netlify-site/
 
-node --check netlify-site/assets/netlify-forms.js
+node --check netlify-site/netlify-migration-v1.js
 test "$(find netlify-site -type f | wc -l)" -eq 40
 test "$(grep -l 'data-netlify="true"' netlify-site/index.html netlify-site/competition/index.html | wc -l)" -eq 2
 test "$(grep -l 'G-C860VPVLNT' netlify-site/index.html | wc -l)" -eq 1
