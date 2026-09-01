@@ -173,6 +173,14 @@
   );
 
   document.addEventListener("DOMContentLoaded", function () {
+    if (window.location.pathname.length > 1 && window.location.pathname.endsWith("/")) {
+      window.history.replaceState(
+        {},
+        "",
+        window.location.pathname.slice(0, -1) + window.location.search + window.location.hash
+      );
+    }
+
     var competitionForm = document.querySelector("form.draw-form");
     if (competitionForm && Date.now() > competitionClosesAt) {
       showCompetitionClosed(competitionForm);
