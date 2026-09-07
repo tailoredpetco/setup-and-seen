@@ -9,8 +9,7 @@
     var style = document.createElement("style");
     style.id = "set-up-and-seen-scroll-fix";
     style.textContent =
-      "html{scroll-behavior:auto!important;scroll-padding-top:108px;overflow-x:hidden}" +
-      "body{overflow-x:hidden}" +
+      "html{scroll-behavior:auto!important;scroll-padding-top:108px}" +
       "@media (max-width:950px){" +
       "html{scroll-padding-top:94px}" +
       ".site-header nav.open{height:calc(100vh - 82px);height:calc(100dvh - 82px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}" +
