@@ -9,10 +9,63 @@
     var style = document.createElement("style");
     style.id = "set-up-and-seen-scroll-fix";
     style.textContent =
-      "html{scroll-behavior:smooth!important;scroll-padding-top:108px}" +
-      "@media (max-width:950px){html{scroll-padding-top:94px}}" +
-      "@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}";
+      "html{scroll-behavior:auto!important;scroll-padding-top:108px}" +
+      "@media (max-width:950px){" +
+      "html{scroll-padding-top:94px}" +
+      ".site-header nav.open{height:calc(100vh - 82px);height:calc(100dvh - 82px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}" +
+      "html.set-up-and-seen-menu-open,html.set-up-and-seen-menu-open body{overflow:hidden}" +
+      "}" +
+      "@media (hover:none){nav a:hover{border-color:transparent}}";
     document.head.appendChild(style);
+  }
+
+  function installMobileMenuGuard() {
+    var navigation = document.querySelector(".site-header nav");
+    if (!navigation) return;
+
+    function syncMenuState() {
+      var mobileMenuIsOpen =
+        navigation.classList.contains("open") && window.matchMedia("(max-width: 950px)").matches;
+      document.documentElement.classList.toggle("set-up-and-seen-menu-open", mobileMenuIsOpen);
+    }
+
+    new MutationObserver(syncMenuState).observe(navigation, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    window.addEventListener("resize", syncMenuState);
+    syncMenuState();
+  }
+
+  function getHashTarget(hash) {
+    if (!hash || hash.charAt(0) !== "#") return null;
+
+    try {
+      return document.getElementById(decodeURIComponent(hash.slice(1)));
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function scrollToPageSection(hash, updateHistory) {
+    var target = getHashTarget(hash);
+    if (!target) return;
+
+    var header = document.querySelector(".site-header");
+    var headerHeight = header ? header.getBoundingClientRect().height : 0;
+    var targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+
+    if (hash === "#top" || hash === "#main-content") targetTop = 0;
+
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      left: 0,
+      behavior: "auto",
+    });
+
+    if (updateHistory && window.location.hash !== hash) {
+      window.history.pushState({}, "", window.location.pathname + window.location.search + hash);
+    }
   }
 
   function encode(form, formName) {
@@ -171,7 +224,20 @@
       if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
 
       var rawHref = link.getAttribute("href");
-      if (!rawHref || rawHref.charAt(0) === "#") return;
+      if (!rawHref) return;
+
+      if (rawHref.charAt(0) === "#") {
+        if (!getHashTarget(rawHref)) return;
+
+        // Prevent the preserved client router and iOS hover state from making
+        // same-page links feel delayed or require a second tap. Let the link's
+        // own React handler continue so an open mobile menu closes normally.
+        event.preventDefault();
+        window.setTimeout(function () {
+          scrollToPageSection(rawHref, true);
+        }, 0);
+        return;
+      }
 
       var destination = new URL(link.href, window.location.href);
       if (destination.origin !== window.location.origin) return;
@@ -197,8 +263,15 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     normaliseCanonicalPath();
+    installMobileMenuGuard();
     window.setTimeout(normaliseCanonicalPath, 250);
     window.setTimeout(normaliseCanonicalPath, 1000);
+
+    if (window.location.hash) {
+      window.setTimeout(function () {
+        scrollToPageSection(window.location.hash, false);
+      }, 0);
+    }
 
     var competitionForm = document.querySelector("form.draw-form");
     if (competitionForm && Date.now() > competitionClosesAt) {
