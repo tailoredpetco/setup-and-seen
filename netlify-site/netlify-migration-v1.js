@@ -3,6 +3,18 @@
 
   var competitionClosesAt = Date.parse("2026-09-30T22:59:00Z");
 
+  function installScrollFix() {
+    if (document.getElementById("set-up-and-seen-scroll-fix")) return;
+
+    var style = document.createElement("style");
+    style.id = "set-up-and-seen-scroll-fix";
+    style.textContent =
+      "html{scroll-behavior:smooth!important;scroll-padding-top:108px}" +
+      "@media (max-width:950px){html{scroll-padding-top:94px}}" +
+      "@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}";
+    document.head.appendChild(style);
+  }
+
   function encode(form, formName) {
     var data = new FormData(form);
     data.set("form-name", formName);
@@ -180,6 +192,8 @@
       );
     }
   }
+
+  installScrollFix();
 
   document.addEventListener("DOMContentLoaded", function () {
     normaliseCanonicalPath();
