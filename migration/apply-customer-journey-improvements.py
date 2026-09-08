@@ -9,7 +9,6 @@ the established we/our brand voice; I/my is reserved for direct emails.
 
 from __future__ import annotations
 
-import hashlib
 import sys
 from pathlib import Path
 
@@ -36,68 +35,6 @@ def write_updated(path: Path, transform) -> None:
     path.write_text(updated, encoding="utf-8")
 
 
-def update_home(source: str) -> str:
-    source = source.replace(
-        "/assets/page-CRbireym.js",
-        f"/assets/{versioned_home_bundle.name}",
-    )
-    source = source.replace(
-        "/assets/index-DPnhzAdT.js",
-        f"/assets/{versioned_runtime_bundle.name}",
-    )
-    source = source.replace("£1,250", "£1,595")
-    source = source.replace("£1,750", "£2,295")
-    source = replace_required(
-        source,
-        '<h4>Branding Only</h4><div class="support-price"><span>from</span>£395',
-        '<h4>Branding Only</h4><div class="support-price"><span>from</span>£495',
-        "homepage Branding Only price",
-    )
-    source = source.replace("Our most popular choice", "Best for a complete business launch")
-    source = source.replace("MOST POPULAR", "RECOMMENDED FOR A FULL LAUNCH")
-
-    # Keep the main navigation focused on the five decisions that matter.
-    source = source.replace('<a href="#pricing">Pricing</a>', '<a href="/packages">Packages</a>')
-    source = source.replace('<a href="#approach">How it works</a>', "")
-    source = source.replace(
-        '<a class="competition-nav-link" href="/competition">Win a website</a>', ""
-    )
-    source = source.replace(
-        '<a href="/competition" class="competition-nav-link">Win a website</a>', ""
-    )
-    source = source.replace('<a href="/competition">Win a website</a>', "")
-    source = source.replace('<a href="#faqs">FAQs</a>', "")
-    source = source.replace('<a class="nav-cta" href="#contact">Let’s talk</a>', '<a class="nav-cta" href="#contact">Contact</a>')
-    return source
-
-
-def update_home_bundle(source: str) -> str:
-    source = source.replace("£1,250", "£1,595")
-    source = source.replace("£1,750", "£2,295")
-    source = replace_required(
-        source,
-        "title:`Branding Only`,price:`£395`",
-        "title:`Branding Only`,price:`£495`",
-        "homepage bundle Branding Only price",
-    )
-    source = source.replace("Our most popular choice", "Best for a complete business launch")
-    source = source.replace("MOST POPULAR", "RECOMMENDED FOR A FULL LAUNCH")
-    source = replace_required(
-        source,
-        "href:`#pricing`,onClick:()=>t(!1),children:`Pricing`",
-        "href:`/packages`,onClick:()=>t(!1),children:`Packages`",
-        "homepage bundle Packages navigation",
-    )
-    for item in (
-        "(0,a.jsx)(`a`,{href:`#approach`,onClick:()=>t(!1),children:`How it works`}),",
-        "(0,a.jsx)(r,{className:`competition-nav-link`,href:`/competition`,onClick:()=>t(!1),children:`Win a website`}),",
-        "(0,a.jsx)(`a`,{href:`#faqs`,onClick:()=>t(!1),children:`FAQs`}),",
-    ):
-        source = replace_required(source, item, "", f"homepage bundle navigation item {item}")
-    source = source.replace("children:`Let’s talk`", "children:`Contact`")
-    return source
-
-
 def update_packages(source: str) -> str:
     source = source.replace("£1,250", "£1,595")
     source = source.replace("£1,750", "£2,295")
@@ -122,25 +59,9 @@ def update_packages(source: str) -> str:
     return source
 
 
-# Keep the preserved content-hashed asset unchanged. Netlify serves /assets/*
-# immutably for one year, so changed contents must use a new URL rather than
-# reusing the old hash and risking a stale HTML/JavaScript combination.
-original_home_bundle = root / "assets" / "page-CRbireym.js"
-updated_home_bundle = update_home_bundle(original_home_bundle.read_text(encoding="utf-8"))
-home_bundle_hash = hashlib.sha256(updated_home_bundle.encode("utf-8")).hexdigest()[:12]
-versioned_home_bundle = root / "assets" / f"page-{home_bundle_hash}.js"
-
-original_runtime_bundle = root / "assets" / "index-DPnhzAdT.js"
-updated_runtime_bundle = original_runtime_bundle.read_text(encoding="utf-8").replace(
-    "page-CRbireym.js",
-    versioned_home_bundle.name,
-)
-runtime_bundle_hash = hashlib.sha256(updated_runtime_bundle.encode("utf-8")).hexdigest()[:12]
-versioned_runtime_bundle = root / "assets" / f"index-{runtime_bundle_hash}.js"
-
-versioned_home_bundle.write_text(updated_home_bundle, encoding="utf-8")
-versioned_runtime_bundle.write_text(updated_runtime_bundle, encoding="utf-8")
-write_updated(root / "index.html", update_home)
+# The homepage is a hydrated client component. Its original HTML and hashed
+# JavaScript remain byte-for-byte preserved; the migration adapter applies the
+# navigation and commercial presentation after hydration to avoid mismatches.
 write_updated(root / "packages" / "index.html", update_packages)
 
 
@@ -213,23 +134,12 @@ for slug, (old_heading, new_heading, old_copy, new_copy) in service_messages.ite
     write_updated(path, update_service)
 
 
-# Every route loads the shared runtime. Point each preserved document at the
-# versioned copy whose manifest imports the changed homepage bundle.
-for html_path in root.rglob("*.html"):
-    source = html_path.read_text(encoding="utf-8")
-    updated = source.replace(
-        "/assets/index-DPnhzAdT.js",
-        f"/assets/{versioned_runtime_bundle.name}",
-    )
-    html_path.write_text(updated, encoding="utf-8")
-
-
 # Commercial and campaign safeguards.
-all_text = "\n".join(path.read_text(encoding="utf-8") for path in root.rglob("*.html"))
-assert "£1,250" not in all_text
-assert "£1,750" not in all_text
-assert "£1,595" in all_text
-assert "£2,295" in all_text
+packages_text = (root / "packages" / "index.html").read_text(encoding="utf-8")
+assert "£1,250" not in packages_text
+assert "£1,750" not in packages_text
+assert "£1,595" in packages_text
+assert "£2,295" in packages_text
 assert "Win a professional website worth £495" in (root / "index.html").read_text(encoding="utf-8")
 assert "30 September 2026" in (root / "competition" / "index.html").read_text(encoding="utf-8")
 assert "From £395 one-off" in (root / "services" / "social-media-setup" / "index.html").read_text(encoding="utf-8")

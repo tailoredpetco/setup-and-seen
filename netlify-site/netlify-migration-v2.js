@@ -145,9 +145,45 @@
     if (jumpLink) jumpLink.textContent = "Express priority upgrade";
   }
 
+  function replaceText(root, oldText, newText) {
+    if (!root) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    var node;
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.indexOf(oldText) !== -1) {
+        node.nodeValue = node.nodeValue.replace(oldText, newText);
+      }
+    }
+  }
+
+  function findCardByHeading(selector, headingSelector, headingText) {
+    var cards = document.querySelectorAll(selector);
+    for (var index = 0; index < cards.length; index += 1) {
+      var heading = cards[index].querySelector(headingSelector);
+      if (heading && heading.textContent.trim() === headingText) return cards[index];
+    }
+    return null;
+  }
+
+  function updateHomepageCommercialContent() {
+    if (window.location.pathname !== "/" && window.location.pathname !== "/index.html") return;
+
+    var businessLaunch = findCardByHeading(".price-card", "h3", "Business Launch");
+    replaceText(businessLaunch, "£1,250", "£1,595");
+    replaceText(businessLaunch, "Most popular", "Recommended for a full launch");
+    replaceText(businessLaunch, "Our most popular choice", "Best for a complete business launch");
+
+    var complete = findCardByHeading(".price-card", "h3", "Set Up & Seen Complete");
+    replaceText(complete, "£1,750", "£2,295");
+
+    var branding = findCardByHeading(".support-card", "h4", "Branding Only");
+    replaceText(branding, "£395", "£495");
+  }
+
   function applyCustomerJourneyEnhancements() {
     installCustomerJourneyStyles();
     simplifyMainNavigation();
+    updateHomepageCommercialContent();
     addEnquiryNextSteps();
     positionExpressAsUpgrade();
   }

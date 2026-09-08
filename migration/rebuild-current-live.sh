@@ -151,6 +151,6 @@ python3 migration/apply-customer-journey-improvements.py "$migration_stage"
 rsync --archive --delete "$migration_stage/" netlify-site/
 
 node --check netlify-site/netlify-migration-v1.js
-test "$(find netlify-site -type f | wc -l)" -eq 46
+test "$(find netlify-site -type f | wc -l)" -eq 44
 test "$(grep -l 'data-netlify="true"' netlify-site/index.html netlify-site/competition/index.html | wc -l)" -eq 2
 test "$(grep -l 'G-C860VPVLNT' netlify-site/index.html | wc -l)" -eq 1
