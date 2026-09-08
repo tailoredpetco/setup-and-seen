@@ -133,6 +133,62 @@
     directContact.parentNode.insertBefore(steps, directContact);
   }
 
+  function updateContactAndSocialLinks() {
+    var whatsappUrl = "https://wa.me/447999071045";
+    var facebookUrl = "https://www.facebook.com/setupandseen";
+    var instagramUrl = "https://www.instagram.com/setupandseen";
+
+    Array.prototype.forEach.call(document.querySelectorAll('a[href*="wa.me/"]'), function (link) {
+      link.setAttribute("href", whatsappUrl);
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noreferrer noopener");
+    });
+
+    function addSocialLink(container, label, url) {
+      if (!container || container.querySelector('a[href="' + url + '"]')) return;
+
+      var link = document.createElement("a");
+      link.className = "footer-social-link";
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noreferrer noopener";
+      link.textContent = label;
+      link.setAttribute("aria-label", label + " – opens in a new tab");
+      container.appendChild(link);
+    }
+
+    Array.prototype.forEach.call(document.querySelectorAll("footer"), function (footer) {
+      var contactColumn = footer.querySelector(".footer-links > div:nth-child(2)");
+
+      if (!contactColumn && footer.classList.contains("simple-footer")) {
+        var footerColumns = footer.querySelectorAll("div");
+        for (var columnIndex = 0; columnIndex < footerColumns.length; columnIndex += 1) {
+          if (footerColumns[columnIndex].querySelector('a[href*="wa.me/"], a[href^="mailto:"], a[href^="tel:"]')) {
+            contactColumn = footerColumns[columnIndex];
+            break;
+          }
+        }
+        if (!contactColumn) contactColumn = footer.querySelector("div");
+        if (!contactColumn) {
+          contactColumn = document.createElement("div");
+          footer.insertBefore(contactColumn, footer.lastElementChild);
+        }
+      }
+
+      if (!contactColumn && footer.classList.contains("draw-footer")) {
+        contactColumn = footer.querySelector(".draw-footer-inner");
+      }
+
+      if (!contactColumn) return;
+
+      if (!contactColumn.querySelector('a[href="' + whatsappUrl + '"]')) {
+        addSocialLink(contactColumn, "WhatsApp", whatsappUrl);
+      }
+      addSocialLink(contactColumn, "Facebook", facebookUrl);
+      addSocialLink(contactColumn, "Instagram", instagramUrl);
+    });
+  }
+
   function positionExpressAsUpgrade() {
     var expressPackage = document.getElementById("express-website-set-up");
     if (!expressPackage) return;
@@ -185,6 +241,7 @@
     simplifyMainNavigation();
     updateHomepageCommercialContent();
     addEnquiryNextSteps();
+    updateContactAndSocialLinks();
     positionExpressAsUpgrade();
   }
 
