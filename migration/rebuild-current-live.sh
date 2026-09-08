@@ -44,11 +44,14 @@ fetch_file "/assets/competition-form-CrbGSLgY.js" "$migration_stage/assets/compe
 fetch_file "/assets/cookie-consent-MCS1Jtf1.js" "$migration_stage/assets/cookie-consent-MCS1Jtf1.js"
 fetch_file "/assets/framework-CXnKph_e.js" "$migration_stage/assets/framework-CXnKph_e.js"
 fetch_file "/assets/index-BBEjx44v.css" "$migration_stage/assets/index-BBEjx44v.css"
+fetch_file "/assets/index-BBEjx44v-perf1.css" "$migration_stage/assets/index-BBEjx44v-perf1.css"
 fetch_file "/assets/index-DPnhzAdT.js" "$migration_stage/assets/index-DPnhzAdT.js"
 fetch_file "/assets/layout-segment-context-BsgctYr0.js" "$migration_stage/assets/layout-segment-context-BsgctYr0.js"
 fetch_file "/assets/link-DDLuDF7C.js" "$migration_stage/assets/link-DDLuDF7C.js"
 fetch_file "/assets/page-CRbireym.js" "$migration_stage/assets/page-CRbireym.js"
 fetch_file "/assets/rolldown-runtime-S-ySWqyJ.js" "$migration_stage/assets/rolldown-runtime-S-ySWqyJ.js"
+fetch_file "/fonts/dm-sans-latin-variable.woff2" "$migration_stage/fonts/dm-sans-latin-variable.woff2"
+fetch_file "/fonts/fraunces-latin-variable.woff2" "$migration_stage/fonts/fraunces-latin-variable.woff2"
 
 fetch_file "/clent-auto-repairs.webp" "$migration_stage/clent-auto-repairs.webp"
 fetch_file "/clent-hills-campers-vans.webp" "$migration_stage/clent-hills-campers-vans.webp"
@@ -67,6 +70,7 @@ cp "$migration_stage/404.html" "$migration_stage/404.txt"
 cp netlify-site/_headers "$migration_stage/_headers"
 cp netlify-site/_redirects "$migration_stage/_redirects"
 cp netlify-site/netlify-migration-v1.js "$migration_stage/netlify-migration-v1.js"
+cp netlify-site/netlify-migration-v2.js "$migration_stage/netlify-migration-v2.js"
 
 MIGRATION_STAGE="$migration_stage" python3 <<'PY'
 import os
@@ -142,10 +146,11 @@ assert len(list(root.rglob("*.html"))) == 20
 PY
 
 python3 migration/apply-seo-fixes.py "$migration_stage"
+python3 migration/apply-customer-journey-improvements.py "$migration_stage"
 
 rsync --archive --delete "$migration_stage/" netlify-site/
 
 node --check netlify-site/netlify-migration-v1.js
-test "$(find netlify-site -type f | wc -l)" -eq 40
+test "$(find netlify-site -type f | wc -l)" -eq 44
 test "$(grep -l 'data-netlify="true"' netlify-site/index.html netlify-site/competition/index.html | wc -l)" -eq 2
 test "$(grep -l 'G-C860VPVLNT' netlify-site/index.html | wc -l)" -eq 1

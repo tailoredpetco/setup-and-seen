@@ -79,6 +79,121 @@
     syncMenuState();
   }
 
+  function simplifyMainNavigation() {
+    var navigation = document.querySelector(".site-header nav");
+    if (!navigation) return;
+
+    Array.prototype.forEach.call(navigation.querySelectorAll("a"), function (link) {
+      var label = link.textContent.trim().toLowerCase();
+
+      if (label === "how it works" || label === "win a website" || label === "faqs") {
+        link.remove();
+        return;
+      }
+
+      if (label === "pricing") {
+        link.textContent = "Packages";
+        link.setAttribute("href", "/packages");
+      } else if (label === "let’s talk" || label === "let's talk") {
+        link.textContent = "Contact";
+      }
+    });
+  }
+
+  function firstPersonCopy(text) {
+    var protectedClientPhrase = text.replace(/our website/g, "__CLIENT_OUR_WEBSITE__");
+    return protectedClientPhrase
+      .replace(/\b[Ww]e(?:'|’|&#x27;)ve\b/g, "I have")
+      .replace(/\b[Ww]e(?:'|’|&#x27;)ll\b/g, "I will")
+      .replace(/\b[Ww]e(?:'|’|&#x27;)re\b/g, "I am")
+      .replace(/\b[Ww]e are\b/g, "I am")
+      .replace(/\b[Ww]e have\b/g, "I have")
+      .replace(/\b[Ww]e do\b/g, "I do")
+      .replace(/\b[Ww]e\b/g, "I")
+      .replace(/\bOur\b/g, "My")
+      .replace(/\bour\b/g, "my")
+      .replace(/\bus\b/g, "me")
+      .replace(/I agree a clear visual route/g, "You and I agree a clear visual route")
+      .replace(/I agree the month’s priorities/g, "You and I agree the month’s priorities")
+      .replace(/CALL US/g, "CALL")
+      .replace(/WHATSAPP US/g, "WHATSAPP")
+      .replace(/EMAIL US/g, "EMAIL")
+      .replace(/WE WORK UK-WIDE/g, "UK-WIDE SERVICE")
+      .replace(/__CLIENT_OUR_WEBSITE__/g, "our website");
+  }
+
+  function applyFirstPersonVoice() {
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var node;
+
+    while ((node = walker.nextNode())) {
+      var parent = node.parentElement;
+      if (!parent || parent.closest("script, style, code, pre, blockquote, q")) continue;
+      node.nodeValue = firstPersonCopy(node.nodeValue);
+    }
+
+    Array.prototype.forEach.call(
+      document.querySelectorAll('meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]'),
+      function (meta) {
+        var content = meta.getAttribute("content");
+        if (content) meta.setAttribute("content", firstPersonCopy(content));
+      }
+    );
+  }
+
+  function installCustomerJourneyStyles() {
+    if (document.getElementById("customer-journey-styles")) return;
+    var style = document.createElement("style");
+    style.id = "customer-journey-styles";
+    style.textContent =
+      ".contact-next-steps{display:grid;gap:10px;margin:26px 0 30px;padding:0;list-style:none}" +
+      ".contact-next-steps li{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:12px;color:#202522}" +
+      ".contact-next-steps span{display:grid;width:34px;height:34px;place-items:center;border:1px solid #315f8c;border-radius:50%;color:#315f8c;font-size:13px;font-weight:700}" +
+      ".contact-next-steps strong{font-size:15px;line-height:1.4}" +
+      ".express-priority-upgrade{border-color:#315f8c}" +
+      ".express-priority-upgrade .package-detail-intro>small{color:#315f8c;font-weight:700}" +
+      "@media(max-width:700px){.contact-next-steps{margin:22px 0 26px}.contact-next-steps strong{font-size:14px}}";
+    document.head.appendChild(style);
+  }
+
+  function addEnquiryNextSteps() {
+    var contactIntro = document.querySelector(".contact-intro");
+    if (!contactIntro || document.getElementById("enquiry-next-steps")) return;
+
+    var directContact = contactIntro.querySelector(".direct-contact");
+    if (!directContact) return;
+
+    var steps = document.createElement("ol");
+    steps.id = "enquiry-next-steps";
+    steps.className = "contact-next-steps";
+    steps.setAttribute("aria-label", "What happens after you enquire");
+    steps.innerHTML =
+      "<li><span>1</span><strong>I read your enquiry</strong></li>" +
+      "<li><span>2</span><strong>I arrange a friendly, no-pressure conversation</strong></li>" +
+      "<li><span>3</span><strong>You receive a clear recommendation, scope and price</strong></li>";
+    directContact.parentNode.insertBefore(steps, directContact);
+  }
+
+  function positionExpressAsUpgrade() {
+    var expressPackage = document.getElementById("express-website-set-up");
+    if (!expressPackage) return;
+
+    expressPackage.classList.add("express-priority-upgrade");
+    var label = expressPackage.querySelector(".package-detail-intro > small");
+    if (label) label.textContent = "Priority upgrade to Website Starter";
+
+    var jumpLink = document.querySelector('.package-jump-nav a[href="#express-website-set-up"]');
+    if (jumpLink) jumpLink.textContent = "Express priority upgrade";
+  }
+
+  function applyCustomerJourneyEnhancements() {
+    installCustomerJourneyStyles();
+    simplifyMainNavigation();
+    applyFirstPersonVoice();
+    addEnquiryNextSteps();
+    positionExpressAsUpgrade();
+  }
+
   function getHashTarget(hash) {
     if (!hash || hash.charAt(0) !== "#") return null;
 
@@ -159,7 +274,7 @@
       '<div class="enquiry-confirmation" role="status" tabindex="-1">' +
       '<span aria-hidden="true">✓</span>' +
       '<p class="eyebrow">Enquiry received</p>' +
-      '<h3>Thank you — we’ve received your enquiry and will be in touch shortly.</h3>' +
+      '<h3>Thank you. I have received your enquiry and will be in touch shortly.</h3>' +
       '<button class="text-button" type="button" data-send-another-enquiry>Send another enquiry</button>' +
       "</div>";
 
@@ -307,6 +422,9 @@
   document.addEventListener("DOMContentLoaded", function () {
     normaliseCanonicalPath();
     installMobileMenuGuard();
+    applyCustomerJourneyEnhancements();
+    window.setTimeout(applyCustomerJourneyEnhancements, 250);
+    window.setTimeout(applyCustomerJourneyEnhancements, 1000);
     window.setTimeout(normaliseCanonicalPath, 250);
     window.setTimeout(normaliseCanonicalPath, 1000);
 
