@@ -36,6 +36,10 @@ def write_updated(path: Path, transform) -> None:
 
 
 def update_home(source: str) -> str:
+    source = source.replace(
+        "/assets/page-CRbireym.js",
+        "/assets/page-179a217022a8.js",
+    )
     source = source.replace("£1,250", "£1,595")
     source = source.replace("£1,750", "£2,295")
     source = replace_required(
@@ -114,7 +118,16 @@ def update_packages(source: str) -> str:
 
 
 write_updated(root / "index.html", update_home)
-write_updated(root / "assets" / "page-CRbireym.js", update_home_bundle)
+
+# Keep the preserved content-hashed asset unchanged. Netlify serves /assets/*
+# immutably for one year, so changed contents must use a new URL rather than
+# reusing the old hash and risking a stale HTML/JavaScript combination.
+original_home_bundle = root / "assets" / "page-CRbireym.js"
+versioned_home_bundle = root / "assets" / "page-179a217022a8.js"
+versioned_home_bundle.write_text(
+    update_home_bundle(original_home_bundle.read_text(encoding="utf-8")),
+    encoding="utf-8",
+)
 write_updated(root / "packages" / "index.html", update_packages)
 
 
