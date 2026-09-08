@@ -375,14 +375,18 @@
   }
 
   disableLegacyRoutePrefetch();
-  installScrollFix();
-
   document.addEventListener("DOMContentLoaded", function () {
     normaliseCanonicalPath();
-    installMobileMenuGuard();
-    applyCustomerJourneyEnhancements();
-    window.setTimeout(applyCustomerJourneyEnhancements, 250);
-    window.setTimeout(applyCustomerJourneyEnhancements, 1000);
+    // Let the preserved React render attach before adding progressive
+    // enhancements. Mutating the head, navigation or contact section during
+    // hydration makes React discard otherwise valid server-rendered HTML and
+    // adds avoidable main-thread work on slower phones.
+    window.setTimeout(function () {
+      installScrollFix();
+      installMobileMenuGuard();
+      applyCustomerJourneyEnhancements();
+    }, 600);
+    window.setTimeout(applyCustomerJourneyEnhancements, 1600);
     window.setTimeout(normaliseCanonicalPath, 250);
     window.setTimeout(normaliseCanonicalPath, 1000);
 
