@@ -111,7 +111,25 @@
       ".contact-next-steps strong{font-size:15px;line-height:1.4}" +
       ".express-priority-upgrade{border-color:#315f8c}" +
       ".express-priority-upgrade .package-detail-intro>small{color:#315f8c;font-weight:700}" +
-      "@media(max-width:700px){.contact-next-steps{margin:22px 0 26px}.contact-next-steps strong{font-size:14px}}";
+      ".launch-choice-section{margin-top:52px}" +
+      ".launch-choice-page{margin-top:0;background:#edf0ed}" +
+      ".launch-choice-heading{max-width:760px;margin-bottom:30px}" +
+      ".launch-choice-heading h2{letter-spacing:-.04em;margin-bottom:18px;font-family:Fraunces,serif;font-size:clamp(38px,4vw,58px);font-weight:500;line-height:1.05}" +
+      ".launch-choice-heading>p:last-child{color:#555852;margin:0;line-height:1.7}" +
+      ".launch-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}" +
+      ".launch-choice-card{border:1px solid #ded8ce;background:#fdfcf9;padding:32px;display:flex;flex-direction:column;min-height:100%}" +
+      ".launch-choice-card>small{color:#315f8c;letter-spacing:.12em;text-transform:uppercase;font-size:10px;font-weight:800}" +
+      ".launch-choice-card h3{margin:14px 0 13px;font-family:Fraunces,serif;font-size:32px;font-weight:500;line-height:1.05}" +
+      ".launch-choice-card>p{color:#555852;line-height:1.65}" +
+      ".launch-choice-price{display:flex;align-items:baseline;gap:10px;margin:7px 0 17px}" +
+      ".launch-choice-price strong{color:#315f8c;font-family:Fraunces,serif;font-size:43px;font-weight:500}" +
+      ".launch-choice-price span{color:#667064;font-size:12px;font-weight:700}" +
+      ".launch-choice-card ul{display:grid;gap:10px;margin:0 0 24px;padding:0;list-style:none}" +
+      ".launch-choice-card li{padding-left:22px;font-size:14px;line-height:1.5;position:relative}" +
+      ".launch-choice-card li:before{content:'✓';color:#315f8c;font-weight:800;position:absolute;left:0}" +
+      ".launch-choice-card .text-link{align-self:flex-start;margin-top:auto}" +
+      ".launch-choice-total{margin:-6px 0 20px!important;font-size:12px!important;font-weight:700}" +
+      "@media(max-width:700px){.contact-next-steps{margin:22px 0 26px}.contact-next-steps strong{font-size:14px}.launch-choice-section{margin-top:40px}.launch-choice-page{margin-top:0}.launch-choice-grid{grid-template-columns:1fr}.launch-choice-card{padding:27px 23px}.launch-choice-card h3{font-size:29px}}";
     document.head.appendChild(style);
   }
 
@@ -131,6 +149,143 @@
       "<li><span>2</span><strong>We arrange a friendly, no-pressure conversation</strong></li>" +
       "<li><span>3</span><strong>You receive a clear recommendation, scope and price</strong></li>";
     directContact.parentNode.insertBefore(steps, directContact);
+  }
+
+  function addAlternativeWebsiteOptions() {
+    var path = window.location.pathname;
+    var isHomepage = path === "/" || path === "/index.html";
+    var isPackagesPage = path === "/packages" || path === "/packages/index.html";
+    if ((!isHomepage && !isPackagesPage) || document.getElementById("alternative-website-options")) return;
+
+    var section = document.createElement("section");
+    section.id = "alternative-website-options";
+    section.className = "launch-choice-section" + (isPackagesPage ? " launch-choice-page section-pad" : "");
+    section.setAttribute("aria-labelledby", "alternative-website-options-title");
+    section.innerHTML =
+      '<div class="launch-choice-heading">' +
+      '<p class="eyebrow">More ways to get online</p>' +
+      '<h2 id="alternative-website-options-title">Choose speed or spread the cost.</h2>' +
+      '<p>These options keep the scope clear while giving new businesses a practical choice around timing and cash flow.</p>' +
+      '</div>' +
+      '<div class="launch-choice-grid">' +
+      '<article class="launch-choice-card">' +
+      '<small>Designed in one working day</small>' +
+      '<h3>One-Day Website</h3>' +
+      '<p>A focused one-page business website for customers who need a professional presence without the usual wait.</p>' +
+      '<div class="launch-choice-price"><strong>£495</strong><span>one-off project</span></div>' +
+      '<ul><li>One scrolling page with up to six sections</li><li>Mobile-friendly design and enquiry form</li><li>Ready to launch within one booked working day</li></ul>' +
+      '<a class="text-link" href="/services/one-day-website">See the One-Day Website <span>→</span></a>' +
+      '</article>' +
+      '<article class="launch-choice-card">' +
+      '<small>No large upfront build cost</small>' +
+      '<h3>Managed Website Starter</h3>' +
+      '<p>A professionally managed five-page website with the cost spread across a clear 12-month agreement.</p>' +
+      '<div class="launch-choice-price"><strong>£149</strong><span>a month for 12 months</span></div>' +
+      '<p class="launch-choice-total">Total payable £1,788. Managed hosting and care included during the plan.</p>' +
+      '<ul><li>Five-page mobile-friendly website</li><li>One standard .co.uk domain</li><li>One small content update each month</li></ul>' +
+      '<a class="text-link" href="/services/managed-website-starter">See the monthly plan <span>→</span></a>' +
+      '</article>' +
+      '</div>';
+
+    if (isHomepage) {
+      var expressUpgrade = document.querySelector(".express-upgrade");
+      if (expressUpgrade && expressUpgrade.parentNode) {
+        expressUpgrade.parentNode.insertBefore(section, expressUpgrade.nextSibling);
+      }
+    } else {
+      var packageDetails = document.querySelector(".package-details");
+      if (packageDetails && packageDetails.parentNode) {
+        packageDetails.parentNode.insertBefore(section, packageDetails);
+      }
+    }
+  }
+
+  function addPackageEnquiryOptions() {
+    var select = document.querySelector('form[name="enquiry"] select[name="service"]');
+    if (!select) return;
+
+    var group = select.querySelector('optgroup[label="Website and launch packages"]');
+    if (!group) return;
+
+    ["One-Day Website", "Managed Website Starter"].forEach(function (label) {
+      if (group.querySelector('option[value="' + label + '"]')) return;
+      var option = document.createElement("option");
+      option.value = label;
+      option.textContent = label;
+      group.appendChild(option);
+    });
+
+    var params = new URLSearchParams(window.location.search);
+    var requestedService = params.get("service") || params.get("package");
+    if (requestedService && Array.prototype.some.call(select.options, function (option) {
+      return option.value === requestedService;
+    })) {
+      select.value = requestedService;
+    }
+  }
+
+  function updateWebsitePricingFaqs() {
+    Array.prototype.forEach.call(document.querySelectorAll("details"), function (item) {
+      var summary = item.querySelector("summary");
+      var answer = item.querySelector("p");
+      const question = summary ? summary.textContent.toLowerCase().replace(/-/g, " ") : "";
+      if (!summary || !answer || question.indexOf("how much does a small business website cost") === -1) return;
+
+      answer.textContent = "Our One-Day Website and standard Website Starter both begin at £495. The Managed Website Starter is £149 a month for 12 months, with managed hosting and care included during the plan. Express Website Set Up is £999 for a priority five-page build. Larger projects receive a clear quote before work begins.";
+    });
+  }
+
+  function installStaticOfferCookieConsent() {
+    if (document.body.getAttribute("data-static-offer-page") !== "true") return;
+    var settingsButton = document.querySelector(".cookie-settings");
+    if (!settingsButton || settingsButton.dataset.staticConsentBound === "true") return;
+    settingsButton.dataset.staticConsentBound = "true";
+
+    function updateAnalytics(granted) {
+      if (typeof window.gtag === "function") {
+        window.gtag("consent", "update", { analytics_storage: granted ? "granted" : "denied" });
+      }
+    }
+
+    function saveChoice(choice) {
+      try {
+        window.localStorage.setItem("setup-and-seen-cookie-consent", choice);
+      } catch (error) {}
+      updateAnalytics(choice === "accepted");
+    }
+
+    function showBanner() {
+      var existing = document.querySelector(".cookie-banner");
+      if (existing) existing.remove();
+
+      var banner = document.createElement("div");
+      banner.className = "cookie-banner";
+      banner.setAttribute("role", "dialog");
+      banner.setAttribute("aria-label", "Cookie choices");
+      banner.innerHTML =
+        '<div><strong>Cookie choices</strong><p>We use essential cookies to make the website work. With your permission, we also use Google Analytics to understand how the website is used. Read our <a href="/privacy">privacy and cookie notice</a>.</p></div>' +
+        '<div class="cookie-actions"><button type="button" class="cookie-reject">Essential only</button><button type="button" class="cookie-accept">Accept analytics</button></div>';
+      document.body.appendChild(banner);
+      settingsButton.setAttribute("aria-expanded", "true");
+
+      banner.querySelector(".cookie-reject").addEventListener("click", function () {
+        saveChoice("rejected");
+        banner.remove();
+        settingsButton.setAttribute("aria-expanded", "false");
+      });
+      banner.querySelector(".cookie-accept").addEventListener("click", function () {
+        saveChoice("accepted");
+        banner.remove();
+        settingsButton.setAttribute("aria-expanded", "false");
+      });
+    }
+
+    settingsButton.addEventListener("click", showBanner);
+    var storedChoice = "";
+    try {
+      storedChoice = window.localStorage.getItem("setup-and-seen-cookie-consent") || "";
+    } catch (error) {}
+    if (!storedChoice) showBanner();
   }
 
   function updateContactAndSocialLinks() {
@@ -240,6 +395,9 @@
     installCustomerJourneyStyles();
     simplifyMainNavigation();
     updateHomepageCommercialContent();
+    addAlternativeWebsiteOptions();
+    addPackageEnquiryOptions();
+    updateWebsitePricingFaqs();
     addEnquiryNextSteps();
     updateContactAndSocialLinks();
     positionExpressAsUpgrade();
@@ -470,6 +628,7 @@
   disableLegacyRoutePrefetch();
   document.addEventListener("DOMContentLoaded", function () {
     normaliseCanonicalPath();
+    installStaticOfferCookieConsent();
     // Let the preserved React render attach before adding progressive
     // enhancements. Mutating the head, navigation or contact section during
     // hydration makes React discard otherwise valid server-rendered HTML and
