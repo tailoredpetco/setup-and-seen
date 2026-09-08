@@ -32,6 +32,8 @@ fetch_page "/privacy" "privacy"
 fetch_page "/services/branding-logo-design" "services/branding-logo-design"
 fetch_page "/services/express-websites" "services/express-websites"
 fetch_page "/services/marketing-support" "services/marketing-support"
+fetch_page "/services/managed-website-starter" "services/managed-website-starter"
+fetch_page "/services/one-day-website" "services/one-day-website"
 fetch_page "/services/social-media-management" "services/social-media-management"
 fetch_page "/services/social-media-setup" "services/social-media-setup"
 fetch_page "/services/website-audit" "services/website-audit"
@@ -142,7 +144,7 @@ assert privacy.read_text(encoding="utf-8").count(new_privacy_provider) == 2
 assert privacy.read_text(encoding="utf-8").count("Last updated 1 September 2026") == 2
 assert "confirmation email" not in homepage_bundle.read_text(encoding="utf-8").lower()
 assert (root / "404.html").read_text(encoding="utf-8").strip() == "Not Found"
-assert len(list(root.rglob("*.html"))) == 20
+assert len(list(root.rglob("*.html"))) == 22
 PY
 
 python3 migration/apply-seo-fixes.py "$migration_stage"
@@ -151,6 +153,6 @@ python3 migration/apply-customer-journey-improvements.py "$migration_stage"
 rsync --archive --delete "$migration_stage/" netlify-site/
 
 node --check netlify-site/netlify-migration-v1.js
-test "$(find netlify-site -type f | wc -l)" -eq 44
+test "$(find netlify-site -type f | wc -l)" -eq 46
 test "$(grep -l 'data-netlify="true"' netlify-site/index.html netlify-site/competition/index.html | wc -l)" -eq 2
 test "$(grep -l 'G-C860VPVLNT' netlify-site/index.html | wc -l)" -eq 1
