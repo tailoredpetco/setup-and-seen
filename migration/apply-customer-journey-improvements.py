@@ -9,6 +9,7 @@ the established we/our brand voice; I/my is reserved for direct emails.
 
 from __future__ import annotations
 
+import hashlib
 import sys
 from pathlib import Path
 
@@ -38,7 +39,11 @@ def write_updated(path: Path, transform) -> None:
 def update_home(source: str) -> str:
     source = source.replace(
         "/assets/page-CRbireym.js",
-        "/assets/page-179a217022a8.js",
+        f"/assets/{versioned_home_bundle.name}",
+    )
+    source = source.replace(
+        "/assets/index-DPnhzAdT.js",
+        f"/assets/{versioned_runtime_bundle.name}",
     )
     source = source.replace("£1,250", "£1,595")
     source = source.replace("£1,750", "£2,295")
@@ -117,17 +122,25 @@ def update_packages(source: str) -> str:
     return source
 
 
-write_updated(root / "index.html", update_home)
-
 # Keep the preserved content-hashed asset unchanged. Netlify serves /assets/*
 # immutably for one year, so changed contents must use a new URL rather than
 # reusing the old hash and risking a stale HTML/JavaScript combination.
 original_home_bundle = root / "assets" / "page-CRbireym.js"
-versioned_home_bundle = root / "assets" / "page-179a217022a8.js"
-versioned_home_bundle.write_text(
-    update_home_bundle(original_home_bundle.read_text(encoding="utf-8")),
-    encoding="utf-8",
+updated_home_bundle = update_home_bundle(original_home_bundle.read_text(encoding="utf-8"))
+home_bundle_hash = hashlib.sha256(updated_home_bundle.encode("utf-8")).hexdigest()[:12]
+versioned_home_bundle = root / "assets" / f"page-{home_bundle_hash}.js"
+
+original_runtime_bundle = root / "assets" / "index-DPnhzAdT.js"
+updated_runtime_bundle = original_runtime_bundle.read_text(encoding="utf-8").replace(
+    "page-CRbireym.js",
+    versioned_home_bundle.name,
 )
+runtime_bundle_hash = hashlib.sha256(updated_runtime_bundle.encode("utf-8")).hexdigest()[:12]
+versioned_runtime_bundle = root / "assets" / f"index-{runtime_bundle_hash}.js"
+
+versioned_home_bundle.write_text(updated_home_bundle, encoding="utf-8")
+versioned_runtime_bundle.write_text(updated_runtime_bundle, encoding="utf-8")
+write_updated(root / "index.html", update_home)
 write_updated(root / "packages" / "index.html", update_packages)
 
 
@@ -198,6 +211,17 @@ for slug, (old_heading, new_heading, old_copy, new_copy) in service_messages.ite
         return source
 
     write_updated(path, update_service)
+
+
+# Every route loads the shared runtime. Point each preserved document at the
+# versioned copy whose manifest imports the changed homepage bundle.
+for html_path in root.rglob("*.html"):
+    source = html_path.read_text(encoding="utf-8")
+    updated = source.replace(
+        "/assets/index-DPnhzAdT.js",
+        f"/assets/{versioned_runtime_bundle.name}",
+    )
+    html_path.write_text(updated, encoding="utf-8")
 
 
 # Commercial and campaign safeguards.
