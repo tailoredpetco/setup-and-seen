@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Apply the approved customer-journey improvements to the preserved static site.
+"""Apply the customer-journey improvements to the preserved static site.
 
-The public site is a preserved Vinext render. Visible HTML and the homepage
-client bundle both need price updates, while the migration adapter applies
-small progressive enhancements after hydration.
+The public site is a preserved Vinext render. Visible HTML and the matching
+render data both need commercial updates, while the migration adapter applies
+small progressive enhancements after hydration. The website deliberately keeps
+the established we/our brand voice; I/my is reserved for direct emails.
 """
 
 from __future__ import annotations
 
-import re
 import sys
 from pathlib import Path
 
@@ -53,6 +53,10 @@ def update_home(source: str) -> str:
     source = source.replace(
         '<a class="competition-nav-link" href="/competition">Win a website</a>', ""
     )
+    source = source.replace(
+        '<a href="/competition" class="competition-nav-link">Win a website</a>', ""
+    )
+    source = source.replace('<a href="/competition">Win a website</a>', "")
     source = source.replace('<a href="#faqs">FAQs</a>', "")
     source = source.replace('<a class="nav-cta" href="#contact">Let’s talk</a>', '<a class="nav-cta" href="#contact">Contact</a>')
     return source
@@ -92,11 +96,11 @@ def update_packages(source: str) -> str:
     source = source.replace("MOST POPULAR", "RECOMMENDED FOR A FULL LAUNCH")
     source = source.replace(
         "See exactly what each option is designed for, what is included and where optional extras may apply. If you are still unsure, I will recommend the most sensible option rather than the most expensive one.",
-        "Compare three core packages, then add Express priority delivery only if an urgent deadline makes it necessary. If you are still unsure, I will recommend the most sensible option rather than the most expensive one.",
+        "Compare three core packages, then add Express priority delivery only if an urgent deadline makes it necessary. If you are still unsure, we will recommend the most sensible option rather than the most expensive one.",
     )
     source = source.replace(
         "See exactly what each option is designed for, what is included and where optional extras may apply. If you are still unsure, we will recommend the most sensible option rather than the most expensive one.",
-        "Compare three core packages, then add Express priority delivery only if an urgent deadline makes it necessary. If you are still unsure, I will recommend the most sensible option rather than the most expensive one.",
+        "Compare three core packages, then add Express priority delivery only if an urgent deadline makes it necessary. If you are still unsure, we will recommend the most sensible option rather than the most expensive one.",
     )
     source = source.replace(
         "Choose the right level of support.",
@@ -181,93 +185,6 @@ for slug, (old_heading, new_heading, old_copy, new_copy) in service_messages.ite
         return source
 
     write_updated(path, update_service)
-
-
-# Update the static, non-script text to the established first-person brand voice.
-# The migration adapter repeats this after hydration. Client testimonials are
-# protected so their wording is never altered.
-script_pattern = re.compile(r"<script\b.*?</script>", re.DOTALL | re.IGNORECASE)
-text_pattern = re.compile(r">([^<]+)<")
-
-
-def first_person_text(text: str) -> str:
-    protected = text.replace("our website", "__CLIENT_OUR_WEBSITE__")
-    protected = re.sub(r"\b[Ww]e(?:&#x27;|’|')ve\b", "I have", protected)
-    protected = re.sub(r"\b[Ww]e(?:&#x27;|’|')ll\b", "I will", protected)
-    protected = re.sub(r"\b[Ww]e(?:&#x27;|’|')re\b", "I am", protected)
-    protected = re.sub(r"\b[Ww]e are\b", "I am", protected)
-    protected = re.sub(r"\b[Ww]e have\b", "I have", protected)
-    protected = re.sub(r"\b[Ww]e do\b", "I do", protected)
-    protected = re.sub(r"\b[Ww]e\b", "I", protected)
-    protected = re.sub(r"\bOur\b", "My", protected)
-    protected = re.sub(r"\bour\b", "my", protected)
-    protected = re.sub(r"\bus\b", "me", protected)
-    protected = protected.replace(
-        "I agree a clear visual route",
-        "You and I agree a clear visual route",
-    )
-    protected = protected.replace(
-        "I agree the month’s priorities",
-        "You and I agree the month’s priorities",
-    )
-    protected = protected.replace("CALL US", "CALL")
-    protected = protected.replace("WHATSAPP US", "WHATSAPP")
-    protected = protected.replace("EMAIL US", "EMAIL")
-    protected = protected.replace("WE WORK UK-WIDE", "UK-WIDE SERVICE")
-    return protected.replace("__CLIENT_OUR_WEBSITE__", "our website")
-
-
-def update_visible_voice(source: str) -> str:
-    scripts: list[str] = []
-
-    def hold_script(match: re.Match[str]) -> str:
-        scripts.append(match.group(0))
-        return f"__HELD_SCRIPT_{len(scripts) - 1}__"
-
-    held = script_pattern.sub(hold_script, source)
-    held = text_pattern.sub(lambda match: ">" + first_person_text(match.group(1)) + "<", held)
-    for index, script in enumerate(scripts):
-        held = held.replace(f"__HELD_SCRIPT_{index}__", script)
-    return held
-
-
-for html_path in root.rglob("*.html"):
-    source = html_path.read_text(encoding="utf-8")
-    updated = update_visible_voice(source)
-    updated = updated.replace(
-        'content="We help new and growing UK businesses look credible and get chosen',
-        'content="I help new and growing UK businesses look credible and get chosen',
-    )
-    if 'aria-label="Main navigation"' in updated:
-        if html_path == root / "index.html":
-            navigation = (
-                '<nav class="" aria-label="Main navigation">'
-                '<a href="#services">Services</a>'
-                '<a href="/packages">Packages</a>'
-                '<a href="/our-work">My work</a>'
-                '<a href="/advice">Advice</a>'
-                '<a class="nav-cta" href="#contact">Contact</a>'
-                '</nav>'
-            )
-        else:
-            navigation = (
-                '<nav aria-label="Main navigation">'
-                '<a href="/#services">Services</a>'
-                '<a href="/packages">Packages</a>'
-                '<a href="/our-work">My work</a>'
-                '<a href="/advice">Advice</a>'
-                '<a href="/#contact" class="nav-cta">Contact</a>'
-                '</nav>'
-            )
-        updated, count = re.subn(
-            r'<nav(?: class="")? aria-label="Main navigation">.*?</nav>',
-            navigation,
-            updated,
-            count=1,
-        )
-        if count != 1:
-            raise AssertionError(f"Could not simplify navigation in {html_path}")
-    html_path.write_text(updated, encoding="utf-8")
 
 
 # Commercial and campaign safeguards.

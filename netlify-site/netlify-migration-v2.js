@@ -100,47 +100,6 @@
     });
   }
 
-  function firstPersonCopy(text) {
-    var protectedClientPhrase = text.replace(/our website/g, "__CLIENT_OUR_WEBSITE__");
-    return protectedClientPhrase
-      .replace(/\b[Ww]e(?:'|’|&#x27;)ve\b/g, "I have")
-      .replace(/\b[Ww]e(?:'|’|&#x27;)ll\b/g, "I will")
-      .replace(/\b[Ww]e(?:'|’|&#x27;)re\b/g, "I am")
-      .replace(/\b[Ww]e are\b/g, "I am")
-      .replace(/\b[Ww]e have\b/g, "I have")
-      .replace(/\b[Ww]e do\b/g, "I do")
-      .replace(/\b[Ww]e\b/g, "I")
-      .replace(/\bOur\b/g, "My")
-      .replace(/\bour\b/g, "my")
-      .replace(/\bus\b/g, "me")
-      .replace(/I agree a clear visual route/g, "You and I agree a clear visual route")
-      .replace(/I agree the month’s priorities/g, "You and I agree the month’s priorities")
-      .replace(/CALL US/g, "CALL")
-      .replace(/WHATSAPP US/g, "WHATSAPP")
-      .replace(/EMAIL US/g, "EMAIL")
-      .replace(/WE WORK UK-WIDE/g, "UK-WIDE SERVICE")
-      .replace(/__CLIENT_OUR_WEBSITE__/g, "our website");
-  }
-
-  function applyFirstPersonVoice() {
-    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    var node;
-
-    while ((node = walker.nextNode())) {
-      var parent = node.parentElement;
-      if (!parent || parent.closest("script, style, code, pre, blockquote, q")) continue;
-      node.nodeValue = firstPersonCopy(node.nodeValue);
-    }
-
-    Array.prototype.forEach.call(
-      document.querySelectorAll('meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]'),
-      function (meta) {
-        var content = meta.getAttribute("content");
-        if (content) meta.setAttribute("content", firstPersonCopy(content));
-      }
-    );
-  }
-
   function installCustomerJourneyStyles() {
     if (document.getElementById("customer-journey-styles")) return;
     var style = document.createElement("style");
@@ -168,8 +127,8 @@
     steps.className = "contact-next-steps";
     steps.setAttribute("aria-label", "What happens after you enquire");
     steps.innerHTML =
-      "<li><span>1</span><strong>I read your enquiry</strong></li>" +
-      "<li><span>2</span><strong>I arrange a friendly, no-pressure conversation</strong></li>" +
+      "<li><span>1</span><strong>We read your enquiry</strong></li>" +
+      "<li><span>2</span><strong>We arrange a friendly, no-pressure conversation</strong></li>" +
       "<li><span>3</span><strong>You receive a clear recommendation, scope and price</strong></li>";
     directContact.parentNode.insertBefore(steps, directContact);
   }
@@ -189,7 +148,6 @@
   function applyCustomerJourneyEnhancements() {
     installCustomerJourneyStyles();
     simplifyMainNavigation();
-    applyFirstPersonVoice();
     addEnquiryNextSteps();
     positionExpressAsUpgrade();
   }
@@ -274,7 +232,7 @@
       '<div class="enquiry-confirmation" role="status" tabindex="-1">' +
       '<span aria-hidden="true">✓</span>' +
       '<p class="eyebrow">Enquiry received</p>' +
-      '<h3>Thank you. I have received your enquiry and will be in touch shortly.</h3>' +
+      '<h3>Thank you. We have received your enquiry and will be in touch shortly.</h3>' +
       '<button class="text-button" type="button" data-send-another-enquiry>Send another enquiry</button>' +
       "</div>";
 
