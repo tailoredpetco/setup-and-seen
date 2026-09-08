@@ -79,6 +79,115 @@
     syncMenuState();
   }
 
+  function simplifyMainNavigation() {
+    var navigation = document.querySelector(".site-header nav");
+    if (!navigation) return;
+
+    Array.prototype.forEach.call(navigation.querySelectorAll("a"), function (link) {
+      var label = link.textContent.trim().toLowerCase();
+
+      if (label === "how it works" || label === "win a website" || label === "faqs") {
+        link.remove();
+        return;
+      }
+
+      if (label === "pricing") {
+        link.textContent = "Packages";
+        link.setAttribute("href", "/packages");
+      } else if (label === "let’s talk" || label === "let's talk") {
+        link.textContent = "Contact";
+      }
+    });
+  }
+
+  function installCustomerJourneyStyles() {
+    if (document.getElementById("customer-journey-styles")) return;
+    var style = document.createElement("style");
+    style.id = "customer-journey-styles";
+    style.textContent =
+      ".contact-next-steps{display:grid;gap:10px;margin:26px 0 30px;padding:0;list-style:none}" +
+      ".contact-next-steps li{display:grid;grid-template-columns:34px 1fr;align-items:center;gap:12px;color:#202522}" +
+      ".contact-next-steps span{display:grid;width:34px;height:34px;place-items:center;border:1px solid #315f8c;border-radius:50%;color:#315f8c;font-size:13px;font-weight:700}" +
+      ".contact-next-steps strong{font-size:15px;line-height:1.4}" +
+      ".express-priority-upgrade{border-color:#315f8c}" +
+      ".express-priority-upgrade .package-detail-intro>small{color:#315f8c;font-weight:700}" +
+      "@media(max-width:700px){.contact-next-steps{margin:22px 0 26px}.contact-next-steps strong{font-size:14px}}";
+    document.head.appendChild(style);
+  }
+
+  function addEnquiryNextSteps() {
+    var contactIntro = document.querySelector(".contact-intro");
+    if (!contactIntro || document.getElementById("enquiry-next-steps")) return;
+
+    var directContact = contactIntro.querySelector(".direct-contact");
+    if (!directContact) return;
+
+    var steps = document.createElement("ol");
+    steps.id = "enquiry-next-steps";
+    steps.className = "contact-next-steps";
+    steps.setAttribute("aria-label", "What happens after you enquire");
+    steps.innerHTML =
+      "<li><span>1</span><strong>We read your enquiry</strong></li>" +
+      "<li><span>2</span><strong>We arrange a friendly, no-pressure conversation</strong></li>" +
+      "<li><span>3</span><strong>You receive a clear recommendation, scope and price</strong></li>";
+    directContact.parentNode.insertBefore(steps, directContact);
+  }
+
+  function positionExpressAsUpgrade() {
+    var expressPackage = document.getElementById("express-website-set-up");
+    if (!expressPackage) return;
+
+    expressPackage.classList.add("express-priority-upgrade");
+    var label = expressPackage.querySelector(".package-detail-intro > small");
+    if (label) label.textContent = "Priority upgrade to Website Starter";
+
+    var jumpLink = document.querySelector('.package-jump-nav a[href="#express-website-set-up"]');
+    if (jumpLink) jumpLink.textContent = "Express priority upgrade";
+  }
+
+  function replaceText(root, oldText, newText) {
+    if (!root) return;
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    var node;
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.indexOf(oldText) !== -1) {
+        node.nodeValue = node.nodeValue.replace(oldText, newText);
+      }
+    }
+  }
+
+  function findCardByHeading(selector, headingSelector, headingText) {
+    var cards = document.querySelectorAll(selector);
+    for (var index = 0; index < cards.length; index += 1) {
+      var heading = cards[index].querySelector(headingSelector);
+      if (heading && heading.textContent.trim() === headingText) return cards[index];
+    }
+    return null;
+  }
+
+  function updateHomepageCommercialContent() {
+    if (window.location.pathname !== "/" && window.location.pathname !== "/index.html") return;
+
+    var businessLaunch = findCardByHeading(".price-card", "h3", "Business Launch");
+    replaceText(businessLaunch, "£1,250", "£1,595");
+    replaceText(businessLaunch, "Most popular", "Recommended for a full launch");
+    replaceText(businessLaunch, "Our most popular choice", "Best for a complete business launch");
+
+    var complete = findCardByHeading(".price-card", "h3", "Set Up & Seen Complete");
+    replaceText(complete, "£1,750", "£2,295");
+
+    var branding = findCardByHeading(".support-card", "h4", "Branding Only");
+    replaceText(branding, "£395", "£495");
+  }
+
+  function applyCustomerJourneyEnhancements() {
+    installCustomerJourneyStyles();
+    simplifyMainNavigation();
+    updateHomepageCommercialContent();
+    addEnquiryNextSteps();
+    positionExpressAsUpgrade();
+  }
+
   function getHashTarget(hash) {
     if (!hash || hash.charAt(0) !== "#") return null;
 
@@ -159,7 +268,7 @@
       '<div class="enquiry-confirmation" role="status" tabindex="-1">' +
       '<span aria-hidden="true">✓</span>' +
       '<p class="eyebrow">Enquiry received</p>' +
-      '<h3>Thank you — we’ve received your enquiry and will be in touch shortly.</h3>' +
+      '<h3>Thank you. We have received your enquiry and will be in touch shortly.</h3>' +
       '<button class="text-button" type="button" data-send-another-enquiry>Send another enquiry</button>' +
       "</div>";
 
@@ -302,11 +411,18 @@
   }
 
   disableLegacyRoutePrefetch();
-  installScrollFix();
-
   document.addEventListener("DOMContentLoaded", function () {
     normaliseCanonicalPath();
-    installMobileMenuGuard();
+    // Let the preserved React render attach before adding progressive
+    // enhancements. Mutating the head, navigation or contact section during
+    // hydration makes React discard otherwise valid server-rendered HTML and
+    // adds avoidable main-thread work on slower phones.
+    window.setTimeout(function () {
+      installScrollFix();
+      installMobileMenuGuard();
+      applyCustomerJourneyEnhancements();
+    }, 600);
+    window.setTimeout(applyCustomerJourneyEnhancements, 1600);
     window.setTimeout(normaliseCanonicalPath, 250);
     window.setTimeout(normaliseCanonicalPath, 1000);
 
