@@ -59,9 +59,9 @@ def update_packages(source: str) -> str:
     return source
 
 
-# The homepage is a hydrated client component. Its original HTML and hashed
-# JavaScript remain byte-for-byte preserved; the migration adapter applies the
-# navigation and commercial presentation after hydration to avoid mismatches.
+# The homepage is a hydrated client component. The later search-visibility
+# stage updates its HTML and a versioned client module together. This earlier
+# stage continues to handle the server-rendered package and service pages.
 write_updated(root / "packages" / "index.html", update_packages)
 
 
@@ -127,6 +127,11 @@ for slug, (old_heading, new_heading, old_copy, new_copy) in service_messages.ite
     path = root / "services" / slug / "index.html"
 
     def update_service(source: str) -> str:
+        if slug == "website-design" and (
+            "Small business web design in Worcestershire" in source
+            and "Whether you are launching your first website or replacing an outdated one" in source
+        ):
+            return source
         source = replace_required(source, old_heading, new_heading, f"{slug} outcome heading")
         source = replace_required(source, old_copy, new_copy, f"{slug} outcome copy")
         return source

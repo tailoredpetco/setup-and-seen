@@ -28,13 +28,24 @@ def includes_business_type(schema_type):
     return "Organization" in types or "ProfessionalService" in types
 
 
-def update_schema(match):
-    schema = json.loads(match.group(2))
+def schema_nodes(schema):
+    yield schema
+    for node in schema.get("@graph", []):
+        yield from schema_nodes(node)
+
+
+def update_business_schema(schema):
     if (
         schema.get("@id") == "https://www.setupandseen.co.uk/#business"
         and includes_business_type(schema.get("@type"))
     ):
         schema["sameAs"] = SOCIAL_PROFILES
+
+
+def update_schema(match):
+    schema = json.loads(match.group(2))
+    for node in schema_nodes(schema):
+        update_business_schema(node)
     return match.group(1) + json.dumps(
         schema, ensure_ascii=False, separators=(",", ":")
     ) + match.group(3)
@@ -95,8 +106,9 @@ def validate(site_root):
         business_schemas = []
         for match in SCHEMA_PATTERN.finditer(source):
             schema = json.loads(match.group(2))
-            if schema.get("@id") == "https://www.setupandseen.co.uk/#business":
-                business_schemas.append(schema)
+            for node in schema_nodes(schema):
+                if node.get("@id") == "https://www.setupandseen.co.uk/#business":
+                    business_schemas.append(node)
         if not business_schemas:
             raise RuntimeError(f"Missing business schema in {path.relative_to(site_root)}")
         if any(schema.get("sameAs") != SOCIAL_PROFILES for schema in business_schemas):

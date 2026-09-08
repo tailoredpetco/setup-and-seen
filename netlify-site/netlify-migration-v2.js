@@ -231,7 +231,7 @@
       const question = summary ? summary.textContent.toLowerCase().replace(/-/g, " ") : "";
       if (!summary || !answer || question.indexOf("how much does a small business website cost") === -1) return;
 
-      answer.textContent = "Our One-Day Website and standard Website Starter both begin at £495. The Managed Website Starter is £149 a month for 12 months, with managed hosting and care included during the plan. Express Website Set Up is £999 for a priority five-page build. Larger projects receive a clear quote before work begins.";
+      answer.textContent = "Website Starter begins at £495 for up to five pages, normally completed in 2–4 weeks. The One-Day Website is £495 for one page within a booked working day once everything is ready. Express Website Set Up is £999 for a priority build of up to five pages. Managed Website Starter is £149 a month for 12 months (£1,788 total), including hosting and care during the plan. Domain and hosting costs are separate for the one-off packages. Your written proposal confirms the scope and total cost.";
     });
   }
 
