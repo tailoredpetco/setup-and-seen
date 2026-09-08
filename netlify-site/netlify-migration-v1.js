@@ -10,13 +10,34 @@
     style.id = "set-up-and-seen-scroll-fix";
     style.textContent =
       "html{scroll-behavior:auto!important;scroll-padding-top:108px}" +
+      ".site-header{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#f7f3ec!important}" +
+      ".hero-browser{animation:none!important;will-change:auto!important}" +
       "@media (max-width:950px){" +
       "html{scroll-padding-top:94px}" +
       ".site-header nav.open{height:calc(100vh - 82px);height:calc(100dvh - 82px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}" +
       "html.set-up-and-seen-menu-open,html.set-up-and-seen-menu-open body{overflow:hidden}" +
       "}" +
-      "@media (hover:none){nav a:hover{border-color:transparent}}";
+      "@media (max-width:700px){.hero-copy:after{content:none!important}}" +
+      "@media (hover:none){nav a:hover{border-color:transparent}}" +
+      "@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}";
     document.head.appendChild(style);
+  }
+
+  function disableLegacyRoutePrefetch() {
+    // The preserved Vinext bundle tries to prefetch Sites-only .rsc routes.
+    // Netlify serves ordinary static routes, so these requests add work and
+    // create avoidable 404 errors without improving navigation.
+    try {
+      Object.defineProperty(window, "__VINEXT_LINK_PREFETCH_ROUTES__", {
+        configurable: true,
+        get: function () {
+          return null;
+        },
+        set: function () {},
+      });
+    } catch (error) {
+      window.__VINEXT_LINK_PREFETCH_ROUTES__ = null;
+    }
   }
 
   function installMobileMenuGuard() {
@@ -259,6 +280,7 @@
     }
   }
 
+  disableLegacyRoutePrefetch();
   installScrollFix();
 
   document.addEventListener("DOMContentLoaded", function () {
