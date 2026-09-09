@@ -163,8 +163,8 @@
     widget.className = "message-us-widget";
     widget.innerHTML =
       '<div class="message-us-panel" id="message-us-panel" role="dialog" aria-modal="false" aria-labelledby="message-us-title" hidden>' +
-      '<h2 id="message-us-title">Message Set Up &amp; Seen</h2>' +
-      '<p>Choose the contact option that suits you.</p>' +
+      '<h2 id="message-us-title">Message us</h2>' +
+      '<p>Choose WhatsApp or email.</p>' +
       '<div class="message-us-options">' +
       '<a class="message-us-option" href="https://wa.me/447999071045" target="_blank" rel="noreferrer noopener" aria-label="WhatsApp us – opens in a new tab"><span>WhatsApp us</span><span aria-hidden="true">↗</span></a>' +
       '<a class="message-us-option" href="mailto:info@setupandseen.co.uk" aria-label="Email us at info@setupandseen.co.uk"><span>Email us</span><span aria-hidden="true">→</span></a>' +
