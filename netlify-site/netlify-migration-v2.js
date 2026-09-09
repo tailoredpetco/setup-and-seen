@@ -133,6 +133,129 @@
     document.head.appendChild(style);
   }
 
+  function installMessageUsWidget() {
+    if (document.getElementById("message-us-widget")) return;
+
+    var style = document.createElement("style");
+    style.id = "message-us-widget-styles";
+    style.textContent =
+      ".message-us-widget{--message-cookie-offset:0px;position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px) + var(--message-cookie-offset));z-index:998;display:flex;flex-direction:column;align-items:flex-end;gap:11px;font-family:'DM Sans',Arial,sans-serif;transition:bottom .18s ease,opacity .18s ease,visibility .18s ease}" +
+      ".message-us-trigger{min-height:50px;border:1px solid #315f8c;border-radius:999px;background:#315f8c;color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:0 18px;cursor:pointer;font-size:14px;font-weight:700;line-height:1;box-shadow:0 9px 26px #071b2d2e;transition:background .18s ease,transform .18s ease,box-shadow .18s ease}" +
+      ".message-us-trigger:hover{background:#284f76;transform:translateY(-1px);box-shadow:0 11px 30px #071b2d38}" +
+      ".message-us-trigger svg{width:20px;height:20px;flex:none;stroke:currentColor}" +
+      ".message-us-panel{position:relative;width:min(310px,calc(100vw - 40px));border:1px solid #ded8ce;border-radius:4px;background:#fdfcf9;color:#202522;padding:22px;box-shadow:0 18px 48px #071b2d2b;transform-origin:bottom right}" +
+      ".message-us-panel h2{margin:0 34px 7px 0;font-family:Fraunces,serif;font-size:24px;font-weight:500;line-height:1.1;letter-spacing:-.025em}" +
+      ".message-us-panel>p{margin:0 0 17px;color:#555852;font-size:13px;line-height:1.5}" +
+      ".message-us-options{display:grid;gap:9px}" +
+      ".message-us-option{min-height:49px;border:1px solid #ded8ce;border-radius:2px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px;color:#202522;font-size:14px;font-weight:700;line-height:1.2;transition:border-color .15s ease,background .15s ease}" +
+      ".message-us-option:hover{border-color:#315f8c;background:#f2f6f9}" +
+      ".message-us-option span:last-child{color:#315f8c;font-size:18px;font-weight:500}" +
+      ".message-us-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:#202522;display:grid;place-items:center;cursor:pointer;font-size:24px;line-height:1}" +
+      ".message-us-close:hover{background:#edf0ed}" +
+      ".message-us-trigger:focus-visible,.message-us-panel a:focus-visible,.message-us-close:focus-visible{outline:3px solid #075a9c;outline-offset:3px;box-shadow:0 0 0 6px #fff}" +
+      "html.set-up-and-seen-menu-open .message-us-widget,.message-us-widget.message-us-form-visible{opacity:0;visibility:hidden;pointer-events:none}" +
+      "@media(max-width:700px){.message-us-widget{right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px) + var(--message-cookie-offset))}.message-us-trigger{min-height:48px;padding:0 15px;font-size:13px}.message-us-panel{width:min(306px,calc(100vw - 24px));padding:20px}.message-us-panel h2{font-size:22px}}" +
+      "@media(prefers-reduced-motion:reduce){.message-us-widget,.message-us-trigger,.message-us-option{transition:none!important}}";
+    document.head.appendChild(style);
+
+    var widget = document.createElement("div");
+    widget.id = "message-us-widget";
+    widget.className = "message-us-widget";
+    widget.innerHTML =
+      '<div class="message-us-panel" id="message-us-panel" role="dialog" aria-modal="false" aria-labelledby="message-us-title" hidden>' +
+      '<h2 id="message-us-title">Message Set Up &amp; Seen</h2>' +
+      '<p>Choose the contact option that suits you.</p>' +
+      '<div class="message-us-options">' +
+      '<a class="message-us-option" href="https://wa.me/447999071045" target="_blank" rel="noreferrer noopener" aria-label="WhatsApp us – opens in a new tab"><span>WhatsApp us</span><span aria-hidden="true">↗</span></a>' +
+      '<a class="message-us-option" href="mailto:info@setupandseen.co.uk" aria-label="Email us at info@setupandseen.co.uk"><span>Email us</span><span aria-hidden="true">→</span></a>' +
+      '</div>' +
+      '<button class="message-us-close" type="button" aria-label="Close message options">×</button>' +
+      '</div>' +
+      '<button class="message-us-trigger" type="button" aria-expanded="false" aria-controls="message-us-panel" aria-haspopup="dialog">' +
+      '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M20 11.4a7.6 7.6 0 0 1-8 7.6 9.2 9.2 0 0 1-3.4-.7L4 20l1.6-4.1A7.6 7.6 0 1 1 20 11.4Z" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01" stroke-width="2.4" stroke-linecap="round"/></svg>' +
+      '<span>Message us</span>' +
+      '</button>';
+    document.body.appendChild(widget);
+
+    var panel = widget.querySelector(".message-us-panel");
+    var trigger = widget.querySelector(".message-us-trigger");
+    var closeButton = widget.querySelector(".message-us-close");
+    var firstOption = widget.querySelector(".message-us-option");
+    var returnFocus = false;
+
+    function closePanel(restoreFocus) {
+      if (panel.hidden) return;
+      panel.hidden = true;
+      trigger.setAttribute("aria-expanded", "false");
+      if (restoreFocus) trigger.focus();
+    }
+
+    function openPanel() {
+      panel.hidden = false;
+      trigger.setAttribute("aria-expanded", "true");
+      firstOption.focus();
+    }
+
+    trigger.addEventListener("click", function () {
+      if (panel.hidden) openPanel();
+      else closePanel(true);
+    });
+    closeButton.addEventListener("click", function () {
+      closePanel(true);
+    });
+    widget.addEventListener("click", function (event) {
+      if (event.target instanceof Element && event.target.closest(".message-us-option")) {
+        closePanel(false);
+      }
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !panel.hidden) {
+        event.preventDefault();
+        closePanel(true);
+      }
+    });
+    document.addEventListener("pointerdown", function (event) {
+      if (!panel.hidden && event.target instanceof Node && !widget.contains(event.target)) {
+        returnFocus = document.activeElement && panel.contains(document.activeElement);
+        closePanel(false);
+        if (returnFocus) trigger.focus();
+      }
+    });
+
+    function updateCookieOffset() {
+      var banner = document.querySelector(".cookie-banner");
+      var offset = 0;
+      if (banner) {
+        offset = Math.max(0, Math.ceil(window.innerHeight - banner.getBoundingClientRect().top + 10));
+      }
+      widget.style.setProperty("--message-cookie-offset", offset + "px");
+    }
+
+    var cookieObserver = new MutationObserver(updateCookieOffset);
+    cookieObserver.observe(document.body, { childList: true, subtree: false });
+    window.addEventListener("resize", updateCookieOffset);
+    updateCookieOffset();
+
+    var forms = document.querySelectorAll("form");
+    if (forms.length && "IntersectionObserver" in window) {
+      var visibleForms = new Set();
+      var formObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) visibleForms.add(entry.target);
+            else visibleForms.delete(entry.target);
+          });
+          widget.classList.toggle("message-us-form-visible", visibleForms.size > 0);
+          if (visibleForms.size > 0) closePanel(false);
+        },
+        { threshold: 0.08 }
+      );
+      Array.prototype.forEach.call(forms, function (form) {
+        formObserver.observe(form);
+      });
+    }
+  }
+
   function addEnquiryNextSteps() {
     var contactIntro = document.querySelector(".contact-intro");
     if (!contactIntro || document.getElementById("enquiry-next-steps")) return;
@@ -401,6 +524,7 @@
     addEnquiryNextSteps();
     updateContactAndSocialLinks();
     positionExpressAsUpgrade();
+    installMessageUsWidget();
   }
 
   function getHashTarget(hash) {
