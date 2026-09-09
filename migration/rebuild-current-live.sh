@@ -80,7 +80,7 @@ import re
 from pathlib import Path
 
 root = Path(os.environ["MIGRATION_STAGE"])
-script_tag = '<script defer src="/netlify-migration-v1.js"></script>'
+script_tag = '<script defer src="/netlify-migration-v2.js"></script>'
 
 for path in root.rglob("*.html"):
     if path.name == "404.html":
@@ -98,20 +98,36 @@ for path in root.rglob("*.html"):
 
 home = root / "index.html"
 source = home.read_text(encoding="utf-8")
-source = source.replace(
-    '<form name="enquiry" aria-live="polite" action="/api/enquiries" method="POST">',
-    '<form name="enquiry" aria-live="polite" action="/thank-you" method="POST" data-netlify="true" data-netlify-honeypot="website">',
-    1,
+source = re.sub(
+    r'<input\b(?=[^>]*\bname=["\']form-name["\'])[^>]*>',
+    "",
+    source,
+    count=1,
 )
+source, home_form_count = re.subn(
+    r'<form\b(?=[^>]*\bname=["\']enquiry["\'])[^>]*>',
+    '<form name="enquiry" aria-live="polite" action="/thank-you" method="POST" data-netlify="true" data-netlify-honeypot="website"><input type="hidden" name="form-name" value="enquiry"/>',
+    source,
+    count=1,
+)
+assert home_form_count == 1
 home.write_text(source, encoding="utf-8")
 
 competition = root / "competition" / "index.html"
 source = competition.read_text(encoding="utf-8")
-source = source.replace(
-    '<form class="draw-form" aria-label="Website Starter Prize Draw entry form" action="/api/competition" method="POST">',
-    '<form class="draw-form" name="website-starter-prize-draw-2026" aria-label="Website Starter Prize Draw entry form" action="/competition/thank-you" method="POST" data-netlify="true" data-netlify-honeypot="website"><input type="hidden" name="form-name" value="website-starter-prize-draw-2026"/>',
-    1,
+source = re.sub(
+    r'<input\b(?=[^>]*\bname=["\']form-name["\'])[^>]*>',
+    "",
+    source,
+    count=1,
 )
+source, competition_form_count = re.subn(
+    r'<form\b(?=[^>]*\bname=["\']website-starter-prize-draw-2026["\']|[^>]*\bclass=["\'][^"\']*\bdraw-form\b)[^>]*>',
+    '<form class="draw-form" name="website-starter-prize-draw-2026" aria-label="Website Starter Prize Draw entry form" action="/competition/thank-you" method="POST" data-netlify="true" data-netlify-honeypot="website"><input type="hidden" name="form-name" value="website-starter-prize-draw-2026"/>',
+    source,
+    count=1,
+)
+assert competition_form_count == 1
 competition.write_text(source, encoding="utf-8")
 
 privacy = root / "privacy" / "index.html"
@@ -154,6 +170,7 @@ python3 migration/apply-search-visibility.py "$migration_stage"
 rsync --archive --delete "$migration_stage/" netlify-site/
 
 node --check netlify-site/netlify-migration-v1.js
+node --check netlify-site/netlify-migration-v2.js
 test "$(find netlify-site -type f | wc -l)" -eq 51
 test "$(grep -l 'data-netlify="true"' netlify-site/index.html netlify-site/competition/index.html | wc -l)" -eq 2
 test "$(grep -l 'G-C860VPVLNT' netlify-site/index.html | wc -l)" -eq 1
