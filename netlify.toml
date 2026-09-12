@@ -1,8 +1,15 @@
 [build]
   publish = "netlify-site"
+  command = "npm run check:billing"
+
+[build.environment]
+  NODE_VERSION = "24"
 
 [build.processing.html]
   pretty_urls = false
+
+[functions]
+  directory = "netlify/functions"
 
 [[redirects]]
   from = "https://setupandseen.co.uk/*"
