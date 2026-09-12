@@ -11,7 +11,9 @@
   };
   function recommend(a) {
     if (!['one','five','six','eight','more','unsure'].includes(a.pages) || !['ready','launch','complete','unsure'].includes(a.support) || !['oneoff','monthly','either'].includes(a.payment) || !['brochure','advanced','unsure'].includes(a.features) || !['standard','priority','day'].includes(a.timing)) return null;
-    if (a.features !== 'brochure' || a.pages === 'more' || a.pages === 'unsure' || a.support === 'unsure') return {key:'bespoke',reason:'A shop, booking system, stock listing, uncertain scope or more than eight pages needs a separate assessment.'};
+    if (a.features === 'advanced') return {key:'bespoke',reason:'Your shop, booking or stock requirements need a closer look so we can confirm the right features and their costs.'};
+    if (a.pages === 'more') return {key:'bespoke',reason:'You need more than eight pages. We will plan the content with you and quote for the scope you need.'};
+    if (a.features === 'unsure' || a.pages === 'unsure' || a.support === 'unsure') return {key:'bespoke',reason:'You do not need all the answers yet. Tell us about your business and we will help you decide on the pages, features and support you need.'};
     if (a.payment === 'monthly') {
       if (a.support !== 'ready' || !['one','five'].includes(a.pages) || a.timing !== 'standard') return {key:'bespoke',reason:'The published monthly plan does not include this combination of extra scope or priority delivery. We will discuss the requirements rather than imply they are included.'};
       return {key:'managed',reason:'You prefer monthly payments and need a straightforward website using your existing brand and supplied content.'};
@@ -43,6 +45,7 @@
     result.querySelector('[data-result-costs]').textContent = pack.costs;
     result.querySelector('[data-result-timing]').textContent = pack.timing;
     result.querySelector('[data-result-details]').href = pack.url;
+    result.querySelector('[data-result-enquire]').textContent = answer.key === 'bespoke' ? 'Help us plan our website ↗' : 'Enquire about this package ↗';
     var url = new URL('/#contact', location.origin);
     url.searchParams.set('service',answer.key==='bespoke'?'Not sure yet':pack.name);
     url.searchParams.set('finder',answer.key);
