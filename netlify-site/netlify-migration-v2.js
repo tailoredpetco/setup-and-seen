@@ -525,6 +525,57 @@
     updateContactAndSocialLinks();
     positionExpressAsUpgrade();
     installMessageUsWidget();
+    addAcquisitionLinksAndNotice();
+  }
+
+  // Attribution uses explicit URL parameters only: no tracking identifier,
+  // browser fingerprint or extra cookie/local storage is introduced.
+  function acquisitionContext() {
+    var params = new URLSearchParams(window.location.search);
+    var campaign = params.get("utm_source") === "researcher" && params.get("utm_medium") === "email" && params.get("utm_campaign") === "first_website";
+    var suggestion = params.get("finder") || "";
+    if (["starter", "managed", "oneday", "express", "launch", "complete", "bespoke"].indexOf(suggestion) === -1) suggestion = "";
+    return {campaign: campaign, suggestion: suggestion};
+  }
+
+  function withAcquisitionContext(destination) {
+    if (destination.origin !== window.location.origin) return destination;
+    var context = acquisitionContext();
+    if (context.campaign && !destination.searchParams.has("utm_source")) {
+      destination.searchParams.set("utm_source", "researcher");
+      destination.searchParams.set("utm_medium", "email");
+      destination.searchParams.set("utm_campaign", "first_website");
+    }
+    if (context.suggestion && !destination.searchParams.has("finder")) destination.searchParams.set("finder", context.suggestion);
+    return destination;
+  }
+
+  function addAcquisitionLinksAndNotice() {
+    var footer = document.querySelector(".footer-links > div");
+    if (footer && !footer.querySelector('a[href^="/your-first-business-website"]')) {
+      var firstWebsite = document.createElement("a");
+      firstWebsite.href = "/your-first-business-website";
+      firstWebsite.textContent = "Your first website & package finder";
+      footer.appendChild(firstWebsite);
+    }
+    var context = acquisitionContext();
+    if (!context.campaign && !context.suggestion) return;
+    Array.prototype.forEach.call(document.querySelectorAll('a[href]'), function (link) {
+      var raw = link.getAttribute("href");
+      if (!raw || raw.charAt(0) === "#" || link.hasAttribute("download")) return;
+      var destination = new URL(link.href, window.location.href);
+      if (destination.origin !== window.location.origin) return;
+      destination = withAcquisitionContext(destination);
+      link.href = destination.pathname + destination.search + destination.hash;
+    });
+    var form = document.querySelector('form[name="enquiry"]');
+    if (form && !form.querySelector("[data-enquiry-context-note]")) {
+      var note = document.createElement("small");
+      note.setAttribute("data-enquiry-context-note", "true");
+      note.className = "form-note";
+      note.textContent = "Your package suggestion and any campaign reference in this link are included with your enquiry.";
+      form.appendChild(note);
+    }
   }
 
   function getHashTarget(hash) {
@@ -561,6 +612,13 @@
   function encode(form, formName) {
     var data = new FormData(form);
     data.set("form-name", formName);
+    if (formName === "enquiry") {
+      var context = acquisitionContext();
+      var notes = [];
+      if (context.campaign) notes.push("Campaign reference: researcher / email / first_website");
+      if (context.suggestion) notes.push("Package finder suggestion: " + context.suggestion);
+      if (notes.length) data.set("message", String(data.get("message") || "") + "\n\n" + notes.join("\n"));
+    }
     return new URLSearchParams(data).toString();
   }
 
@@ -654,6 +712,13 @@
     try {
       var response = await submitToNetlify(form, "enquiry", "/");
       if (!response.ok) throw new Error("Netlify Forms rejected the enquiry");
+      // Count only a successful enquiry, and only after analytics consent.
+      try {
+        if (window.localStorage.getItem("setup-and-seen-cookie-consent") === "accepted" && typeof window.gtag === "function") {
+          var context = acquisitionContext();
+          window.gtag("event", "generate_lead", {form_name: "enquiry", campaign_reference: context.campaign ? "first_website_email" : "unattributed", package_suggestion: context.suggestion || "none"});
+        }
+      } catch (analyticsError) { /* Analytics must never block confirmation. */ }
       showEnquiryConfirmation(form);
     } catch (error) {
       setButtonState(form, false, "");
@@ -731,10 +796,11 @@
 
       var destination = new URL(link.href, window.location.href);
       if (destination.origin !== window.location.origin) return;
+      destination = withAcquisitionContext(destination);
 
       event.preventDefault();
       event.stopImmediatePropagation();
-      window.location.assign(rawHref);
+      window.location.assign(destination.pathname + destination.search + destination.hash);
     },
     true
   );

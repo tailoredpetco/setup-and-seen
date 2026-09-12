@@ -73,6 +73,8 @@ cp netlify-site/_headers "$migration_stage/_headers"
 cp netlify-site/_redirects "$migration_stage/_redirects"
 cp netlify-site/netlify-migration-v1.js "$migration_stage/netlify-migration-v1.js"
 cp netlify-site/netlify-migration-v2.js "$migration_stage/netlify-migration-v2.js"
+cp netlify-site/package-finder-v1.js "$migration_stage/package-finder-v1.js"
+cp netlify-site/first-website-v1.css "$migration_stage/first-website-v1.css"
 
 MIGRATION_STAGE="$migration_stage" python3 <<'PY'
 import os
@@ -167,11 +169,12 @@ python3 migration/apply-seo-fixes.py "$migration_stage"
 python3 migration/apply-customer-journey-improvements.py "$migration_stage"
 python3 migration/apply-search-visibility.py "$migration_stage"
 python3 migration/apply-website-cost-guide.py "$migration_stage"
+python3 migration/apply-first-website.py "$migration_stage"
 
 rsync --archive --delete "$migration_stage/" netlify-site/
 
 node --check netlify-site/netlify-migration-v1.js
 node --check netlify-site/netlify-migration-v2.js
-test "$(find netlify-site -type f | wc -l)" -eq 52
+test "$(find netlify-site -type f | wc -l)" -eq 55
 test "$(grep -l 'data-netlify="true"' netlify-site/index.html netlify-site/competition/index.html | wc -l)" -eq 2
 test "$(grep -l 'G-C860VPVLNT' netlify-site/index.html | wc -l)" -eq 1
