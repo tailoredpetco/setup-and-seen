@@ -555,6 +555,24 @@
   }
 
   function addAcquisitionLinksAndNotice() {
+    var paymentFooter = document.querySelector(".footer-links > div") || document.querySelector(".simple-footer > div");
+    if (paymentFooter && !paymentFooter.querySelector('a[href="/pay"]')) {
+      var paymentLink = document.createElement("a");
+      paymentLink.href = "/pay";
+      paymentLink.textContent = "Pay an agreed project";
+      paymentFooter.appendChild(paymentLink);
+    }
+    var paymentComparison = document.querySelector(".first-site .payment-explainer");
+    if (paymentComparison && !document.querySelector("[data-agreed-payment-route]")) {
+      var agreedPayment = document.createElement("p");
+      agreedPayment.className = "finder-note";
+      agreedPayment.setAttribute("data-agreed-payment-route", "true");
+      var agreedPaymentLink = document.createElement("a");
+      agreedPaymentLink.href = "/pay";
+      agreedPaymentLink.textContent = "Already agreed a £495 Website Starter proposal? Pay securely here.";
+      agreedPayment.appendChild(agreedPaymentLink);
+      paymentComparison.insertAdjacentElement("afterend", agreedPayment);
+    }
     var finderPath = "/your-first-business-website#package-finder-section";
     var navigation = document.querySelector(".site-header nav");
     if (navigation && !navigation.querySelector("[data-package-finder-nav]")) {

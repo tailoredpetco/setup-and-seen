@@ -1,3 +1,4 @@
+/pay /pay/index.html 200!
 https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
 
 # Serve the live site's canonical, no-trailing-slash routes without changing
@@ -31,5 +32,6 @@ https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
 /services /404.txt 404!
 /faqs /404.txt 404!
 /* /404.txt 404
+
 
 
