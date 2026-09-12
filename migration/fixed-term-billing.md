@@ -3,6 +3,18 @@
 Status on 12 September 2026: implementation prepared; monthly checkout is not live.
 The existing one-off payment page and links are unchanged by this branch.
 
+Preview verification: Netlify deploy `6aa5765e462970000878add9` is ready for
+commit `3ca87ed05c75c44b0eb5a28106948f62d65412d9`. Node 24 built the function and
+ran the type check and local tests. A real POST to the preview endpoint returned
+503 and `Billing is not configured`, as expected without secure configuration.
+
+Stripe checkout brand settings were updated and independently read back:
+background `#f7f2e9`, button and primary/accent colour `#315f8c`, white button text.
+Stripe's hosted font remains its default because the site's Fraunces/DM Sans are
+not available in Stripe's supported font list. Logo upload is still pending:
+the public favicon is only 64 by 64 pixels and is unsuitable as a sharp checkout
+logo. Do not upscale it and claim original high-resolution artwork was used.
+
 ## Commercial scope
 
 - Managed website starter: GBP 149 monthly for 12 billing periods, GBP 1,788 total.
@@ -68,7 +80,8 @@ the existing one-off links for the monthly plan.
    proposal reference. Set `subscription_data.metadata.sus_fixed_term` to
    `sus-managed-12-months-v1`. Check the customer-facing description contains
    commercial terms, not implementation instructions. Use the existing original
-   logo and brand colours once Dashboard branding access is available.
+   logo when a suitable original asset is available; the brand colours have
+   already been saved through Stripe's branding API.
 4. Register the preview endpoint for `checkout.session.completed` and
    `checkout.session.async_payment_succeeded`. Use a snapshot event destination
    with an API version compatible with the installed Stripe SDK (22.6.2, API
