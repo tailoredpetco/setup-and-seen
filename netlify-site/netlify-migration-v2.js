@@ -551,6 +551,29 @@
   }
 
   function addAcquisitionLinksAndNotice() {
+    var finderPath = "/your-first-business-website#package-finder-section";
+    var navigation = document.querySelector(".site-header nav");
+    if (navigation && !navigation.querySelector("[data-package-finder-nav]")) {
+      var finderNav = document.createElement("a");
+      finderNav.href = finderPath;
+      finderNav.textContent = "Package finder";
+      finderNav.setAttribute("data-package-finder-nav", "true");
+      var contactLink = navigation.querySelector(".nav-cta");
+      navigation.insertBefore(finderNav, contactLink || null);
+    }
+    var heroActions = document.querySelector(".hero-copy .hero-actions");
+    if (heroActions && !document.querySelector("[data-package-finder-hero]")) {
+      var finderIntro = document.createElement("p");
+      finderIntro.setAttribute("data-package-finder-hero", "true");
+      finderIntro.style.margin = "22px 0";
+      var finderButton = document.createElement("a");
+      finderButton.className = "button outline";
+      finderButton.href = finderPath;
+      finderButton.textContent = "Find your website package ↗";
+      finderButton.style.whiteSpace = "normal";
+      finderIntro.appendChild(finderButton);
+      heroActions.insertAdjacentElement("afterend", finderIntro);
+    }
     var footer = document.querySelector(".footer-links > div");
     if (footer && !footer.querySelector('a[href^="/your-first-business-website"]')) {
       var firstWebsite = document.createElement("a");
