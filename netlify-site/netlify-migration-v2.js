@@ -9,6 +9,10 @@
     var style = document.createElement("style");
     style.id = "set-up-and-seen-scroll-fix";
     style.textContent =
+      ".hero-copy .package-finder-home-button{background:#315f8c!important;color:#fff!important;border:2px solid #315f8c;white-space:normal;min-height:52px;max-width:100%;text-align:center}" +
+      ".hero-copy .package-finder-home-button:hover{background:#23486b!important;border-color:#23486b}" +
+      ".hero-copy .package-finder-home-button:focus-visible{outline:3px solid #202522;outline-offset:4px}" +
+      "[data-finder-home-note]{font-size:14px!important;line-height:1.65;max-width:540px;margin:18px 0 24px;color:#555852}" +
       "html{scroll-behavior:auto!important;scroll-padding-top:108px}" +
       ".site-header{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#f7f3ec!important}" +
       ".hero-browser{animation:none!important;will-change:auto!important}" +
@@ -562,17 +566,20 @@
       navigation.insertBefore(finderNav, contactLink || null);
     }
     var heroActions = document.querySelector(".hero-copy .hero-actions");
-    if (heroActions && !document.querySelector("[data-package-finder-hero]")) {
-      var finderIntro = document.createElement("p");
-      finderIntro.setAttribute("data-package-finder-hero", "true");
-      finderIntro.style.margin = "22px 0";
-      var finderButton = document.createElement("a");
-      finderButton.className = "button outline";
-      finderButton.href = finderPath;
-      finderButton.textContent = "Find your website package ↗";
-      finderButton.style.whiteSpace = "normal";
-      finderIntro.appendChild(finderButton);
-      heroActions.insertAdjacentElement("afterend", finderIntro);
+    if (heroActions) {
+      var finderButton = heroActions.querySelector(".button.primary");
+      if (finderButton) {
+        finderButton.setAttribute("data-package-finder-hero", "true");
+        finderButton.classList.add("package-finder-home-button");
+        finderButton.href = finderPath;
+        finderButton.textContent = "Find a website package ↗";
+      }
+      if (!document.querySelector("[data-finder-home-note]")) {
+        var finderNote = document.createElement("p");
+        finderNote.setAttribute("data-finder-home-note", "true");
+        finderNote.textContent = "Compare one-off builds and our 12-month managed plan. No email needed to see your recommendation.";
+        heroActions.insertAdjacentElement("afterend", finderNote);
+      }
     }
     var footer = document.querySelector(".footer-links > div");
     if (footer && !footer.querySelector('a[href^="/your-first-business-website"]')) {
