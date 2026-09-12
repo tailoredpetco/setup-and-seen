@@ -48,3 +48,26 @@ assert.equal(competition.get('message'),'Please explain the plan.');
 assert.ok(source.indexOf('if (!response.ok) throw new Error("Netlify Forms rejected the enquiry")')<source.indexOf('window.gtag("event", "generate_lead"'));
 assert.match(source,/getItem\("setup-and-seen-cookie-consent"\) === "accepted"/);
 console.log(`${combinations} finder combinations, package boundaries, attribution propagation, input rejection and form isolation passed.`);
+const handlerStart=source.indexOf('  async function handleEnquiry(');
+const handlerEnd=source.indexOf('\n  }',handlerStart)+4;
+let responseOK=true,consent='accepted',events=0,confirmed=0,errors=0;
+Object.assign(scope,{
+ removeError(){},setButtonState(){},
+ submitToNetlify:async()=>({ok:responseOK}),
+ showEnquiryConfirmation(){confirmed++;},
+ showError(){errors++;}
+});
+scope.window.localStorage={getItem:()=>consent};
+scope.window.gtag=(...args)=>{assert.equal(args[0],'event');assert.equal(args[1],'generate_lead');assert.ok(!JSON.stringify(args).includes('@'));events++;};
+scope.event={preventDefault(){},stopImmediatePropagation(){}};
+scope.form={reportValidity:()=>true};
+vm.runInContext(source.slice(handlerStart,handlerEnd),scope);
+(async()=>{
+ await vm.runInContext('handleEnquiry(event,form)',scope);
+ assert.equal(events,1);assert.equal(confirmed,1);
+ consent='rejected';await vm.runInContext('handleEnquiry(event,form)',scope);
+ assert.equal(events,1);assert.equal(confirmed,2);
+ responseOK=false;consent='accepted';await vm.runInContext('handleEnquiry(event,form)',scope);
+ assert.equal(events,1);assert.equal(confirmed,2);assert.equal(errors,1);
+ console.log('Successful, rejected-consent and failed-enquiry analytics behaviour passed.');
+})().catch(error=>{console.error(error);process.exitCode=1;});
