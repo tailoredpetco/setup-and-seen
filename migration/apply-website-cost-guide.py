@@ -1,0 +1,159 @@
+#!/usr/bin/env python3
+"""Add the cost guide and consultation copy to the preserved static website.
+
+Keep existing service/advice Flight render data in step with initial HTML.
+The new guide uses the existing static-page consent and navigation adapter.
+"""
+from pathlib import Path
+from html import escape
+import json
+import re
+import sys
+
+ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else 'netlify-site')
+ROUTE = '/advice/small-business-website-cost-uk'
+TITLE = 'Small Business Website Costs UK | Set Up & Seen'
+DESCRIPTION = 'Understand website build prices, hosting and monthly plans. Compare Set Up & Seen packages, see worked costs and choose the right scope for your business.'
+HEADING = 'How much does a small business website cost in the UK?'
+CHUNK = re.compile(r'self\.__VINEXT_RSC_CHUNKS__\.push\(("(?:[^"\\]|\\.)*")\)')
+
+def map_chunks(source, transform):
+    def update(match):
+        text = transform(json.loads(match[1]))
+        def length_fix(m):
+            start = m.end()
+            _, end = json.JSONDecoder().raw_decode(text[start:])
+            return m[1] + format(len(text[start:start + end].encode('utf-8')), 'x') + ','
+        text = re.sub(r'((?:^|\n)[a-f0-9]+:T)[a-f0-9]+,', length_fix, text)
+        return 'self.__VINEXT_RSC_CHUNKS__.push(' + json.dumps(text, ensure_ascii=False).replace('<', r'\u003c').replace('&', r'\u0026') + ')'
+    return CHUNK.sub(update, source)
+
+def node(tag, props=None, children=None):
+    props = dict(props or {})
+    if children is not None:
+        props['children'] = children
+    return ['$', tag, None, props]
+
+CARD_TEXT = 'Understand build prices, hosting, domains and monthly commitments, with worked examples using my published packages.'
+LIST_CSS = '.advice-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}.advice-list-intro{grid-column:1/-1}.advice-list .guide-card{height:100%;padding:36px}.advice-list .guide-card h2{font-size:clamp(30px,3vw,44px)}@media(max-width:900px){.advice-list{grid-template-columns:1fr}.advice-list .guide-card{padding:30px 25px}}'
+card = node('article', {'className': 'guide-card featured-guide', 'id': 'website-cost-guide'}, [
+    node('div', {}, [node('span', {}, 'WEBSITE COSTS'), node('span', {}, 'By Maria Flello')]),
+    node('h2', {}, node('a', {'href': ROUTE}, HEADING)),
+    node('p', {}, CARD_TEXT),
+    node('a', {'className': 'button dark', 'href': ROUTE}, 'Read the cost guide ↗'),
+])
+CARD_HTML = f'<article class="guide-card featured-guide" id="website-cost-guide"><div><span>WEBSITE COSTS</span><span>By Maria Flello</span></div><h2><a href="{ROUTE}">{HEADING}</a></h2><p>{CARD_TEXT}</p><a class="button dark" href="{ROUTE}">Read the cost guide ↗</a></article>'
+
+advice_path = ROOT / 'advice/index.html'
+advice = advice_path.read_text()
+if 'id="website-cost-guide"' not in advice:
+    advice = advice.replace('<article class="guide-card featured-guide">', '<style>' + LIST_CSS + '</style>' + CARD_HTML + '<article class="guide-card featured-guide">', 1)
+    def add_card(text):
+        def visit(value):
+            if isinstance(value, list):
+                if len(value) == 4 and value[0] == '$' and value[1] == 'section' and isinstance(value[3], dict) and value[3].get('className') == 'advice-list section-pad':
+                    value[3]['children'].insert(1, card)
+                    value[3]['children'].insert(1, node('style', {}, LIST_CSS))
+                    return
+                for child in value:
+                    visit(child)
+            elif isinstance(value, dict):
+                for child in value.values():
+                    visit(child)
+        lines = []
+        for line in text.splitlines(keepends=True):
+            match = re.match(r'^([a-f0-9]+:)(\[.*)', line)
+            if match:
+                value = json.loads(match[2])
+                visit(value)
+                line = match[1] + json.dumps(value, ensure_ascii=False, separators=(',', ':')) + ('\n' if line.endswith('\n') else '')
+            lines.append(line)
+        return ''.join(lines)
+    advice = map_chunks(advice, add_card)
+advice = advice.replace('The latest guide.', 'Explore the guides.')
+advice_path.write_text(advice)
+
+service_path = ROOT / 'services/website-design/index.html'
+service = service_path.read_text()
+old = 'Yes. We are based in Worcestershire and work remotely with small businesses throughout the UK.'
+new = 'Yes. I work with small businesses throughout the UK by phone, video call and online. If you prefer to meet in person, I can visit your business within 50 miles of my Worcestershire base by arrangement. You deal directly with me, Maria, from the first conversation through to launch.'
+service = service.replace(old, new)
+service = map_chunks(service, lambda text: text.replace(old, new))
+cost_link = f'<p class="website-cost-link"><a href="{ROUTE}">Read my guide to website build prices and ongoing costs →</a></p>'
+if 'class="website-cost-link"' not in service:
+    marker = '<section class="service-page-cta section-pad">'
+    # Keep the link inside the established CTA, which is also represented in Flight.
+    service = service.replace(marker, marker + cost_link, 1)
+    link_node = node('p', {'className': 'website-cost-link'}, node('a', {'href': ROUTE}, 'Read my guide to website build prices and ongoing costs →'))
+    def add_service_link(text):
+        def visit(v):
+            if isinstance(v, list):
+                if len(v) == 4 and v[0] == '$' and v[1] == 'section' and isinstance(v[3], dict) and v[3].get('className') == 'service-page-cta section-pad':
+                    v[3]['children'].insert(0, link_node)
+                    return
+                for x in v: visit(x)
+            elif isinstance(v, dict):
+                for x in v.values(): visit(x)
+        lines=[]
+        for line in text.splitlines(keepends=True):
+            m=re.match(r'^([a-f0-9]+:)(\[.*)',line)
+            if m:
+                v=json.loads(m[2]); visit(v)
+                line=m[1]+json.dumps(v,ensure_ascii=False,separators=(',', ':'))+('\n' if line.endswith('\n') else '')
+            lines.append(line)
+        return ''.join(lines)
+    service=map_chunks(service,add_service_link)
+service_path.write_text(service)
+
+template = (ROOT / 'advice/diy-website-or-professional-website/index.html').read_text()
+head = template.split('</head>')[0] + '</head>'
+head = re.sub(r'<link rel="modulepreload"[^>]*>', '', head)
+head = re.sub(r'<script>self\.__VINEXT_.*?</script>', '', head, flags=re.S)
+head = re.sub(r'<title>.*?</title>', '<title>' + escape(TITLE) + '</title>', head)
+for key, val in [('description', DESCRIPTION), ('og:title', TITLE), ('og:description', DESCRIPTION), ('twitter:title', TITLE), ('twitter:description', DESCRIPTION)]:
+    head = re.sub(r'(<meta (?:name|property)="'+key+r'" content=")[^"]*', lambda m: m[1]+escape(val), head)
+head = head.replace('/advice/diy-website-or-professional-website', ROUTE)
+head = head.replace('content="website"', 'content="article"')
+head = head.replace('</head>', '''<style>
+.cost-guide .article-summary{align-self:start}.cost-guide .article-summary nav a{display:block;margin:12px 0;text-decoration:underline;text-underline-offset:4px}.cost-guide .cost-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}.cost-guide .cost-option{padding:22px;border:1px solid #315f8c40;border-radius:12px;background:#faf8f3}.cost-guide .cost-option h3{margin:0 0 10px}.cost-guide .cost-option p{margin:8px 0}.cost-guide .cost-price{font-size:1.3rem;color:#315f8c;font-weight:700}.cost-guide .cost-note{padding:22px;border-left:3px solid #315f8c;background:#f2f5f7}.cost-guide section{scroll-margin-top:110px}.cost-guide a:focus-visible{outline:3px solid #315f8c;outline-offset:4px}.cost-guide .article-meta{flex-wrap:wrap}.cost-guide h1{overflow-wrap:break-word}@media(max-width:700px){.cost-guide .cost-options{grid-template-columns:1fr}.cost-guide .article-summary{position:static}.cost-guide .cost-option{padding:20px}.cost-guide .article-hero h1{font-size:clamp(2.25rem,9vw,3.4rem)}}
+</style></head>''')
+header = re.search(r'<div class="announcement">.*?</header>', template, re.S)[0]
+footer = re.search(r'<footer class="simple-footer">.*?</footer>', template, re.S)[0]
+schema = {'@context':'https://schema.org','@type':'Article','headline':HEADING,'description':DESCRIPTION,'mainEntityOfPage':'https://www.setupandseen.co.uk'+ROUTE,'author':{'@type':'Person','name':'Maria Flello'},'publisher':{'@type':'Organization','name':'Set Up & Seen','url':'https://www.setupandseen.co.uk'},'datePublished':'2026-09-12','dateModified':'2026-09-12'}
+article = '''
+<article class="article-page cost-guide">
+<header class="article-hero section-pad"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/advice">Advice &amp; guides</a></nav><p class="eyebrow">Plan your website budget</p><h1>How much does a small business website cost in the UK?</h1><p class="article-standfirst">A useful website quote explains the build, the ongoing costs and the work you need to provide. Here is how to compare your options, with real examples from my Set Up &amp; Seen packages.</p><div class="article-meta"><span>By Maria Flello, Set Up &amp; Seen</span><span>Published 12 September 2026</span></div></header>
+<div class="article-layout section-pad"><aside class="article-summary"><p class="eyebrow">The short answer</p><p>My Website Starter begins at £495 for a one-off build of up to five pages. Hosting and care are separate, from £49 a month. My managed five-page option is £149 a month for 12 months, £1,788 total.</p><nav aria-label="In this guide"><a href="#compare-options">Compare the options</a><a href="#first-year-cost">Work out the first-year cost</a><a href="#ongoing-costs">Check ongoing costs</a><a href="#choose-scope">Choose the right scope</a></nav></aside>
+<div class="article-body"><p class="article-opening">There is no single price that fits every UK small business. A simple service website and a vehicle stock website with filters, regular listings and integrations involve different work. The examples below are my published starting prices, rather than a UK-wide average or a promise that every project fits a fixed package.</p>
+<section id="compare-options"><h2>What do my website packages cost?</h2><p>Start with the outcome you need: a clear website, a faster launch or a complete brand and website. These options have different inclusions.</p><div class="cost-options">
+<div class="cost-option"><h3>Website Starter</h3><p class="cost-price">From £495 one-off</p><p>Up to five pages, mobile-friendly design, an enquiry form, basic search engine set-up and content guidance. Usually 2–4 weeks once the required material and feedback are available.</p><p>Full copywriting, branding, domain and hosting are separate.</p><a href="/packages#website-starter">See Website Starter →</a></div>
+<div class="cost-option"><h3>Managed Website Starter</h3><p class="cost-price">£149 a month for 12 months</p><p><strong>£1,788 total.</strong> Up to five pages, refinement of supplied wording, one standard .co.uk domain for the first year, hosting and care. Includes one small content update of up to 30 minutes each month.</p><p>This is a 12-month agreement. Full copywriting and branding are separate.</p><a href="/services/managed-website-starter">See the monthly plan →</a></div>
+<div class="cost-option"><h3>One-Day Website</h3><p class="cost-price">£495 one-off</p><p>A focused one-page website within one booked working day once everything required is ready. A useful option when one page can explain your business clearly.</p><p>Domain and hosting are separate.</p><a href="/services/one-day-website">See the one-day option →</a></div>
+<div class="cost-option"><h3>Express Website Set Up</h3><p class="cost-price">From £999 one-off</p><p>Up to five pages on a priority schedule, within five working days after payment, the questionnaire, final content, images and access have been received.</p><p>Domain, hosting, full copywriting and branding are separate.</p><a href="/services/express-websites">See Express delivery →</a></div>
+<div class="cost-option"><h3>Business Launch</h3><p class="cost-price">From £1,595 one-off</p><p>Logo and brand styling, up to six website pages, refinement of wording, Facebook and Instagram set-up, branded templates and Google Business Profile set-up support.</p><p>Full copywriting, written brand guidelines and ongoing hosting are separate.</p><a href="/packages#business-launch">See Business Launch →</a></div>
+<div class="cost-option"><h3>Set Up &amp; Seen Complete</h3><p class="cost-price">From £2,295 one-off</p><p>Brand identity and practical guidelines, up to eight pages, full website copywriting, social profile set-up and launch content, plus four weeks of questions and agreed small fixes.</p><p>Domain, hosting and ongoing monthly management are separate.</p><a href="/packages">See the complete package →</a></div>
+</div><p>These summaries do not replace the full package details. Your written proposal confirms the final scope, timing and cost before work begins.</p></section>
+<section id="first-year-cost"><h2>How much should you allow for the first year?</h2><p>Compare the same period and include the services you actually want. The lowest initial payment does not necessarily produce the lowest first-year total.</p><div class="cost-note"><h3>Example: Website Starter plus 12 months of care</h3><p>At the starting prices, £495 for the build + £49 × 12 for hosting and care = <strong>£1,083</strong>.</p><p>This example excludes the domain and any other separately quoted fees. It assumes the standard scope and 12 full months of the £49 care service. It is an illustration, not a fixed all-inclusive quote.</p></div><h3>Example: the managed monthly option</h3><p>£149 × 12 = <strong>£1,788</strong>. The plan includes the build, a standard .co.uk domain for the first year, hosting and the stated care service during the term. The first payment secures the project, followed by 11 monthly payments.</p><p>The two offers have different inclusions. The managed option spreads the cost and includes support throughout the agreement; it should not be described as the £495 build divided into monthly instalments.</p><p>After all 12 payments, you can continue with hosting and Website Care from £49 a month, subject to the service agreed then, or arrange a suitable transfer. Domain renewal and any paid services must also be budgeted for.</p></section>
+<section id="ongoing-costs"><h2>Which ongoing website costs should you check?</h2><ul><li><strong>Domain:</strong> your web address has registration and renewal costs. The first-year inclusion in my managed plan is one standard .co.uk domain; premium domains are excluded.</li><li><strong>Hosting and care:</strong> hosting keeps the site available. My care service also includes agreed technical checks and small updates. Check the actual scope, rather than comparing it only with a basic hosting subscription.</li><li><strong>Business email:</strong> mailbox subscriptions are separate from website hosting unless expressly included. Business email hosting is excluded from the managed plan.</li><li><strong>Paid tools:</strong> booking systems, payment services, premium software and integrations may involve additional charges.</li><li><strong>Changes:</strong> new pages, redesigns and larger changes need a separate quote. The managed plan includes up to 30 minutes for one small update each month, with no rollover of unused time.</li></ul><p><a href="/services/website-hosting-care">Read the hosting and care inclusions →</a></p></section>
+<section id="choose-scope"><h2>What makes a website cost more?</h2><p>Page count is only part of the work. Full copywriting, original branding, product or vehicle data, online payments, booking tools, complex integrations and a tight deadline can all change the scope. A five-page brochure website is not the same project as a stock management system with five main navigation links.</p><p>If you already have a suitable logo, good images and clear wording, a website-only package may be enough. If those foundations are missing, agreeing the brand and content work at the beginning makes the quote more useful.</p><h2>Which option would I recommend?</h2><p>For a straightforward service business with content ready and the budget available, I would start by considering Website Starter. For a business that wants a managed first year and prefers regular payments, I would compare the £149 plan with the full first-year cost of the one-off route.</p><p>If you need branding, copywriting and social profiles as well, I would assess Business Launch or Complete. I would only suggest priority delivery when the deadline justifies it. If you are deciding whether to build your own site, <a href="/advice/diy-website-or-professional-website">read my DIY versus professional website guide</a>.</p></section>
+<section><h2>What should a written website quote explain?</h2><ul><li>The pages, features and work included.</li><li>Who supplies the wording, photographs and brand assets.</li><li>The total payable, payment schedule and whether VAT applies.</li><li>Domain, hosting, email, renewal and third-party costs.</li><li>The platform, editing access, ownership and transfer arrangements.</li><li>Revision limits, support and what larger changes cost.</li><li>Timing, dependencies and any minimum commitment or cancellation terms.</li></ul><p>Basic search engine set-up is a foundation for visibility. It does not guarantee rankings, enquiries or sales, and ongoing SEO is separate unless your proposal includes it.</p></section>
+<div class="article-cta"><p class="eyebrow">A clear next step</p><h2>Tell me what your website needs to do.</h2><p>Share what your business does, whether you have an existing website and what you need customers to do next. I will recommend a suitable scope and explain the build and ongoing costs. No payment is taken when you enquire.</p><p>I work remotely across the UK, with phone and video consultations. Visits to customers within 50 miles of my Worcestershire base are available by arrangement.</p><a class="button primary" href="/?service=Website%20Starter#contact">Ask Maria for a website quote ↗</a></div>
+</div></div></article>
+'''
+page = head + '<body data-static-offer-page="true"><main id="main-content"><a class="skip-link" href="#main-content">Skip to main content</a>' + header + '<script type="application/ld+json">' + json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c') + '</script>' + article + footer + '</main><button type="button" class="cookie-settings" aria-expanded="false">Cookie settings</button></body></html>'
+destination = ROOT / ROUTE.lstrip('/') / 'index.html'
+destination.parent.mkdir(parents=True, exist_ok=True)
+destination.write_text(page)
+
+redirects = ROOT / '_redirects'
+text = redirects.read_text()
+rule = ROUTE + ' ' + ROUTE + '/index.html 200!'
+if rule not in text:
+    text = text.replace('/advice /advice/index.html 200!', '/advice /advice/index.html 200!\n' + rule)
+redirects.write_text(text)
+sitemap = ROOT / 'sitemap.xml'
+text = sitemap.read_text()
+if ROUTE not in text:
+    text = text.replace('</urlset>', '<url><loc>https://www.setupandseen.co.uk' + ROUTE + '</loc><lastmod>2026-09-12</lastmod></url>\n</urlset>')
+sitemap.write_text(text)
+print('Cost guide, advice listing, local consultation information and sitemap updated.')
