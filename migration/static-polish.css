@@ -1,0 +1,28 @@
+/* Shared behaviour and display type, without altering the existing wordmarks. */
+:root { --font-display: "Playfair Display", Georgia, serif; }
+.wordmark strong, .about-mark, .about-mark span, .about-mark i { font-family: Fraunces, Georgia, serif; }
+[hidden] { display: none !important; }
+.menu-button { cursor: pointer; flex-shrink: 0; }
+.menu-button:focus-visible { outline: 3px solid #315f8c; outline-offset: 4px; }
+.cookie-banner { gap: 20px; }
+.cookie-actions button { min-height: 44px; font-size: 12px; text-transform: none; letter-spacing: 0; }
+.cookie-settings { min-height: 32px; }
+.site-header nav.open { height: auto; max-height: calc(100dvh - 82px); }
+@media (max-width: 700px) {
+  .cookie-banner { padding: 16px; bottom: 40px; }
+  .cookie-banner strong { font-size: 20px; }
+  .cookie-banner p { font-size: 13px; line-height: 1.5; }
+  .cookie-actions { margin-top: 12px; }
+  .cookie-actions button { padding: 11px 8px; }
+  .message-us-widget { max-width: calc(100vw - 24px); }
+}
+/* Keep navigation available when scripting is disabled or fails to load. */
+@media (max-width: 950px) {
+  html:not(.site-interactive) .site-header { height: auto; flex-wrap: wrap; padding-top: 20px; padding-bottom: 20px; }
+  html:not(.site-interactive) .site-header nav { position: static; display: flex; flex-direction: row; flex-wrap: wrap; padding: 16px 0 0; width: 100%; }
+  html:not(.site-interactive) .menu-button { display: none; }
+  .site-interactive .site-header .menu-button { display: block; }
+  .site-interactive .site-header nav { display: none; position: absolute; top: 82px; left: 0; right: 0; padding: 24px 7vw 32px; background: var(--cream); border-bottom: 1px solid var(--stone); flex-direction: column; align-items: stretch; }
+  .site-interactive .site-header nav.open { display: flex; }
+  .site-header nav a:not(.nav-cta) { display: block; }
+}

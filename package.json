@@ -1,0 +1,12 @@
+{
+  "name": "setup-and-seen-maintenance",
+  "private": true,
+  "scripts": {
+    "build:static": "node migration/apply-static-content.cjs",
+    "test": "node migration/test-first-website.cjs && node migration/test-static-content.cjs"
+  },
+  "devDependencies": {
+    "acorn": "8.18.0",
+    "jsdom": "30.0.1"
+  }
+}
