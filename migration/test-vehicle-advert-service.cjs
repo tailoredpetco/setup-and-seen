@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const {JSDOM} = require('jsdom');
+const {JSDOM, VirtualConsole} = require('jsdom');
 const root = 'netlify-site/';
 const route = '/services/vehicle-advert-management';
 const origin = 'https://www.setupandseen.co.uk';
@@ -8,30 +8,35 @@ const read = name => fs.readFileSync(root + name, 'utf8');
 const markup = read('services/vehicle-advert-management/index.html');
 const d = new JSDOM(markup, {url: origin + route}).window.document;
 assert.equal(d.querySelectorAll('h1').length, 1);
-// Set Up & Seen speaks as we/us. Customer-voiced FAQ questions are distinct.
+// Keep the complete service copy, including FAQ headings, free of singular voice.
 assert.equal(d.querySelector('h1 em').textContent, 'Leave the adverts to us.');
-assert.match(d.querySelector('.vehicle-intro').textContent, /We will prepare your listings/);
+assert.match(d.querySelector('.vehicle-intro').textContent, /We prepare your descriptions/);
 assert.match(d.querySelector('.vehicle-fit').textContent, /We handle the agreed preparation/);
 assert.equal(d.querySelector('.service-page-cta h2').textContent, 'Tell us about your stock.');
 assert.match(d.querySelector('.service-page-cta p:not(.eyebrow)').textContent, /We will check the setup/);
-for (const el of d.querySelectorAll('.vehicle-service h1, .vehicle-service h2, .vehicle-service h3, .vehicle-service p, .vehicle-service a, .vehicle-service li')) {
+for (const el of d.querySelectorAll('.vehicle-service h1, .vehicle-service h2, .vehicle-service h3, .vehicle-service p, .vehicle-service a, .vehicle-service li, .vehicle-service summary')) {
   assert.doesNotMatch(el.textContent, /\b(?:I|me|my|mine|myself)\b/, 'Use plural business voice: ' + el.textContent);
 }
 
 assert.equal(d.querySelector('link[rel=canonical]').href, origin + route);
 assert.match(d.title, /Vehicle Advert Management/);
 assert.equal(d.querySelectorAll('.vehicle-package').length, 1);
-assert.match(d.querySelector('.vehicle-package').textContent, /£300/);
+assert.match(d.querySelector('.vehicle-price').textContent, /^From £300 per month$/);
+assert.match(d.querySelector('.vehicle-package').textContent, /active-stock limit/);
+assert.match(d.querySelector('.vehicle-package').textContent, /cancellation notice/);
+assert.match(d.querySelector('.vehicle-package').textContent, /not mean unlimited/);
 assert.match(d.querySelector('.vehicle-package').textContent, /eight new vehicle listings/);
 assert.match(d.querySelector('.vehicle-package').textContent, /one existing stock-management system/);
 assert.match(d.querySelector('.vehicle-package').textContent, /allowance.*agreed in your quote/);
 assert.match(d.querySelector('.vehicle-exclusions').textContent, /Advertising subscriptions/);
 assert.ok(!d.querySelector('.service-proof'), 'Do not imply unverified service case studies.');
-assert.equal(d.querySelectorAll('.faq-list details').length, 7);
+assert.equal(d.querySelectorAll('.faq-list details').length, 9);
 const graph = [...d.querySelectorAll('script[type="application/ld+json"]')].map(s => JSON.parse(s.textContent)).find(o => o['@graph'])['@graph'];
 const faq = graph.find(x => x['@type'] === 'FAQPage');
 [...d.querySelectorAll('.faq-list details')].forEach((detail, i) => {
   assert.equal(detail.querySelector('p').textContent, faq.mainEntity[i].acceptedAnswer.text);
+  assert.equal(detail.querySelector('summary').childNodes[0].textContent, faq.mainEntity[i].name);
+  assert.doesNotMatch(faq.mainEntity[i].name, /\b(?:I|me|my|mine|myself)\b/);
 });
 for (const a of d.querySelectorAll('.vehicle-service a.button')) {
   assert.equal(a.href, origin + '/?service=Vehicle%20advert%20management#contact');
@@ -49,8 +54,17 @@ assert.ok(read('sitemap.xml').includes('<loc>' + origin + route + '</loc>'));
 assert.match(read('assets/vehicle-advert-service.css'), /vehicle-breadcrumb\{position:static;flex-direction:row/);
 
 (async () => {
-  const dom = new JSDOM(homeMarkup, {url: origin + '/?service=Vehicle%20advert%20management#contact', runScripts: 'outside-only', pretendToBeVisual: true});
+  const jsdomErrors = [];
+  const virtualConsole = new VirtualConsole();
+  virtualConsole.on('jsdomError', error => jsdomErrors.push(String(error.stack || error)));
+  const dom = new JSDOM(homeMarkup, {url: origin + '/?service=Vehicle%20advert%20management#contact', runScripts: 'outside-only', pretendToBeVisual: true, virtualConsole});
   const w = dom.window;
+  // Track real observers so teardown cannot call into an already closed window.
+  const observers = [];
+  const OriginalMutationObserver = w.MutationObserver;
+  w.MutationObserver = class extends OriginalMutationObserver {
+    constructor(callback) { super(callback); observers.push(this); }
+  };
   w.matchMedia = () => ({matches: true}); w.scrollTo = () => {};
   w.HTMLElement.prototype.scrollIntoView = () => {};
   w.localStorage.setItem('setup-and-seen-cookie-consent', 'rejected');
@@ -73,6 +87,11 @@ assert.match(read('assets/vehicle-advert-service.css'), /vehicle-breadcrumb\{pos
   assert.equal(posts[0].body.get('form-name'), 'enquiry');
   assert.equal(posts[0].body.get('website'), '');
   assert.ok(form.querySelector('.enquiry-confirmation'));
+  await new Promise(resolve => setImmediate(resolve));
+  assert.deepEqual(jsdomErrors, [], 'No unhandled errors during enquiry interactions');
+  observers.forEach(observer => observer.disconnect());
   dom.window.close();
+  await new Promise(resolve => setImmediate(resolve));
+  assert.deepEqual(jsdomErrors, [], 'No unhandled errors after window teardown');
   console.log('Vehicle service scope, navigation, metadata, FAQ and intercepted enquiry tests passed.');
 })().catch(error => {console.error(error); process.exitCode = 1;});
