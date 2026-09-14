@@ -1,0 +1,76 @@
+name: CLEAR vehicle service revision checks
+on:
+  push:
+    branches: [fix/vehicle-service-clear-review]
+    paths:
+      - .github/workflows/clear-service-review.yml
+      - migration/apply-clear-review.py
+      - migration/test-clear-browser.py
+permissions:
+  contents: write
+jobs:
+  review:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Record the pre-correction test behaviour
+        run: |
+          mkdir -p qa-clear
+          node migration/test-vehicle-advert-service.cjs > qa-clear/baseline-test.log 2>&1
+          python - <<'PY'
+          from pathlib import Path
+          log = Path('qa-clear/baseline-test.log').read_text()
+          print('Baseline teardown TypeError reproduced:', 'TypeError' in log and 'updateCookieOffset' in log)
+          PY
+      - name: Apply reviewed copy and test cleanup
+        run: |
+          python migration/apply-clear-review.py
+          find netlify-site migration -type f ! -name '*.pyc' -print0 | sort -z | xargs -0 sha256sum > /tmp/clear-first.txt
+          python migration/apply-clear-review.py
+          find netlify-site migration -type f ! -name '*.pyc' -print0 | sort -z | xargs -0 sha256sum > /tmp/clear-second.txt
+          diff /tmp/clear-first.txt /tmp/clear-second.txt
+      - name: Existing and revised regression tests
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee qa-clear/regression.log
+          node migration/test-vehicle-advert-service.cjs 2>&1 | tee qa-clear/revised-test.log
+          if grep -E 'TypeError|ReferenceError|SyntaxError|AssertionError' qa-clear/revised-test.log; then exit 1; fi
+      - name: Browser checks without live submissions
+        run: |
+          python -m pip install playwright==1.57.0
+          python migration/test-clear-browser.py
+      - name: Save the checked changes to the review branch only
+        run: |
+          test "$GITHUB_REF_NAME" = "fix/vehicle-service-clear-review"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add migration/add-vehicle-advert-service.py migration/test-vehicle-advert-service.cjs netlify-site/services/vehicle-advert-management/index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Apply checked CLEAR service copy and eliminate test teardown errors'
+            git push origin HEAD:fix/vehicle-service-clear-review
+          fi
+      - name: One explicitly requested live enquiry check
+        if: github.run_attempt == '1' && github.event.head_commit.message == 'Run CLEAR review and one labelled enquiry check'
+        run: python migration/test-clear-browser.py --live-enquiry
+      - name: Preserve reviewed files and exact check results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: clear-service-review
+          path: |
+            netlify-site
+            migration
+            package.json
+            package-lock.json
+            netlify.toml
+            qa-clear
+          retention-days: 3
