@@ -7,7 +7,7 @@ import os
 import re
 import shutil
 import sys
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'netlify-site'
@@ -32,7 +32,7 @@ with sync_playwright() as pw:
         response = page.goto(ORIGIN + ENQUIRY, wait_until='domcontentloaded')
         assert response.status == 200
         form = page.locator('form[name="enquiry"]')
-        assert form.locator('[name="service"]').input_value() == 'Vehicle advert management'
+        expect(form.locator('[name="service"]')).to_have_value('Vehicle advert management', timeout=10000)
         form.locator('[name="name"]').fill('Set Up & Seen website test')
         form.locator('[name="business"]').fill('Set Up & Seen - test only')
         form.locator('[name="email"]').fill('info@setupandseen.co.uk')
@@ -102,7 +102,7 @@ with sync_playwright() as pw:
             assert page.locator('.faq-list details').first.get_attribute('open') is not None
             page.locator('.vehicle-hero a.button').click()
             form = page.locator('form[name="enquiry"]')
-            assert form.locator('[name="service"]').input_value() == 'Vehicle advert management'
+            expect(form.locator('[name="service"]')).to_have_value('Vehicle advert management', timeout=10000)
             form.locator('[name="name"]').fill('Offline QA')
             form.locator('[name="email"]').fill('qa@example.invalid')
             form.locator('[name="message"]').fill('Intercepted offline test. No live enquiry sent.')
