@@ -8,6 +8,16 @@ const read = name => fs.readFileSync(root + name, 'utf8');
 const markup = read('services/vehicle-advert-management/index.html');
 const d = new JSDOM(markup, {url: origin + route}).window.document;
 assert.equal(d.querySelectorAll('h1').length, 1);
+// Set Up & Seen speaks as we/us. Customer-voiced FAQ questions are distinct.
+assert.equal(d.querySelector('h1 em').textContent, 'Leave the adverts to us.');
+assert.match(d.querySelector('.vehicle-intro').textContent, /We will prepare your listings/);
+assert.match(d.querySelector('.vehicle-fit').textContent, /We handle the agreed preparation/);
+assert.equal(d.querySelector('.service-page-cta h2').textContent, 'Tell us about your stock.');
+assert.match(d.querySelector('.service-page-cta p:not(.eyebrow)').textContent, /We will check the setup/);
+for (const el of d.querySelectorAll('.vehicle-service h1, .vehicle-service h2, .vehicle-service h3, .vehicle-service p, .vehicle-service a, .vehicle-service li')) {
+  assert.doesNotMatch(el.textContent, /\b(?:I|me|my|mine|myself)\b/, 'Use plural business voice: ' + el.textContent);
+}
+
 assert.equal(d.querySelector('link[rel=canonical]').href, origin + route);
 assert.match(d.title, /Vehicle Advert Management/);
 assert.equal(d.querySelectorAll('.vehicle-package').length, 1);
