@@ -23,6 +23,7 @@ https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
 /services/social-media-management /services/social-media-management/index.html 200!
 /services/website-hosting-care /services/website-hosting-care/index.html 200!
 /services/marketing-support /services/marketing-support/index.html 200!
+/services/vehicle-advert-management /services/vehicle-advert-management/index.html 200!
 /privacy /privacy/index.html 200!
 /terms /terms/index.html 200!
 /thank-you /thank-you/index.html 200!

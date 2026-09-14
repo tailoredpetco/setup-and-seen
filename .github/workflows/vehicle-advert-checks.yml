@@ -1,0 +1,107 @@
+name: Vehicle advert service checks
+on:
+  push:
+    branches: [feature/vehicle-advert-management, main]
+    paths:
+      - .github/workflows/vehicle-advert-checks.yml
+      - migration/add-vehicle-advert-service.py
+      - migration/test-vehicle-advert-service.cjs
+      - netlify-site/services/vehicle-advert-management/**
+      - netlify-site/assets/vehicle-advert-service.css
+permissions:
+  contents: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Generate the service on the isolated branch
+        if: github.ref_name == 'feature/vehicle-advert-management'
+        run: |
+          python migration/add-vehicle-advert-service.py
+          find netlify-site -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/vehicle-before.txt
+          python migration/add-vehicle-advert-service.py
+          find netlify-site -type f -print0 | sort -z | xargs -0 sha256sum > /tmp/vehicle-after.txt
+          diff /tmp/vehicle-before.txt /tmp/vehicle-after.txt
+      - run: npm ci
+      - run: npm test
+      - run: node migration/test-vehicle-advert-service.cjs
+      - name: Save only the tested generated pages on the feature branch
+        if: github.ref_name == 'feature/vehicle-advert-management'
+        run: |
+          test "$GITHUB_REF_NAME" = "feature/vehicle-advert-management"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add netlify-site/services/vehicle-advert-management/index.html netlify-site/services/marketing-support/index.html netlify-site/index.html netlify-site/_redirects netlify-site/sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish tested vehicle advert page and contextual enquiry route"
+            git push origin HEAD:feature/vehicle-advert-management
+          fi
+      - name: Verify the production routes after merge
+        if: github.ref_name == 'main'
+        run: |
+          mkdir -p qa
+          python - <<'PY'
+          import urllib.request, time, json, os
+          base = 'https://www.setupandseen.co.uk'
+          checks = [
+              ('/services/vehicle-advert-management', 'class="service-page vehicle-service"'),
+              ('/services/marketing-support', 'id="vehicle-advert-support"'),
+              ('/', '<option>Vehicle advert management</option>'),
+              ('/assets/vehicle-advert-service.css', '.vehicle-breadcrumb{position:static;flex-direction:row'),
+              ('/sitemap.xml', '/services/vehicle-advert-management</loc>'),
+              ('/packages', 'Set Up'),
+              ('/your-first-business-website', 'Set Up'),
+              ('/pay', 'Set Up')
+          ]
+          last_error = None
+          for attempt in range(18):
+              results = []
+              try:
+                  for path, marker in checks:
+                      url = base + path + '?service-check=' + os.environ['GITHUB_SHA'][:12]
+                      req = urllib.request.Request(url, headers={'User-Agent': 'Set-Up-And-Seen-Deployment-QA'})
+                      with urllib.request.urlopen(req, timeout=20) as response:
+                          text = response.read().decode('utf-8')
+                          assert response.status == 200, (path, response.status)
+                          assert marker in text, ('Expected deployed content missing', path)
+                          results.append({'url': base + path, 'status': response.status, 'expected_content': True})
+                  with open('qa/live-route-checks.json', 'w') as f:
+                      json.dump({'checks': results, 'production_form_submitted': False}, f, indent=2)
+                  print('Live route verification passed. No production forms were submitted.')
+                  break
+              except Exception as exc:
+                  last_error = repr(exc)
+                  print('Waiting for the authorised Netlify deployment:', last_error, flush=True)
+                  time.sleep(10)
+          else:
+              raise RuntimeError(last_error)
+          PY
+      - name: Capture published pages when the runner browser is available
+        if: github.ref_name == 'main'
+        run: |
+          if command -v google-chrome >/dev/null; then
+            google-chrome --headless --no-sandbox --disable-gpu --hide-scrollbars --screenshot=qa/live-desktop.png --window-size=1440,1050 --virtual-time-budget=5000 https://www.setupandseen.co.uk/services/vehicle-advert-management
+            google-chrome --headless --no-sandbox --disable-gpu --hide-scrollbars --screenshot=qa/live-mobile.png --window-size=390,844 --virtual-time-budget=5000 https://www.setupandseen.co.uk/services/vehicle-advert-management
+          else
+            echo 'Runner browser unavailable; local responsive render checks were performed separately.' > qa/live-browser-unavailable.txt
+          fi
+      - name: Export review snapshot and checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vehicle-advert-review
+          path: |
+            netlify-site
+            migration
+            package.json
+            package-lock.json
+            netlify.toml
+            qa
+          retention-days: 3
