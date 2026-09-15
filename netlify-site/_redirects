@@ -28,11 +28,18 @@ https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
 /terms /terms/index.html 200!
 /thank-you /thank-you/index.html 200!
 
+/services/garage-website-design /services/garage-website-design/index.html 200!
+/services/pet-business-website-design /services/pet-business-website-design/index.html 200!
+/our-work/clent-auto-repairs /our-work/clent-auto-repairs/index.html 200!
+/our-work/clent-hills-campers-and-vans /our-work/clent-hills-campers-and-vans/index.html 200!
+/our-work/the-tailored-pet-co /our-work/the-tailored-pet-co/index.html 200!
+
 # Match the current public site's known not-found routes.
 /index.html /404.txt 404!
 /services /404.txt 404!
 /faqs /404.txt 404!
 /* /404.txt 404
+
 
 
 

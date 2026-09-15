@@ -1,0 +1,22 @@
+.search-detail{max-width:1120px;margin:auto;padding:0 clamp(20px,5vw,64px) 64px;color:#202522}
+.search-hero{padding:48px 0 42px;border-bottom:1px solid rgba(32,37,34,.15)}
+.search-breadcrumb{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;font-size:.9rem}
+.search-detail h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(2.2rem,5vw,4.1rem);line-height:1.12;max-width:920px;margin:16px 0 24px;overflow-wrap:break-word}
+.search-intro{font-size:clamp(1.05rem,2vw,1.25rem);line-height:1.7;max-width:780px;margin-bottom:28px}
+.search-section{padding:40px 0;border-bottom:1px solid rgba(32,37,34,.12)}
+.search-section h2,.search-hub h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.65rem,3vw,2.45rem);line-height:1.2;margin:12px 0 22px}
+.search-section p,.search-hub>p{line-height:1.75;max-width:790px;margin:14px 0 22px}
+.search-section a:not(.button),.search-link-row a,.search-breadcrumb a,.project-case-link a{color:#315f8c;text-decoration:underline;text-underline-offset:4px}
+.search-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:26px}
+.search-cards article{background:#f6f3eb;padding:24px;border:1px solid rgba(32,37,34,.12);border-radius:12px}
+.search-cards h3{font-family:"Playfair Display",Georgia,serif;font-size:1.35rem;line-height:1.3;margin:0 0 14px}
+.search-cards p{margin:0;font-size:1rem}
+.search-link-row{display:flex;gap:16px 28px;flex-wrap:wrap;margin:22px 0}
+.search-link-row a{display:inline-block;padding:6px 0;line-height:1.6}
+.search-project-image{margin:36px 0 28px}.search-project-image img{display:block;width:100%;height:auto;border:1px solid rgba(32,37,34,.12);border-radius:12px}
+.search-project-image figcaption{font-size:.85rem;line-height:1.6;color:#505854;margin-top:10px}
+.search-list{padding-left:24px;line-height:1.9}.search-hub{background:#f6f3eb}.project-case-link{padding:18px 0;grid-column:1/-1}
+.search-detail a:focus-visible,.search-hub a:focus-visible,.project-case-link a:focus-visible{outline:3px solid #315f8c;outline-offset:5px}
+@media(max-width:700px){.search-cards{grid-template-columns:1fr}.search-hero{padding-top:28px}.search-section{padding:30px 0}.search-link-row{flex-direction:column;gap:8px}.search-detail .button{max-width:100%;white-space:normal;text-align:center}.search-breadcrumb{margin-bottom:24px}}
+
+.work-page-project .project-case-link a{color:#c0d7eb}.work-page-project .project-case-link a:focus-visible{outline-color:#fff}
