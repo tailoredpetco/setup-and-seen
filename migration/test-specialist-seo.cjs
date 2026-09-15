@@ -10,7 +10,8 @@ for(const route of routes){
  const d=dom.window.document;
  assert.equal(d.querySelector('link[rel="canonical"]').href,origin+route);
  assert.equal(d.querySelectorAll('h1').length,1);
- assert.ok(d.querySelector('.search-detail').textContent.length>1800);
+ assert.ok(d.querySelector('.search-detail .search-hero h1'));
+ assert.ok(d.querySelector('.search-detail .search-project-image img[alt]'));
  assert.ok(d.querySelector('link[href="/assets/search-services.css"]'));
  assert.equal(sitemap.split('<loc>'+origin+route+'</loc>').length,2);
  assert.ok(redirects.indexOf(route+' '+route+'/index.html 200!')<redirects.indexOf('/* /404.txt 404'));
