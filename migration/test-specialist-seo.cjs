@@ -12,7 +12,7 @@ for(const route of routes){
  assert.equal(d.querySelectorAll('h1').length,1);
  assert.ok(d.querySelector('.search-detail .search-hero h1'));
  assert.ok(d.querySelector('.search-detail .search-project-image img[alt]'));
- assert.ok(d.querySelector('link[href="/assets/search-services.css"]'));
+ assert.ok(d.querySelector('link[href^="/assets/search-services.css?v="]'));
  assert.equal(sitemap.split('<loc>'+origin+route+'</loc>').length,2);
  assert.ok(redirects.indexOf(route+' '+route+'/index.html 200!')<redirects.indexOf('/* /404.txt 404'));
  assert.ok(redirects.includes(route+' '+route+'/index.html 200!'));
