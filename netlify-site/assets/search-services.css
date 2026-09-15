@@ -18,3 +18,5 @@
 .search-list{padding-left:24px;line-height:1.9}.search-hub{background:#f6f3eb}.project-case-link{padding:18px 0;grid-column:1/-1}
 .search-detail a:focus-visible,.search-hub a:focus-visible,.project-case-link a:focus-visible{outline:3px solid #315f8c;outline-offset:5px}
 @media(max-width:700px){.search-cards{grid-template-columns:1fr}.search-hero{padding-top:28px}.search-section{padding:30px 0}.search-link-row{flex-direction:column;gap:8px}.search-detail .button{max-width:100%;white-space:normal;text-align:center}.search-breadcrumb{margin-bottom:24px}}
+
+.work-page-project .project-case-link a{color:#c0d7eb}.work-page-project .project-case-link a:focus-visible{outline-color:#fff}
