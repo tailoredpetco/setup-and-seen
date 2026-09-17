@@ -425,7 +425,7 @@ function updateEnquirySelection(form, value) {
     'Business Launch': ['From £1,595', 'A clear project schedule is agreed with you'],
     'Set Up & Seen Complete': ['From £2,295', 'A staged project schedule is agreed with you'],
     'One-Day Website': ['£495', 'One booked working day once everything required is ready'],
-    'Managed Website Starter': ['£149 a month for 12 months (£1,788 total)', 'Hosting and care included during the plan']
+    'Managed Website Starter': ['£149 a month for 12 months (£1,788 total)', 'Hosting, technical care and one content update of up to 30 minutes a month included']
   };
   var old = form.querySelector('.selected-package');
   if (old) old.remove();
