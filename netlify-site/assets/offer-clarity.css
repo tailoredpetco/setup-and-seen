@@ -1,0 +1,51 @@
+/* Scoped additions using the existing approved site palette and display face. */
+.offer-card-note{font-size:13px!important;line-height:1.65;color:var(--muted,#626963);border-top:1px solid var(--stone,#d8dbd5);padding-top:16px;margin-top:20px}
+.offer-options .launch-choice-heading{max-width:780px}
+.offer-option{border-top:1px solid var(--stone,#d8dbd5);padding:0}
+.offer-option:last-child{border-bottom:1px solid var(--stone,#d8dbd5)}
+.offer-option>summary{display:flex;gap:20px;align-items:center;justify-content:space-between;padding:24px 4px;cursor:pointer;font-weight:600;list-style:none}
+.offer-option>summary::-webkit-details-marker{display:none}
+.offer-option>summary:after{content:'+';font-size:24px;font-weight:400;flex-shrink:0}
+.offer-option[open]>summary:after{content:'−'}
+.offer-option>summary span:first-child{margin-right:auto;font-size:20px}
+.offer-option>summary span:nth-child(2){font-size:13px;color:var(--muted,#626963)}
+.offer-option>summary:focus-visible,.offer-options a:focus-visible{outline:3px solid #315f8c;outline-offset:4px}
+.offer-option-content{padding:4px 4px 28px;max-width:900px}
+.offer-option-content h3,.offer-project h3,.offer-payment-grid h3{font-family:"Playfair Display",Georgia,serif;font-size:26px;line-height:1.25;margin:0 0 16px}
+.offer-option-content p{font-size:15px;line-height:1.75;margin:0 0 16px}
+.offer-option-content .text-link{display:inline-flex;margin:8px 24px 0 0;white-space:normal}
+.offer-delivery-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:none}
+.offer-comparison>h2,.offer-project>h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(30px,3.5vw,48px);font-weight:500;line-height:1.15;margin:16px 0 24px}
+.offer-comparison>p,.offer-project>p{max-width:800px;font-size:16px;line-height:1.8}
+.offer-payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+.offer-payment-grid>article{padding:32px;border:1px solid var(--stone,#d8dbd5);border-radius:4px}
+.offer-payment-grid>article:last-child{border-color:#315f8c;background:rgba(49,95,140,.045)}
+.offer-price{font-family:"Playfair Display",Georgia,serif;font-size:36px;margin:16px 0;line-height:1.2}
+.offer-price span{display:block;font-family:inherit;font-size:17px;margin-top:8px}
+.offer-total{font-size:14px;font-weight:600;line-height:1.7}
+.offer-payment-grid dl{margin:24px 0}
+.offer-payment-grid dl>div,.offer-responsibilities>div,.offer-case-decisions>div{border-top:1px solid var(--stone,#d8dbd5);padding:16px 0}
+.offer-payment-grid dt,.offer-responsibilities dt,.offer-case-decisions dt{font-weight:600;font-size:15px;margin-bottom:8px}
+.offer-payment-grid dd,.offer-responsibilities dd,.offer-case-decisions dd{margin:0;font-size:15px;line-height:1.75}
+.offer-explainer{margin-top:28px;padding:28px;border-left:3px solid #315f8c;background:rgba(49,95,140,.045)}
+.offer-explainer.section-pad{margin:0;border-left:0;padding:60px 7vw}
+.offer-explainer h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(30px,3.5vw,44px);line-height:1.2;max-width:850px;margin:14px 0 24px}
+.offer-explainer h3{font-family:"Playfair Display",Georgia,serif;font-size:26px;margin:0 0 16px}
+.offer-explainer p{max-width:950px;font-size:15px;line-height:1.8;margin:0 0 14px}
+.offer-responsibilities{margin:0}
+.offer-project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin:36px 0}
+.offer-project-grid p{font-size:15px;line-height:1.8}
+.package-jump-nav{flex-wrap:wrap}
+[data-project-package] .text-link{margin:0 0 22px;display:inline-flex}
+@media(max-width:700px){
+ .offer-option>summary{flex-wrap:wrap;gap:8px;padding:22px 0}
+ .offer-option>summary span:first-child{flex-basis:calc(100% - 32px);font-size:18px}
+ .offer-option>summary span:nth-child(2){order:3;flex-basis:100%}
+ .offer-option>summary:after{margin-left:auto}
+ .offer-payment-grid,.offer-delivery-grid,.offer-project-grid{grid-template-columns:1fr;gap:24px}
+ .offer-payment-grid>article{padding:24px 20px}
+ .offer-explainer{padding:22px 20px}
+ .offer-price{font-size:32px}
+ .offer-option-content .text-link{display:flex;margin-right:0}
+ .offer-explainer.section-pad{padding:40px 7vw}
+}
