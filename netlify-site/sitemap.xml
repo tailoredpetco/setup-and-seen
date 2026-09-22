@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://www.setupandseen.co.uk/</loc>
+<loc>https://www.setupandseen.co.uk/</loc><lastmod>2026-09-22</lastmod>
 <changefreq>monthly</changefreq>
 <priority>1</priority>
 </url>
@@ -11,7 +11,7 @@
 <priority>0.9</priority>
 </url>
 <url>
-<loc>https://www.setupandseen.co.uk/our-work</loc>
+<loc>https://www.setupandseen.co.uk/our-work</loc><lastmod>2026-09-22</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.9</priority>
 </url>
@@ -41,7 +41,7 @@
 <priority>0.8</priority>
 </url>
 <url>
-<loc>https://www.setupandseen.co.uk/services/website-design</loc>
+<loc>https://www.setupandseen.co.uk/services/website-design</loc><lastmod>2026-09-22</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -98,8 +98,8 @@
 <url><loc>https://www.setupandseen.co.uk/advice/small-business-website-cost-uk</loc><lastmod>2026-09-12</lastmod></url>
 <url><loc>https://www.setupandseen.co.uk/your-first-business-website</loc><lastmod>2026-09-12</lastmod></url>
 <url><loc>https://www.setupandseen.co.uk/services/vehicle-advert-management</loc><lastmod>2026-09-14</lastmod></url>
-  <url><loc>https://www.setupandseen.co.uk/services/garage-website-design</loc></url>
-  <url><loc>https://www.setupandseen.co.uk/services/pet-business-website-design</loc></url>
+  <url><loc>https://www.setupandseen.co.uk/services/garage-website-design</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://www.setupandseen.co.uk/services/pet-business-website-design</loc><lastmod>2026-09-22</lastmod></url>
   <url><loc>https://www.setupandseen.co.uk/our-work/clent-auto-repairs</loc></url>
   <url><loc>https://www.setupandseen.co.uk/our-work/clent-hills-campers-and-vans</loc></url>
   <url><loc>https://www.setupandseen.co.uk/our-work/the-tailored-pet-co</loc></url>

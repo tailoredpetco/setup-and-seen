@@ -1,5 +1,8 @@
-/pay /pay/index.html 200!
+# Only these known copies redirect; deploy previews retain their own hostname.
+https://setup-and-seen.netlify.app/* https://www.setupandseen.co.uk/:splat 301!
+https://main--setup-and-seen.netlify.app/* https://www.setupandseen.co.uk/:splat 301!
 https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
+/pay /pay/index.html 200!
 
 # Serve the live site's canonical, no-trailing-slash routes without changing
 # the browser URL. Netlify normalises trailing slashes before redirect rules,
@@ -34,12 +37,11 @@ https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
 /our-work/clent-hills-campers-and-vans /our-work/clent-hills-campers-and-vans/index.html 200!
 /our-work/the-tailored-pet-co /our-work/the-tailored-pet-co/index.html 200!
 
-# Match the current public site's known not-found routes.
-/index.html /404.txt 404!
-/services /404.txt 404!
-/faqs /404.txt 404!
-/* /404.txt 404
-
+# Keep genuine missing URLs as 404s, with useful navigation back into the site.
+/index.html /404.html 404!
+/services /404.html 404!
+/faqs /404.html 404!
+/* /404.html 404
 
 
 

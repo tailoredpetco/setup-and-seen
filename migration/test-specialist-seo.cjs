@@ -14,7 +14,7 @@ for(const route of routes){
  assert.ok(d.querySelector('.search-detail .search-project-image img[alt]'));
  assert.ok(d.querySelector('link[href^="/assets/search-services.css?v="]'));
  assert.equal(sitemap.split('<loc>'+origin+route+'</loc>').length,2);
- assert.ok(redirects.indexOf(route+' '+route+'/index.html 200!')<redirects.indexOf('/* /404.txt 404'));
+ assert.ok(redirects.indexOf(route+' '+route+'/index.html 200!')<redirects.indexOf('/* /404.html 404'));
  assert.ok(redirects.includes(route+' '+route+'/index.html 200!'));
  const graphs=[...d.querySelectorAll('script[type="application/ld+json"]')].map(s=>JSON.parse(s.textContent));
  const graph=graphs.find(g=>g['@graph'])['@graph'];
