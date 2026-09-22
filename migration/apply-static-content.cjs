@@ -106,8 +106,10 @@ for (const file of files(root).filter(f => f.endsWith('.html') && !f.endsWith('/
   // Keep the current wordmark and decorative brand lettering unchanged.
   document.querySelectorAll('.wordmark strong').forEach(e=>e.style.fontFamily='Fraunces, Georgia, serif');
   if (!document.querySelector('link[data-playfair-preload]')) {
-    const font=document.createElement('link');font.rel='preload';font.href='/fonts/playfair-display-latin-normal.woff2';font.as='font';font.type='font/woff2';font.crossOrigin='anonymous';font.setAttribute('data-playfair-preload','');document.head.appendChild(font);
+    const font=document.createElement('link');font.rel='preload';font.href='/fonts/playfair-display-latin-normal.woff2';font.setAttribute('as','font');font.type='font/woff2';font.crossOrigin='anonymous';font.setAttribute('data-playfair-preload','');document.head.appendChild(font);
   }
+  // Set the HTML attribute explicitly: JSDOM's `as` property is not reflected.
+  document.querySelectorAll('link[data-playfair-preload]').forEach(font => font.setAttribute('as','font'));
   document.documentElement.setAttribute('data-static-content','2026-09-13');
   const result=dom.serialize();
   if(result!==old) {fs.writeFileSync(file,result);changed++;}

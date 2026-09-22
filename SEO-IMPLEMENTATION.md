@@ -28,3 +28,23 @@ Target phrases are initial editorial choices, not measured keyword-volume or ran
 6. Compare non-branded impressions, clicks, relevant queries and enquiries over appropriate periods. New-site data may be sparse.
 
 No ranking position, indexing time or enquiry volume is guaranteed. No paid subscription or advertising spend is part of this change.
+
+## Follow-through review, 22 September 2026
+
+Prepared on `improvement/seo-follow-through-2026-09-22`; production publication requires Maria's approval.
+
+- Add permanent, path-preserving redirects for the two known duplicate Netlify hostnames before all path rewrites, including `/pay`. Other branch/deploy-preview hostnames are not matched. Keep the established canonical paths and genuine 404 statuses.
+- Replace the plain error page with a branded, noindex 404 containing useful service, package and contact links.
+- Correct the Tailored Pet Co image's intrinsic dimensions to 1400 × 740 on home and portfolio, retaining the existing CSS frames.
+- Make the homepage's Worcestershire focus explicit and explain working directly with Maria. Keep the main design page focused on UK-wide small-business delivery, a clear process and links to the existing individual case studies.
+- Add distinct grooming and automotive requirements to the existing sector pages, with separately scoped booking/stock features and no invented project results.
+- Record actual modification dates for the five changed sitemap pages.
+- Fix the Playfair font preload's missing `as="font"` attribute. Browser inspection found the old preload was ignored. Set the HTML attribute explicitly in the maintenance generator and protect it with a regression assertion; preserve fonts and styles.
+
+The September case studies already include design decisions, scope and relevant package links. Those claims have not been expanded. Prices, testimonials, payment links, form fields, consent behaviour and competition dates are unchanged. The competition remains open until its existing September closing date.
+
+Checks: `npm run build:static`, `npm test`, `node migration/test-specialist-seo.cjs` and `node migration/test-vehicle-advert-service.cjs`. Form tests use local network mocks; no live enquiry or competition submission was made. Browser layout and menu checks cover home, design, garage, pet, portfolio and error pages at 1440, 390 and 320 pixels. These are local implementation checks, not Google field-performance results.
+
+Before production: review the Netlify deploy preview, then after an approved merge verify the two hostname redirects on real nested URLs and query strings, plus the branded 404 response. A preview hostname cannot prove the production-host redirect behaviour. Do not redirect arbitrary unknown URLs to the homepage or add broad preview-host redirect rules.
+
+Still account-dependent: Search Console indexing/canonical/UK-query baseline; Business Profile verification, category, real service area and address privacy; CrUX/PageSpeed performance evidence; GA4 and qualified-enquiry measurement. No such account changes, review requests or directory submissions were made. Query overlap alone is not evidence to merge pages, and no ranking or lead increase is claimed.
