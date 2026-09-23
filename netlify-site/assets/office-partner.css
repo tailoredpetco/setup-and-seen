@@ -1,0 +1,48 @@
+/* The Office Partner project: scoped additions to the existing brand design. */
+.office-launch{display:grid;grid-template-columns:1.05fr 1fr;gap:6%;align-items:center;padding:64px 7vw;background:#e7eff2;border-block:1px solid #ccd9df}
+.office-launch h2{font:500 clamp(30px,3.3vw,49px)/1.14 "Playfair Display",Georgia,serif;letter-spacing:-.035em;margin:16px 0 22px}
+.office-launch h2 em,.office-case h1 em{color:#315f8c;font-weight:500}
+.office-launch p{line-height:1.7;max-width:600px}
+.office-launch .office-launch-subtitle{font-weight:600;margin-bottom:14px}
+.office-launch .office-deliverables{font-size:12px;margin:22px 0;letter-spacing:.035em}
+.office-launch-image{display:block;background:#f8f6ef;padding:14px;border:1px solid #b6c6ce;box-shadow:0 16px 36px #142d4012}
+.office-launch-image img{width:100%;height:auto;display:block}
+.office-portfolio-grid .portfolio-card{grid-column:span 6;margin-top:0}
+.office-portfolio-card{background:#dbe9e7}
+.office-work-image img,.office-portfolio-card .portfolio-image img{object-position:top}
+.office-case{max-width:1240px;margin:auto;padding:0 clamp(22px,6vw,74px) 80px;color:#202522}
+.office-case-hero{padding:44px 0 0}
+.office-case h1{font:500 clamp(38px,5.4vw,72px)/1.1 "Playfair Display",Georgia,serif;letter-spacing:-.045em;margin:18px 0 26px;max-width:1020px}
+.office-case-subtitle{font-size:clamp(18px,2vw,23px);line-height:1.55;margin-bottom:20px}
+.office-case-intro{font-size:17px;line-height:1.85;max-width:800px}
+.office-case-actions{display:flex;align-items:center;flex-wrap:wrap;gap:20px 28px;margin:30px 0}
+.office-text-link,.office-related a{color:#315f8c;text-decoration:underline;text-underline-offset:5px;line-height:1.65}
+.office-scope{display:flex;gap:18px 32px;flex-wrap:wrap;list-style:none;padding:24px 0;margin:32px 0 0;border-block:1px solid #d5d9d5;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.office-figure{margin:0;min-width:0}
+.office-figure img{width:100%;height:auto;display:block;border:1px solid #d5d9d5}
+.office-figure figcaption,.office-logo-panel figcaption{font-size:12px;line-height:1.6;color:#515e62;padding-top:12px}
+.office-hero-image{margin:38px 0 0}
+.office-hero-image img{background:#f8f6ef;box-shadow:0 18px 36px #142d400c}
+.office-story-section{padding:52px 0;border-bottom:1px solid #d5d9d5}
+.office-story-section:has(figure){display:grid;grid-template-columns:1fr 1fr;gap:7%;align-items:center}
+.office-story-section h2,.office-feedback h2,.office-case-cta h2{font:500 clamp(27px,3.2vw,43px)/1.18 "Playfair Display",Georgia,serif;letter-spacing:-.03em;margin:14px 0 24px}
+.office-story-section p:not(.eyebrow),.office-case-cta>p:not(.eyebrow){max-width:790px;font-size:17px;line-height:1.85}
+.office-logo-panel{margin:0;padding:34px 24px;background:#fff;border:1px solid #d5d9d5}
+.office-logo-panel img{display:block;width:100%;height:auto}
+.office-logo-panel figcaption{padding-top:30px}
+.office-social-image{max-width:390px;justify-self:center}
+.office-feedback{padding:54px 0}
+.office-quotes{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:start}
+.office-quotes blockquote{margin:0;background:#e7eff2;padding:32px;border-top:3px solid #315f8c}
+.office-quotes blockquote>p:not(.office-quote-label){font:400 clamp(20px,2vw,25px)/1.55 "Playfair Display",Georgia,serif;margin:18px 0 24px}
+.office-quote-label{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#315f8c;font-weight:700}
+.office-quotes cite{font-size:13px;font-style:normal;font-weight:600}
+.office-case-cta{padding:44px;background:#202522;color:#f6f3eb}
+.office-case-cta .eyebrow{color:#bdd2e3}
+.office-case-cta .button{margin-top:26px}
+.office-related{display:flex;flex-wrap:wrap;gap:12px 25px;margin-top:32px;padding-top:25px;border-top:1px solid #ffffff30;font-size:13px}
+.office-related a{color:#c4dced}
+.office-case a:focus-visible,.office-launch a:focus-visible{outline:3px solid #315f8c;outline-offset:5px}
+.office-case-cta a:focus-visible{outline-color:#c4dced}
+@media(max-width:800px){.office-launch{grid-template-columns:1fr;gap:32px;padding:44px 6vw}.office-launch-image{max-width:620px}.office-story-section:has(figure){grid-template-columns:1fr;gap:28px}.office-social-image{max-width:440px;width:100%}.office-quotes{grid-template-columns:1fr}.office-case-cta{padding:30px 24px}}
+@media(max-width:600px){.office-case-hero{padding-top:28px}.office-case h1{font-size:clamp(34px,8.8vw,48px)}.office-case .button{max-width:100%;white-space:normal;text-align:center;line-height:1.5}.office-scope{gap:14px 24px;font-size:10px}.office-story-section{padding:36px 0}.office-quotes blockquote{padding:24px}.office-case-cta{margin-inline:-8px}.office-portfolio-grid .portfolio-card{margin-bottom:24px}}
