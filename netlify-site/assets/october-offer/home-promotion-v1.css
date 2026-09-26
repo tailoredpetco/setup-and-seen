@@ -1,0 +1,100 @@
+/* October 2026 campaign links on the home and package pages. */
+.october-offer-banner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px 36px;
+  padding: 20px 6vw;
+  background: #315f8c;
+  color: #f7f3ec;
+  font-family: "DM Sans", sans-serif;
+}
+.october-offer-banner .october-offer-label {
+  margin: 0 0 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.october-offer-banner .october-offer-title {
+  display: block;
+  margin: 0 0 5px;
+  font-size: clamp(19px, 2vw, 24px);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.october-offer-banner p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.october-offer-banner .october-offer-conditions {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.october-offer-banner .october-offer-conditions a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.october-offer-banner > .october-offer-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid #f7f3ec;
+  background: #f7f3ec;
+  color: #315f8c;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+}
+.october-offer-banner > .october-offer-button:hover { background: #fff; }
+.october-offer-banner a:focus-visible {
+  outline: 3px solid #f3c969;
+  outline-offset: 5px;
+}
+.october-package-note {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px 32px;
+  padding: 24px 28px;
+  margin: 0 0 32px;
+  border: 1px solid #315f8c;
+  border-left-width: 4px;
+  background: #f7f3ec;
+  color: #202522;
+}
+.october-package-note .eyebrow { margin: 0 0 8px; color: #315f8c; }
+.october-package-note h2,
+.october-package-note h3 {
+  margin: 0 0 10px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(23px, 2.4vw, 30px);
+  line-height: 1.3;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+}
+.october-package-note p { margin: 0 0 8px; font-size: 14px; line-height: 1.65; }
+.october-package-note p:last-child { margin-bottom: 0; }
+.october-package-note .october-package-scope { color: #315f8c; }
+.october-package-note > .button { white-space: normal; text-align: center; }
+.october-package-note a:focus-visible { outline: 3px solid #315f8c; outline-offset: 5px; }
+.october-package-note--page { margin: 0 6vw 44px; }
+@media (max-width: 760px) {
+  .october-offer-banner,
+  .october-package-note { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .october-offer-banner > .october-offer-button,
+  .october-package-note > .button { justify-self: start; }
+  .october-package-note { padding: 22px; }
+}
+@media (max-width: 400px) {
+  .october-offer-banner { padding: 18px 6vw; }
+  .october-offer-banner p { font-size: 13px; }
+  .october-offer-banner .october-offer-conditions { font-size: 12px; }
+}
