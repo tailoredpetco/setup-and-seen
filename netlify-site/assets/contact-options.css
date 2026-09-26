@@ -1,0 +1,23 @@
+/* Four clear contact routes, using the site's existing brand styles. */
+.contact-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:26px 0}
+.contact-choice{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:21px 18px;border:1px solid #d5d9d6;border-radius:10px;background:#fff;color:#202522;text-decoration:none;transition:border-color .15s,box-shadow .15s}
+.contact-choice:hover{border-color:#315f8c;box-shadow:0 3px 12px #2025220b}
+.contact-choice:focus-visible{outline:3px solid #315f8c;outline-offset:4px}
+.contact-choice svg{width:24px;height:24px;color:#315f8c}
+.contact-choice strong{font-size:17px;line-height:1.3}
+.contact-choice>span{font-size:14px;line-height:1.6;color:#515c56}
+.contact-choice .contact-choice-action{margin-top:auto;padding-top:3px;color:#315f8c;font-size:13px;font-weight:700}
+.contact-quick-title{font-family:"Playfair Display",Georgia,serif;font-size:28px;margin:0 0 18px}
+.call-request-page{background:#f7f3ec}
+.call-request-layout{max-width:1200px;margin:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:8%;padding:70px 6vw 90px;scroll-margin-top:100px}
+.call-request-copy h1{font-size:clamp(40px,4.6vw,62px);line-height:1.08;letter-spacing:-.035em;margin:15px 0 24px}
+.call-request-copy>p:not(.eyebrow){font-size:17px;line-height:1.75;color:#515c56}
+.call-request-copy .back-to-contact{display:inline-block;font-size:14px;margin-bottom:32px;color:#315f8c}
+.call-request-note{border-left:3px solid #315f8c;padding:3px 0 3px 20px;margin:30px 0;font-size:15px;line-height:1.7;color:#515c56}
+.call-request-note strong{display:block;color:#202522;margin-bottom:6px}
+.call-request-form{padding:30px;background:white;border:1px solid #d5d9d6;border-radius:12px;align-self:start}
+.call-request-form .call-field-help{display:block;margin-top:6px;font-size:13px;font-weight:400;line-height:1.5;letter-spacing:normal;text-transform:none;color:#515c56}
+.call-request-form .form-note{display:block;margin-top:14px;line-height:1.6}
+.call-request-form input,.call-request-form select,.call-request-form textarea{font-size:16px}
+@media(max-width:950px){.call-request-layout{grid-template-columns:1fr;gap:28px;padding-top:38px}.call-request-copy{max-width:630px}.call-request-copy .back-to-contact{margin-bottom:20px}}
+@media(max-width:480px){.contact-choice-grid{grid-template-columns:1fr}.contact-choice{padding:19px}.call-request-form{padding:23px 18px}.call-request-layout{padding-left:5vw;padding-right:5vw}.call-request-form .button{font-size:14px;width:100%}}

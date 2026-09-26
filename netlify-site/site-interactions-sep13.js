@@ -266,6 +266,11 @@ function showEnquiryConfirmation(form) {
       '<button class="text-button" type="button" data-send-another-enquiry>Send another enquiry</button>' +
       "</div>";
 
+    if (form.hasAttribute('data-call-request')) {
+      form.querySelector('.enquiry-confirmation .eyebrow').textContent = 'Call request received';
+      form.querySelector('.enquiry-confirmation h3').textContent = 'Thank you. We will email you to agree a time. Your call is confirmed once we have agreed the details with you.';
+      form.querySelector('[data-send-another-enquiry]').textContent = 'Send another call request';
+    }
     var confirmation = form.querySelector(".enquiry-confirmation");
     confirmation.focus();
     window.history.replaceState({}, "", window.location.pathname + "#contact");
@@ -419,6 +424,16 @@ function updateEnquirySelection(form, value) {
   if (!select) return;
   if (value === 'Set Up & Seen') value = 'Set Up & Seen Complete';
   if (value && Array.prototype.some.call(select.options, function (option) { return option.value === value; })) select.value = value;
+  if (form.hasAttribute('data-call-request')) {
+    var telephone = select.value === 'Telephone call request';
+    var phone = form.querySelector('input[name="phone"]');
+    phone.required = telephone;
+    form.querySelector('[data-phone-label]').textContent = telephone ? 'Telephone number' : 'Telephone number (optional)';
+    var callSubmit = form.querySelector('button[type="submit"]');
+    callSubmit.innerHTML = 'Request ' + (telephone ? 'a telephone call' : 'a video call') + ' <span aria-hidden="true">↗</span>';
+    delete callSubmit.dataset.originalLabel;
+    return;
+  }
   var packages = {
     'Website Starter': ['From £495', 'Usually completed in 2–4 weeks'],
     'Express Website Set Up': ['£999', 'Live within five working days once everything required is ready'],
