@@ -42,6 +42,12 @@ runtime = runtime.replace('    if (document.body.getAttribute("data-static-offer
 runtime = runtime.replace('<strong>Cookie choices</strong><p>We use essential cookies to make the website work. With your permission, we also use Google Analytics to understand how the website is used. Read our <a href="/privacy">privacy and cookie notice</a>.</p>', '<strong>Cookies on Set Up &amp; Seen</strong><p>We use privacy-limited Google Analytics to understand visits. Analytics cookies are optional and used only if you agree. <a href="/privacy">Privacy &amp; cookies</a>.</p>');
 runtime = runtime.replace('>Essential only</button>', '>Reject analytics</button>');
 runtime = runtime.replace('      form.innerHTML = initialMarkup;', '      form.innerHTML = initialMarkup;\n      updateEnquirySelection(form, "");');
+runtime = runtime.replace('    var confirmation = form.querySelector(".enquiry-confirmation");', `    if (form.hasAttribute('data-call-request')) {
+      form.querySelector('.enquiry-confirmation .eyebrow').textContent = 'Call request received';
+      form.querySelector('.enquiry-confirmation h3').textContent = 'Thank you. We will email you to agree a time. Your call is confirmed once we have agreed the details with you.';
+      form.querySelector('[data-send-another-enquiry]').textContent = 'Send another call request';
+    }
+    var confirmation = form.querySelector(".enquiry-confirmation");`);
 // A newly opened banner must be measured after its text has wrapped on mobile.
 runtime = runtime.replace('    updateCookieOffset();\n', '    updateCookieOffset();\n    if (document.fonts) document.fonts.ready.then(updateCookieOffset);\n');
 const attribution = functions.addAcquisitionLinksAndNotice;

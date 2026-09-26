@@ -13,6 +13,10 @@ request preview to check changes before merging.
   styling. Keep the existing site colour palette and DM Sans body text.
 - `migration/static-interactions.js` contains the native menu and enquiry
   selection behaviour. `migration/static-polish.css` contains shared refinements.
+- `migration/apply-contact-options.cjs` runs last and maintains the four contact
+  links and `/book-a-call` page. Call requests reuse the `enquiry` form and are
+  confirmed manually by email; this is not an availability calendar. Keep the
+  published questionnaire URL and business inbox in that source up to date.
 - After changing these maintenance sources, run `npm ci`, `npm run build:static`
   and `npm test`, then commit both the sources and generated site files.
 - `apply-static-content.cjs` saves the previously approved navigation, package

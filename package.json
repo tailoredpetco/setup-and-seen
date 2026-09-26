@@ -2,8 +2,8 @@
   "name": "setup-and-seen-maintenance",
   "private": true,
   "scripts": {
-    "build:static": "node migration/apply-static-content.cjs && node migration/apply-offer-clarity.cjs",
-    "test": "node migration/test-first-website.cjs && node migration/test-static-content.cjs"
+    "build:static": "node migration/apply-static-content.cjs && node migration/apply-offer-clarity.cjs && node migration/apply-contact-options.cjs",
+    "test": "node migration/test-first-website.cjs && node migration/test-static-content.cjs && node migration/test-contact-options.cjs"
   },
   "devDependencies": {
     "acorn": "8.18.0",
