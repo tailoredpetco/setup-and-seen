@@ -16,7 +16,7 @@
 .call-request-note{border-left:3px solid #315f8c;padding:3px 0 3px 20px;margin:30px 0;font-size:15px;line-height:1.7;color:#515c56}
 .call-request-note strong{display:block;color:#202522;margin-bottom:6px}
 .call-request-form{padding:30px;background:white;border:1px solid #d5d9d6;border-radius:12px;align-self:start}
-.call-request-form .call-field-help{font-size:13px;font-weight:400;line-height:1.5;color:#515c56}
+.call-request-form .call-field-help{display:block;margin-top:6px;font-size:13px;font-weight:400;line-height:1.5;letter-spacing:normal;text-transform:none;color:#515c56}
 .call-request-form .form-note{display:block;margin-top:14px;line-height:1.6}
 .call-request-form input,.call-request-form select,.call-request-form textarea{font-size:16px}
 @media(max-width:950px){.call-request-layout{grid-template-columns:1fr;gap:28px;padding-top:38px}.call-request-copy{max-width:630px}.call-request-copy .back-to-contact{margin-bottom:20px}}
