@@ -26,16 +26,6 @@
 <priority>0.8</priority>
 </url>
 <url>
-<loc>https://www.setupandseen.co.uk/competition</loc>
-<changefreq>weekly</changefreq>
-<priority>1</priority>
-</url>
-<url>
-<loc>https://www.setupandseen.co.uk/competition/terms</loc>
-<changefreq>monthly</changefreq>
-<priority>0.5</priority>
-</url>
-<url>
 <loc>https://www.setupandseen.co.uk/services/website-audit</loc>
 <changefreq>monthly</changefreq>
 <priority>0.8</priority>
