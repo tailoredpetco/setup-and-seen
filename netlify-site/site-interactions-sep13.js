@@ -160,9 +160,10 @@ function acquisitionContext() {
     var campaign = params.get("utm_source") === "researcher" && params.get("utm_medium") === "email" && params.get("utm_campaign") === "first_website";
     var metaCampaign = params.get("utm_source") === "facebook" && params.get("utm_medium") === "paid_social" && params.get("utm_campaign") === "october_website_petcare";
     var creative = metaCampaign && ["professional_feed", "professional_story"].indexOf(params.get("utm_content")) !== -1 ? params.get("utm_content") : "";
+    var variant = metaCampaign && ["pet_care", "office_partner", "campers_vans"].indexOf(params.get("utm_term")) !== -1 ? params.get("utm_term") : "";
     var suggestion = params.get("finder") || "";
     if (["starter", "managed", "oneday", "express", "launch", "complete", "bespoke"].indexOf(suggestion) === -1) suggestion = "";
-    return {campaign: campaign || metaCampaign, suggestion: suggestion, source: campaign ? "researcher" : metaCampaign ? "facebook" : "", medium: campaign ? "email" : metaCampaign ? "paid_social" : "", name: campaign ? "first_website" : metaCampaign ? "october_website_petcare" : "", reference: campaign ? "first_website_email" : metaCampaign ? "october_website_petcare" : "unattributed", creative: creative};
+    return {campaign: campaign || metaCampaign, suggestion: suggestion, source: campaign ? "researcher" : metaCampaign ? "facebook" : "", medium: campaign ? "email" : metaCampaign ? "paid_social" : "", name: campaign ? "first_website" : metaCampaign ? "october_website_petcare" : "", reference: campaign ? "first_website_email" : metaCampaign ? "october_website_petcare" : "unattributed", creative: creative, variant: variant};
   }
 
 function withAcquisitionContext(destination) {
@@ -173,6 +174,7 @@ function withAcquisitionContext(destination) {
       destination.searchParams.set("utm_medium", context.medium);
       destination.searchParams.set("utm_campaign", context.name);
       if (context.creative) destination.searchParams.set("utm_content", context.creative);
+      if (context.variant) destination.searchParams.set("utm_term", context.variant);
     }
     if (context.suggestion && !destination.searchParams.has("finder")) destination.searchParams.set("finder", context.suggestion);
     return destination;
@@ -217,6 +219,7 @@ function encode(form, formName) {
       var notes = [];
       if (context.campaign) notes.push("Campaign reference: " + context.source + " / " + context.medium + " / " + context.name);
       if (context.creative) notes.push("Ad creative: " + context.creative);
+      if (context.variant) notes.push("Ad portfolio: " + context.variant);
       if (context.suggestion) notes.push("Package finder suggestion: " + context.suggestion);
       if (notes.length) data.set("message", String(data.get("message") || "") + "\n\n" + notes.join("\n"));
     }
@@ -266,7 +269,8 @@ function showEnquiryConfirmation(form) {
       '<div class="enquiry-confirmation" role="status" tabindex="-1">' +
       '<span aria-hidden="true">✓</span>' +
       '<p class="eyebrow">Enquiry received</p>' +
-      '<h3>Thank you. We have received your enquiry and will be in touch shortly.</h3>' +
+      '<h3>Thank you. We have received your enquiry.</h3>' +
+      '<p>We will email you to discuss what you need and confirm the scope, full costs and timescale. No payment has been taken.</p>' +
       '<button class="text-button" type="button" data-send-another-enquiry>Send another enquiry</button>' +
       "</div>";
 
@@ -318,7 +322,7 @@ async function handleEnquiry(event, form) {
       try {
         if (window.localStorage.getItem("setup-and-seen-cookie-consent") === "accepted" && typeof window.gtag === "function") {
           var context = acquisitionContext();
-          window.gtag("event", "generate_lead", {form_name: "enquiry", campaign_reference: context.reference, ad_creative: context.creative || "none", package_suggestion: context.suggestion || "none"});
+          window.gtag("event", "generate_lead", {form_name: "enquiry", campaign_reference: context.reference, ad_creative: context.creative || "none", ad_portfolio: context.variant || "none", package_suggestion: context.suggestion || "none"});
         }
       } catch (analyticsError) { /* Analytics must never block confirmation. */ }
       showEnquiryConfirmation(form);
@@ -369,17 +373,11 @@ function addAcquisitionContextNotice() {
       if (!raw || raw.charAt(0) === "#" || link.hasAttribute("download")) return;
       var destination = new URL(link.href, window.location.href);
       if (destination.origin !== window.location.origin) return;
+      if (context.name === "october_website_petcare" && destination.pathname === "/" && destination.hash === "#contact") destination.pathname = "/website-offer";
       destination = withAcquisitionContext(destination);
       link.href = destination.pathname + destination.search + destination.hash;
     });
-    var form = document.querySelector('form[name="enquiry"]');
-    if (form && !form.querySelector("[data-enquiry-context-note]")) {
-      var note = document.createElement("small");
-      note.setAttribute("data-enquiry-context-note", "true");
-      note.className = "form-note";
-      note.textContent = "Any recognised campaign reference or package suggestion in this link is included with your enquiry.";
-      form.appendChild(note);
-    }
+
   
 }
 
