@@ -1,0 +1,4 @@
+/* Approved Set Up & Seen identity, shared by the campaign and website. */
+.wordmark .approved-brand-logo{display:block;width:290px;max-width:100%;height:auto;object-fit:contain}.wordmark{flex:0 1 290px;min-width:170px}h1,h2,h3{font-variant-ligatures:none} @media(max-width:600px){.wordmark .approved-brand-logo{width:225px}.wordmark{flex-basis:225px;max-width:72%}}
+
+.footer-mark{background:#f7f3ec;padding:14px;align-self:start}
