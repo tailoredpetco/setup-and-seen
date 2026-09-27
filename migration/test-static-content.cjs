@@ -126,6 +126,45 @@ function interactive(route,search='') {
  assert.equal(events.filter(e=>e[1]==='generate_lead').length,1);
  w.testObservers.forEach(o=>o.disconnect());dom.window.close();
 
+ // Exercise the actual offer form, preserving the Netlify field contract and
+ // consent boundary. Only allowlisted, non-personal campaign labels are copied.
+ for (const scenario of [
+  {consent:'accepted',ok:true,tag:'professional_feed',lead:true},
+  {consent:'rejected',ok:true,tag:'professional_story',lead:false},
+  {consent:'accepted',ok:false,tag:'professional_feed',lead:false},
+  {consent:'accepted',ok:true,tag:'someone@example.com',lead:true}
+ ]) {
+  const offer=interactive('/website-offer','?utm_source=facebook&utm_medium=paid_social&utm_campaign=october_website_petcare&utm_content='+encodeURIComponent(scenario.tag)+'&email=private@example.com&fbclid=private-click-id');
+  const ow=offer.window,od=ow.document,of=od.querySelector('form[name="enquiry"]');
+  assert.ok(od.querySelector('.cookie-settings'));
+  od.querySelector(scenario.consent==='accepted'?'.cookie-accept':'.cookie-reject').click();
+  assert.equal(ow.localStorage.getItem('setup-and-seen-cookie-consent'),scenario.consent);
+  assert.ok(!od.querySelector('.cookie-banner'));
+  const calls=[],analytics=[];
+  ow.fetch=async(url,options)=>{calls.push({url,options});return {ok:scenario.ok};};
+  ow.gtag=(...args)=>analytics.push(args);
+  of.elements.name.value='Campaign QA';of.elements.email.value='qa@example.invalid';
+  of.elements.message.value='I run a pet-care business.';of.elements['privacy-consent'].checked=true;
+  assert.ok(of.checkValidity());
+  const portfolioLink=new URL(od.querySelector('.campaign-work-card').href);
+  assert.equal(portfolioLink.searchParams.get('utm_campaign'),'october_website_petcare');
+  assert.ok(!portfolioLink.searchParams.has('email'));assert.ok(!portfolioLink.searchParams.has('fbclid'));
+  of.dispatchEvent(new ow.Event('submit',{bubbles:true,cancelable:true}));
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(calls.length,1);assert.equal(calls[0].url,'/');
+  const payload=new URLSearchParams(calls[0].options.body);
+  assert.equal(payload.get('form-name'),'enquiry');
+  assert.match(payload.get('service'),/October website offer: £199/);
+  assert.match(payload.get('message'),/^I run a pet-care business\.\n\nCampaign reference: facebook \/ paid_social \/ october_website_petcare/);
+  assert.ok(!payload.get('message').includes('@'));assert.ok(!payload.get('message').includes('private-click-id'));
+  const leads=analytics.filter(e=>e[1]==='generate_lead');
+  assert.equal(leads.length,scenario.lead?1:0);
+  if(scenario.lead){assert.equal(leads[0][2].campaign_reference,'october_website_petcare');assert.equal(leads[0][2].ad_creative,scenario.tag.includes('@')?'none':scenario.tag);}
+  assert.equal(!!of.querySelector('.enquiry-confirmation'),scenario.ok);
+  if(!scenario.ok){assert.ok(of.querySelector('[role="alert"]'));assert.equal(of.querySelector('button[type="submit"]').disabled,false);}
+  ow.testObservers.forEach(o=>o.disconnect());offer.window.close();
+ }
+
  const drawDom=interactive('/competition');
  const dw=drawDom.window,draw=dw.document.querySelector('.draw-form');
  const drawCalls=[];

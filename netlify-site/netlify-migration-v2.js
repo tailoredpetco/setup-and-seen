@@ -537,18 +537,21 @@
   function acquisitionContext() {
     var params = new URLSearchParams(window.location.search);
     var campaign = params.get("utm_source") === "researcher" && params.get("utm_medium") === "email" && params.get("utm_campaign") === "first_website";
+    var metaCampaign = params.get("utm_source") === "facebook" && params.get("utm_medium") === "paid_social" && params.get("utm_campaign") === "october_website_petcare";
+    var creative = metaCampaign && ["professional_feed", "professional_story"].indexOf(params.get("utm_content")) !== -1 ? params.get("utm_content") : "";
     var suggestion = params.get("finder") || "";
     if (["starter", "managed", "oneday", "express", "launch", "complete", "bespoke"].indexOf(suggestion) === -1) suggestion = "";
-    return {campaign: campaign, suggestion: suggestion};
+    return {campaign: campaign || metaCampaign, suggestion: suggestion, source: campaign ? "researcher" : metaCampaign ? "facebook" : "", medium: campaign ? "email" : metaCampaign ? "paid_social" : "", name: campaign ? "first_website" : metaCampaign ? "october_website_petcare" : "", reference: campaign ? "first_website_email" : metaCampaign ? "october_website_petcare" : "unattributed", creative: creative};
   }
 
   function withAcquisitionContext(destination) {
     if (destination.origin !== window.location.origin) return destination;
     var context = acquisitionContext();
     if (context.campaign && !destination.searchParams.has("utm_source")) {
-      destination.searchParams.set("utm_source", "researcher");
-      destination.searchParams.set("utm_medium", "email");
-      destination.searchParams.set("utm_campaign", "first_website");
+      destination.searchParams.set("utm_source", context.source);
+      destination.searchParams.set("utm_medium", context.medium);
+      destination.searchParams.set("utm_campaign", context.name);
+      if (context.creative) destination.searchParams.set("utm_content", context.creative);
     }
     if (context.suggestion && !destination.searchParams.has("finder")) destination.searchParams.set("finder", context.suggestion);
     return destination;
@@ -621,7 +624,7 @@
       var note = document.createElement("small");
       note.setAttribute("data-enquiry-context-note", "true");
       note.className = "form-note";
-      note.textContent = "Your package suggestion and any campaign reference in this link are included with your enquiry.";
+      note.textContent = "Any recognised campaign reference or package suggestion in this link is included with your enquiry.";
       form.appendChild(note);
     }
   }
@@ -663,7 +666,8 @@
     if (formName === "enquiry") {
       var context = acquisitionContext();
       var notes = [];
-      if (context.campaign) notes.push("Campaign reference: researcher / email / first_website");
+      if (context.campaign) notes.push("Campaign reference: " + context.source + " / " + context.medium + " / " + context.name);
+      if (context.creative) notes.push("Ad creative: " + context.creative);
       if (context.suggestion) notes.push("Package finder suggestion: " + context.suggestion);
       if (notes.length) data.set("message", String(data.get("message") || "") + "\n\n" + notes.join("\n"));
     }
@@ -764,7 +768,7 @@
       try {
         if (window.localStorage.getItem("setup-and-seen-cookie-consent") === "accepted" && typeof window.gtag === "function") {
           var context = acquisitionContext();
-          window.gtag("event", "generate_lead", {form_name: "enquiry", campaign_reference: context.campaign ? "first_website_email" : "unattributed", package_suggestion: context.suggestion || "none"});
+          window.gtag("event", "generate_lead", {form_name: "enquiry", campaign_reference: context.reference, ad_creative: context.creative || "none", package_suggestion: context.suggestion || "none"});
         }
       } catch (analyticsError) { /* Analytics must never block confirmation. */ }
       showEnquiryConfirmation(form);
