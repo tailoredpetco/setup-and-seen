@@ -136,7 +136,10 @@ function interactive(route,search='') {
  ]) {
   const offer=interactive('/website-offer','?utm_source=facebook&utm_medium=paid_social&utm_campaign=october_website_petcare&utm_content='+encodeURIComponent(scenario.tag)+'&email=private@example.com&fbclid=private-click-id');
   const ow=offer.window,od=ow.document,of=od.querySelector('form[name="enquiry"]');
-  ow.localStorage.setItem('setup-and-seen-cookie-consent',scenario.consent);
+  assert.ok(od.querySelector('.cookie-settings'));
+  od.querySelector(scenario.consent==='accepted'?'.cookie-accept':'.cookie-reject').click();
+  assert.equal(ow.localStorage.getItem('setup-and-seen-cookie-consent'),scenario.consent);
+  assert.ok(!od.querySelector('.cookie-banner'));
   const calls=[],analytics=[];
   ow.fetch=async(url,options)=>{calls.push({url,options});return {ok:scenario.ok};};
   ow.gtag=(...args)=>analytics.push(args);
