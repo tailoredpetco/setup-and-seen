@@ -30,7 +30,7 @@ for(const e of [...d.querySelectorAll('.service-card')].slice(3))e.remove();
 text('#services .eyebrow','More ways I can help');
 html('#services h2','A consistent look.<br><em>A clearer message.</em>');
 text('#services .section-heading > p','Start with a website, or bring your branding and social profiles together. I will recommend the help that fits your business.');
-q('.home-resource-links')?.remove();
+d.querySelectorAll('#services .home-resource-links').forEach(e=>e.remove());
 q('#services').append(fragment('<div class="home-resource-links" id="specialist-website-design"><a href="/services/marketing-support">Marketing support →</a><a href="/services/website-audit">Website audits →</a><a href="/services/website-hosting-care">Hosting &amp; care →</a><a href="/advice">Advice &amp; guides →</a><a href="/services/garage-website-design">Garage websites →</a><a href="/services/pet-business-website-design">Pet-care websites →</a></div>'));
 text('#pricing .section-heading .eyebrow','Clear options for your next step');
 html('#pricing .section-heading h2','Start small.<br><em>Build from there.</em>');
@@ -70,6 +70,8 @@ if(![...select.options].some(e=>e.value===offer)){
  const group=d.createElement('optgroup');group.label='Current website offer';const option=d.createElement('option');option.value=offer;option.textContent='£199 one-page website offer';group.append(option);select.insertBefore(group,select.querySelector('optgroup'));
 }
 select.parentElement.firstChild.nodeValue='What would you like help with?';
+q('input[name="phone"]').placeholder='For a call or WhatsApp';
+q('input[name="business"]').parentElement.firstChild.nodeValue='Business name (optional)';
 q('textarea[name="message"]').parentElement.firstChild.nodeValue='Tell me a little more';
 for(const [name,value] of [['name','name'],['business','organization'],['email','email'],['phone','tel']])q('input[name="'+name+'"]').autocomplete=value;
 // Convert only the studio's own prose, preserving client feedback and approved artwork.

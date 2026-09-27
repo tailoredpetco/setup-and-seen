@@ -40,6 +40,8 @@ for(const [route,{d}] of byRoute) {
  }
 }
 const home=byRoute.get('/').d;
+const homeIds=[...home.querySelectorAll('[id]')].map(e=>e.id);
+assert.equal(new Set(homeIds).size,homeIds.length,'Homepage section IDs remain unique after repeated maintenance');
 assert.ok(home.querySelector('#alternative-website-options').textContent.includes('£1,788'));
 assert.equal(home.querySelectorAll('[data-package-finder-nav]').length,1);
 assert.equal(home.querySelectorAll('#enquiry-next-steps').length,1);
