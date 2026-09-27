@@ -13,7 +13,7 @@ const preload=d.createElement('link');preload.rel='preload';preload.setAttribute
 q('[data-playfair-preload]')?.setAttribute('as','font');
 text('.hero-copy .eyebrow','Web design in Worcestershire · Working UK-wide');
 html('.hero-copy h1','A website you’re<br><em>proud to share.</em>');
-text('.hero-lead','I create websites, branding and social media for small businesses. Clear design that helps customers understand what you do and get in touch.');
+text('.hero-lead','We create websites, branding and social media for small businesses. Clear design that helps customers understand what you do and get in touch.');
 html('.hero-actions','<a class="button primary home-offer-button" href="/website-offer">View the £199 website offer <span aria-hidden="true">↗</span></a><a class="text-link" href="#work">Explore recent work <span aria-hidden="true">↓</span></a>');
 d.querySelectorAll('[data-finder-home-note],.home-offer-note').forEach(e=>e.remove());
 q('.hero-actions').after(fragment('<p class="home-offer-note"></p>'));
@@ -27,9 +27,9 @@ html('.work-page-link a','Explore the portfolio <span aria-hidden="true">→</sp
 // Keep three primary services concise; detailed service pages retain the full scope.
 d.querySelectorAll('.service-card ul').forEach(e=>e.remove());
 for(const e of [...d.querySelectorAll('.service-card')].slice(3))e.remove();
-text('#services .eyebrow','More ways I can help');
+text('#services .eyebrow','More ways we can help');
 html('#services h2','A consistent look.<br><em>A clearer message.</em>');
-text('#services .section-heading > p','Start with a website, or bring your branding and social profiles together. I will recommend the help that fits your business.');
+text('#services .section-heading > p','Start with a website, or bring your branding and social profiles together. We will recommend the help that fits your business.');
 d.querySelectorAll('#services .home-resource-links').forEach(e=>e.remove());
 q('#services').append(fragment('<div class="home-resource-links" id="specialist-website-design"><a href="/services/marketing-support">Marketing support →</a><a href="/services/website-audit">Website audits →</a><a href="/services/website-hosting-care">Hosting &amp; care →</a><a href="/advice">Advice &amp; guides →</a><a href="/services/garage-website-design">Garage websites →</a><a href="/services/pet-business-website-design">Pet-care websites →</a></div>'));
 text('#pricing .section-heading .eyebrow','Clear options for your next step');
@@ -42,27 +42,23 @@ html('#alternative-website-options','<div class="launch-choice-heading"><p class
 text('.price-note','Standard package prices are starting points. Domain, hosting, subscriptions and any other costs are confirmed in your written quote. The £29/month hosting and care rate applies to the qualifying £199 offer; standard Website Care starts from £49/month. Set Up & Seen is not VAT registered, so VAT is not added.');
 html('.approach h2','From first enquiry<br><em>to a confident launch.</em>');
 text('.approach .section-heading > p','A clear plan, agreed costs and time to review your website before it goes live.');
-const steps=[['Tell me what you need','Start by email, phone or video call. A rough idea of your business and what you need is enough.'],['Agree the plan','Receive a written scope, price and timescale before any work begins.'],['Review your website','See the design and share your feedback at the agreed review stages.'],['Launch with confidence','Once you approve, I launch your website and explain the handover and any ongoing support.']];
+const steps=[['Tell us what you need','Start by email, phone or video call. A rough idea of your business and what you need is enough.'],['Agree the plan','Receive a written scope, price and timescale before any work begins.'],['Review your website','See the design and share your feedback at the agreed review stages.'],['Launch with confidence','Once you approve, we launch your website and explain the handover and any ongoing support.']];
 html('.approach .steps',steps.map(([h,p])=>'<article><h3>'+h+'</h3><p>'+p+'</p></article>').join(''));
-text('.about-copy .eyebrow','Personal support, from start to finish');
-text('.about-copy h2','Work directly with the person creating your website.');
-const ps=d.querySelectorAll('.about-copy > p:not(.eyebrow)');
-if(ps[0])ps[0].textContent='I help small business owners bring their website, branding and social presence together. Based in Worcestershire, I work with businesses across the UK.';
-if(ps[1])ps[1].textContent='You deal with me from the first conversation to launch, with straightforward advice, an agreed scope and regular opportunities to review the work.';
-text('.health-check-strip > p','I will review clarity, trust and the next step for visitors, then give you three practical observations. No obligation to buy.');
+html('#about', '<div class="studio-intro"><p class="eyebrow">About Set Up &amp; Seen</p><h2>Your business.<br><em>Our focus.</em></h2><p class="studio-location">Worcestershire based · Working UK-wide</p></div><div class="studio-summary"><p>We bring your website, branding and social media together so customers can see what you offer and feel confident getting in touch.</p><p>We keep the process straightforward, with clear pricing, agreed timescales and time to review the work.</p><a class="text-link" href="#contact">Talk to us about your business <span aria-hidden="true">↗</span></a></div><dl class="studio-principles"><div><dt>Built around you</dt><dd>Design shaped by your business and customers.</dd></div><div><dt>Clear from the start</dt><dd>An agreed scope, price and delivery plan.</dd></div><div><dt>Support after launch</dt><dd>Practical help and optional hosting and care.</dd></div></dl>');
+text('.health-check-strip > p','We will review clarity, trust and the next step for visitors, then give you three practical observations. No obligation to buy.');
 const faqs=[
  ['How much does a small-business website cost?','The October offer is £199 one-off for one scrolling page and an enquiry form, using your supplied logo, wording and photographs. Book by 31 October 2026. Website Starter is from £495 for up to five pages. Domain and hosting are separate. Your written quote confirms the scope and total cost.'],
  ['What are the ongoing costs?','Hosting and care for the qualifying £199 offer is optional at £29/month, with no 12-month contract. It includes hosting, SSL, backups, website and form checks, technical support and one small update each month. Domain costs are separate. Standard Website Care for other packages starts from £49/month.'],
  ['What do I need to supply for the £199 offer?','Your logo, final wording and suitable photographs, plus the business details and access needed for your website. Branding, copywriting, extra pages and other features are outside the offer and are quoted separately.'],
  ['Can I choose a larger website or monthly payments?','Yes. Standard packages cover websites with more pages and options for branding and copywriting. Managed Website Starter is £149/month for 12 months (£1,788 total), including hosting and care during the plan. Full scope and terms are on the packages page.'],
- ['Do you work outside Worcestershire?','Yes. I am based in Worcestershire and work remotely with small businesses across the UK.'],
- ['What happens after I enquire?','I discuss what you need by email or a call, then send a written proposal with the scope, price, payment schedule and delivery stages. No payment is taken when you enquire. You review and approve your website before it goes live.']
+ ['Do you work outside Worcestershire?','Yes. We are based in Worcestershire and work remotely with small businesses across the UK.'],
+ ['What happens after I enquire?','We discuss what you need by email or a call, then send a written proposal with the scope, price, payment schedule and delivery stages. No payment is taken when you enquire. You review and approve your website before it goes live.']
 ];
 text('.faq-intro > p:not(.eyebrow)','The essentials about price, scope and getting started.');
-text('.faq-intro > a','Ask me directly →');
+text('.faq-intro > a','Ask us directly →');
 html('.faq-groups','<section class="faq-group"><h3>Pricing &amp; getting started</h3><div class="faq-list">'+faqs.map(([question,answer])=>'<details><summary>'+question+'<span aria-hidden="true">+</span></summary><p>'+answer+'</p></details>').join('')+'</div></section>');
-text('.contact-intro > p:not(.eyebrow)','Tell me about your business and what you need. You can use the form, email, phone or WhatsApp, whichever suits you.');
-text('#enquiry-next-steps li:first-child strong','I read your enquiry');
+text('.contact-intro > p:not(.eyebrow)','Tell us about your business and what you need. You can use the form, email, phone or WhatsApp, whichever suits you.');
+text('#enquiry-next-steps li:first-child strong','We read your enquiry');
 text('#enquiry-next-steps li:nth-child(2) strong','We discuss what you need, by email or a call');
 for(const el of d.querySelectorAll('.direct-contact small'))el.textContent=el.textContent.replace(' US','');
 const select=q('select[name="service"]'),offer='October website offer: £199 build and optional £29/month hosting and care';
@@ -72,13 +68,13 @@ if(![...select.options].some(e=>e.value===offer)){
 select.parentElement.firstChild.nodeValue='What would you like help with?';
 q('input[name="phone"]').placeholder='For a call or WhatsApp';
 q('input[name="business"]').parentElement.firstChild.nodeValue='Business name (optional)';
-q('textarea[name="message"]').parentElement.firstChild.nodeValue='Tell me a little more';
+q('textarea[name="message"]').parentElement.firstChild.nodeValue='Tell us a little more';
 for(const [name,value] of [['name','name'],['business','organization'],['email','email'],['phone','tel']])q('input[name="'+name+'"]').autocomplete=value;
 // Convert only the studio's own prose, preserving client feedback and approved artwork.
 const walker=d.createTreeWalker(d.body,dom.window.NodeFilter.SHOW_TEXT);
 while(walker.nextNode()){
  const n=walker.currentNode;if(n.parentElement.closest('script,style,.testimonial-strip,.about-mark,.wordmark'))continue;
- n.nodeValue=n.nodeValue.replace(/\bWe create\b/g,'I create').replace(/\bWe turn\b/g,'I turn').replace(/\bWe bring\b/g,'I bring').replace(/\bOur £199\b/g,'The £199').replace(/\bour standard\b/g,'the standard').replace(/\bour prices\b/g,'the prices');
+ n.nodeValue=n.nodeValue.replace(/\bI create\b/g,'We create').replace(/\bI turn\b/g,'We turn').replace(/\bI bring\b/g,'We bring');
 }
 const main=q('main');
 for(const s of ['.skip-link','.announcement','.site-header','.october-offer-banner']){const e=q(s);if(e) d.body.insertBefore(e,main);}
