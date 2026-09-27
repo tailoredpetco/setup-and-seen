@@ -47,8 +47,7 @@ assert.ok(home.body.textContent.includes('not VAT registered'));
 assert.ok(!home.body.textContent.includes('any applicable VAT'));
 assert.ok(home.querySelector('option[value="Managed Website Starter"]'));
 for(const [route,name,fields] of [
- ['/', 'enquiry',['website','name','business','email','phone','service','message','privacy-consent']],
- ['/competition','website-starter-prize-draw-2026',['website','full-name','email','phone','business-name','business-stage','website-status','business-description','website-goal','platform-followed','social-profile','consider-package','winner-publicity','eligibility-confirmed','terms-accepted','privacy-accepted','marketing-email','marketing-phone']]
+ ['/', 'enquiry',['website','name','business','email','phone','service','message','privacy-consent']]
 ]) {
  const form=byRoute.get(route).d.querySelector('form[name="'+name+'"]');
  assert.equal(form.getAttribute('data-netlify'),'true');
@@ -165,17 +164,13 @@ function interactive(route,search='') {
   ow.testObservers.forEach(o=>o.disconnect());offer.window.close();
  }
 
- const drawDom=interactive('/competition');
- const dw=drawDom.window,draw=dw.document.querySelector('.draw-form');
- const drawCalls=[];
- draw.reportValidity=()=>true;
- dw.fetch=async(url,options)=>{drawCalls.push({url,options});return {ok:true};};
- draw.dispatchEvent(new dw.Event('submit',{bubbles:true,cancelable:true}));
- await new Promise(resolve=>setImmediate(resolve));
- assert.equal(drawCalls[0].url,'/competition');
- assert.equal(new URLSearchParams(drawCalls[0].options.body).get('form-name'),'website-starter-prize-draw-2026');
- assert.ok(draw.querySelector('.draw-confirmation'));
- dw.testObservers.forEach(o=>o.disconnect());drawDom.window.close();
+ // The retired entry page must not accept new website entries.
+ const retired=byRoute.get('/competition').d;
+ assert.equal(retired.querySelector('form'),null);
+ assert.match(retired.querySelector('meta[http-equiv="refresh"]').content,/\/website-offer/);
+ assert.equal(home.querySelector('.competition-home-banner'),null);
+ assert.equal(home.querySelector('a[href="/competition"]'),null);
+ assert.match(fs.readFileSync(path.join(root,'_redirects'),'utf8'),/^\/competition \/website-offer 302!$/m);
  for(const {dom} of byRoute.values()) dom.window.close();
- console.log(`${pages.length} pages: static content, links, metadata, assets and form contracts passed. Native menus, cookie choices, contact panel, package preselection, enquiry success/failure and competition submission passed with local network mocks.`);
+ console.log(`${pages.length} pages: static content, links, metadata, assets and form contracts passed. Native menus, cookie choices, contact panel, package preselection, enquiry success/failure passed with local network mocks.`);
 })().catch(e=>{console.error(e);process.exitCode=1;});

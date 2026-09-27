@@ -50,3 +50,8 @@
 .office-case-cta a:focus-visible{outline-color:#c4dced}
 @media(max-width:800px){.office-launch{grid-template-columns:1fr;gap:32px;padding:44px 6vw}.office-launch-image{max-width:620px}.office-story-section:has(figure){grid-template-columns:1fr;gap:28px}.office-social-image{max-width:440px;width:100%}.office-quotes{grid-template-columns:1fr}.office-case-cta{padding:30px 24px}}
 @media(max-width:600px){.office-case-hero{padding-top:28px}.office-case h1{font-size:clamp(34px,8.8vw,48px)}.office-case .button{max-width:100%;white-space:normal;text-align:center;line-height:1.5}.office-scope{gap:14px 24px;font-size:10px}.office-story-section{padding:36px 0}.office-quotes blockquote{padding:24px}.office-case-cta{margin-inline:-8px}.office-portfolio-grid .portfolio-card{margin-bottom:24px}}
+
+/* Show the full Tailored Pet Co screenshot within the aligned portfolio row. */
+.office-portfolio-grid .portfolio-image-full{background:#f6f3eb}
+.office-portfolio-grid .portfolio-image-full img{object-fit:contain;object-position:center}
+.office-portfolio-grid .portfolio-card:hover .portfolio-image-full img{transform:none}
