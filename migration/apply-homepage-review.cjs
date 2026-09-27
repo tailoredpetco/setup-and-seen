@@ -81,9 +81,21 @@ for(const s of ['.skip-link','.announcement','.site-header','.october-offer-bann
 const footer=q('footer');if(footer)main.after(footer);
 for(const s of ['.hero','.testimonial-strip','#pricing','#work','#services','#approach','#about','.health-check-strip','#faqs','#contact']){const e=q(s);if(e)main.append(e);}
 for(const script of d.querySelectorAll('script[type="application/ld+json"]')){const data=JSON.parse(script.textContent);if(data['@type']==='FAQPage'){data.mainEntity=faqs.map(([name,t])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text:t}}));script.textContent=JSON.stringify(data);}}
+// Use the exact approved ampersand, cropped from the existing transparent logo.
+// Retain a real text character for accessible names and package matching.
+const brandAmpersand='<span class="brand-ampersand"><span class="brand-ampersand-text">&amp;</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="2330 39 687 644" width="687" height="644" aria-hidden="true" focusable="false"><image href="/assets/october-offer/approved-logo.png" width="4800" height="1041"/></svg></span>';
+for(const element of d.querySelectorAll('h1,h2,h3,.direct-contact a')){
+ const words=d.createTreeWalker(element,dom.window.NodeFilter.SHOW_TEXT),nodes=[];
+ while(words.nextNode())if(words.currentNode.nodeValue.includes('&')&&!words.currentNode.parentElement.closest('.brand-ampersand'))nodes.push(words.currentNode);
+ for(const node of nodes){
+  const replacement=d.createDocumentFragment();
+  node.nodeValue.split('&').forEach((part,index)=>{if(index)replacement.append(fragment(brandAmpersand));replacement.append(d.createTextNode(part));});
+  node.replaceWith(replacement);
+ }
+}
 const css=fs.readFileSync(path.join(__dirname,'homepage-review.css'),'utf8');
 const hash=crypto.createHash('sha256').update(css).digest('hex').slice(0,12);const cssName='homepage-review-'+hash+'.css';
-for(const old of fs.readdirSync(path.join(root,'assets')).filter(f=>/^homepage-review-.*\.css$/.test(f)))if(old!==cssName)fs.unlinkSync(path.join(root,'assets',old));
+// Keep earlier hashed stylesheets available to visitors with cached HTML.
 fs.writeFileSync(path.join(root,'assets',cssName),css);
 q('link[data-homepage-review]')?.remove();const link=d.createElement('link');link.rel='stylesheet';link.href='/assets/'+cssName;link.dataset.homepageReview='';d.head.append(link);
 fs.writeFileSync(file,dom.serialize());dom.window.close();console.log('Applied homepage review and '+cssName);
