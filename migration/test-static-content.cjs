@@ -27,7 +27,10 @@ for (const file of pages) {
   const url=asset.getAttribute('src')||asset.getAttribute('href');
   if(url.startsWith('/')) assert.ok(fs.existsSync(path.join(root,url.split('?')[0])),'Local asset '+url);
  }
- for(const mark of d.querySelectorAll('.wordmark')) assert.equal(mark.querySelector('img')?.getAttribute('src'),'/assets/october-offer/approved-logo.png','Approved original logo used');
+ for(const mark of d.querySelectorAll('.wordmark')) {
+  const logo=mark.classList.contains('footer-mark')?'approved-logo-footer.svg':'approved-logo.png';
+  assert.equal(mark.querySelector('img')?.getAttribute('src'),'/assets/october-offer/'+logo,'Approved logo treatment used');
+ }
  byRoute.set(route,{dom,d});
 }
 for(const [route,{d}] of byRoute) {
@@ -40,6 +43,8 @@ for(const [route,{d}] of byRoute) {
  }
 }
 const home=byRoute.get('/').d;
+const homeIds=[...home.querySelectorAll('[id]')].map(e=>e.id);
+assert.equal(new Set(homeIds).size,homeIds.length,'Homepage section IDs remain unique after repeated maintenance');
 assert.ok(home.querySelector('#alternative-website-options').textContent.includes('£1,788'));
 assert.equal(home.querySelectorAll('[data-package-finder-nav]').length,1);
 assert.equal(home.querySelectorAll('#enquiry-next-steps').length,1);

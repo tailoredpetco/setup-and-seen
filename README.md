@@ -6,6 +6,8 @@ request preview to check changes before merging.
 
 ## Website maintenance
 
+Website business copy uses **we, our and us**, as confirmed by Maria on 27 September 2026. Preserve genuine client quotations and customer consent wording.
+
 - Keep current copy, package links and navigation in HTML. Do not add content
   through a delayed client-side patch.
 - Headings and display text use self-hosted Playfair Display. Preserve the

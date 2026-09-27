@@ -47,6 +47,14 @@ runtime = runtime.replace('    updateCookieOffset();\n', '    updateCookieOffset
 const attribution = functions.addAcquisitionLinksAndNotice;
 runtime += '\n\nfunction addAcquisitionContextNotice() {\n' + attribution.slice(attribution.indexOf('    var context = acquisitionContext();'), attribution.lastIndexOf('}')) + '\n}\n';
 runtime += '\n' + fs.readFileSync('migration/static-interactions.js', 'utf8');
+// The September campaign update refines attribution and enquiry confirmation.
+// Keep these maintained sources after the legacy extraction transforms.
+const campaignSource = fs.readFileSync('migration/campaign-runtime.js','utf8');
+const campaignFunctions = acorn.parse(campaignSource,{ecmaVersion:'latest'}).body.filter(n=>n.type==='FunctionDeclaration');
+const campaignOverrides = Object.fromEntries(campaignFunctions.map(n=>[n.id.name,campaignSource.slice(n.start,n.end)]));
+for(const node of acorn.parse(runtime,{ecmaVersion:'latest'}).body.filter(n=>n.type==='FunctionDeclaration').reverse()) {
+ if(campaignOverrides[node.id.name]) runtime=runtime.slice(0,node.start)+campaignOverrides[node.id.name]+runtime.slice(node.end);
+}
 fs.writeFileSync(path.join(root, 'site-interactions-sep13.js'), '(function () {\n"use strict";\nvar competitionClosesAt = Date.parse("2026-09-30T22:59:00Z");\n' + runtime + '\n})();\n');
 
 function files(dir) { return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e => e.isDirectory() ? files(path.join(dir,e.name)) : [path.join(dir,e.name)]); }
