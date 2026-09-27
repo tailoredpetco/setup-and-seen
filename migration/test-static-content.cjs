@@ -20,14 +20,14 @@ for (const file of pages) {
  assert.ok(d.title&&(!indexable||!titles.has(d.title)),'Unique title: '+route);if(indexable)titles.add(d.title);
  assert.ok(!text.includes('__VINEXT_'),'Old rendering payload removed: '+route);
  assert.ok(!d.querySelector('script#_R_'),'No hydration entry: '+route);
- assert.equal(d.querySelectorAll('script[src="/site-interactions-sep13.js"]').length,1,route);
+ assert.equal(d.querySelectorAll('script[src^="/site-interactions-sep13.js"]').length,1,route);
  assert.equal(d.querySelectorAll('link[href^="/assets/site-sep13.css?v="]').length,1,route);
  for(const script of d.querySelectorAll('script[type="application/ld+json"]')) JSON.parse(script.textContent);
  for(const asset of d.querySelectorAll('script[src],link[rel="stylesheet"],link[as="font"],img[src]')) {
   const url=asset.getAttribute('src')||asset.getAttribute('href');
   if(url.startsWith('/')) assert.ok(fs.existsSync(path.join(root,url.split('?')[0])),'Local asset '+url);
  }
- for(const mark of d.querySelectorAll('.wordmark strong')) assert.match(mark.style.fontFamily,/Fraunces/,'Existing wordmark preserved');
+ for(const mark of d.querySelectorAll('.wordmark')) assert.equal(mark.querySelector('img')?.getAttribute('src'),'/assets/october-offer/approved-logo.png','Approved original logo used');
  byRoute.set(route,{dom,d});
 }
 for(const [route,{d}] of byRoute) {
@@ -133,7 +133,7 @@ function interactive(route,search='') {
   {consent:'accepted',ok:false,tag:'professional_feed',lead:false},
   {consent:'accepted',ok:true,tag:'someone@example.com',lead:true}
  ]) {
-  const offer=interactive('/website-offer','?utm_source=facebook&utm_medium=paid_social&utm_campaign=october_website_petcare&utm_content='+encodeURIComponent(scenario.tag)+'&email=private@example.com&fbclid=private-click-id');
+  const offer=interactive('/website-offer','?utm_source=facebook&utm_medium=paid_social&utm_campaign=october_website_petcare&utm_content='+encodeURIComponent(scenario.tag)+'&utm_term=office_partner&email=private@example.com&fbclid=private-click-id');
   const ow=offer.window,od=ow.document,of=od.querySelector('form[name="enquiry"]');
   assert.ok(od.querySelector('.cookie-settings'));
   od.querySelector(scenario.consent==='accepted'?'.cookie-accept':'.cookie-reject').click();
@@ -147,6 +147,7 @@ function interactive(route,search='') {
   assert.ok(of.checkValidity());
   const portfolioLink=new URL(od.querySelector('.campaign-work-card').href);
   assert.equal(portfolioLink.searchParams.get('utm_campaign'),'october_website_petcare');
+  assert.equal(portfolioLink.searchParams.get('utm_term'),'office_partner');
   assert.ok(!portfolioLink.searchParams.has('email'));assert.ok(!portfolioLink.searchParams.has('fbclid'));
   of.dispatchEvent(new ow.Event('submit',{bubbles:true,cancelable:true}));
   await new Promise(resolve=>setImmediate(resolve));
