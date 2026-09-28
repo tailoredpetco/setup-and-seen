@@ -28,3 +28,10 @@ Website business copy uses **we, our and us**, as confirmed by Maria on 27 Septe
 
 The £149 monthly plan, £1,788 minimum commitment, post-term options and existing
 payment links are separate from these SEO and typography changes.
+
+The 28 September audit corrections are maintained in `apply-yell-audit.cjs`.
+`migration/analytics-consent.js` uses basic consent mode: load Google Analytics
+only after acceptance, disable measurement and delete the site's Analytics
+cookies on withdrawal. Advertising consent remains denied. The existing
+consent-gated `generate_lead` event is preserved; reporting and conversion
+imports in Google Analytics/Ads require separate account verification.

@@ -109,8 +109,8 @@ function installStaticOfferCookieConsent() {
     settingsButton.dataset.staticConsentBound = "true";
 
     function updateAnalytics(granted) {
-      if (typeof window.gtag === "function") {
-        window.gtag("consent", "update", { analytics_storage: granted ? "granted" : "denied" });
+      if (typeof window.setUpAndSeenAnalyticsConsent === "function") {
+        window.setUpAndSeenAnalyticsConsent(granted);
       }
     }
 
@@ -130,7 +130,7 @@ function installStaticOfferCookieConsent() {
       banner.setAttribute("role", "dialog");
       banner.setAttribute("aria-label", "Cookie choices");
       banner.innerHTML =
-        '<div><strong>Cookies on Set Up &amp; Seen</strong><p>We use privacy-limited Google Analytics to understand visits. Analytics cookies are optional and used only if you agree. <a href="/privacy">Privacy &amp; cookies</a>.</p></div>' +
+        '<div><strong>Cookies on Set Up &amp; Seen</strong><p>Google Analytics is optional. It loads only after you accept. You can reject it or change your choice at any time. <a href="/privacy">Privacy &amp; cookies</a>.</p></div>' +
         '<div class="cookie-actions"><button type="button" class="cookie-reject">Reject analytics</button><button type="button" class="cookie-accept">Accept analytics</button></div>';
       document.body.appendChild(banner);
       settingsButton.setAttribute("aria-expanded", "true");

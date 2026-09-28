@@ -41,6 +41,8 @@ runtime = runtime.replace(/    var style = document.createElement\("style"\);[\s
 runtime = runtime.replace('    if (document.body.getAttribute("data-static-offer-page") !== "true") return;\n', '');
 runtime = runtime.replace('<strong>Cookie choices</strong><p>We use essential cookies to make the website work. With your permission, we also use Google Analytics to understand how the website is used. Read our <a href="/privacy">privacy and cookie notice</a>.</p>', '<strong>Cookies on Set Up &amp; Seen</strong><p>We use privacy-limited Google Analytics to understand visits. Analytics cookies are optional and used only if you agree. <a href="/privacy">Privacy &amp; cookies</a>.</p>');
 runtime = runtime.replace('>Essential only</button>', '>Reject analytics</button>');
+runtime = runtime.replace('We use privacy-limited Google Analytics to understand visits. Analytics cookies are optional and used only if you agree.', 'Google Analytics is optional. It loads only after you accept. You can reject it or change your choice at any time.');
+runtime = runtime.replace('if (typeof window.gtag === "function") {\n        window.gtag("consent", "update", { analytics_storage: granted ? "granted" : "denied" });\n      }', 'if (typeof window.setUpAndSeenAnalyticsConsent === "function") {\n        window.setUpAndSeenAnalyticsConsent(granted);\n      }');
 runtime = runtime.replace('      form.innerHTML = initialMarkup;', '      form.innerHTML = initialMarkup;\n      updateEnquirySelection(form, "");');
 // A newly opened banner must be measured after its text has wrapped on mobile.
 runtime = runtime.replace('    updateCookieOffset();\n', '    updateCookieOffset();\n    if (document.fonts) document.fonts.ready.then(updateCookieOffset);\n');
