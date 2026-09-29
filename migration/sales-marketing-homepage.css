@@ -2,6 +2,7 @@
 .sales-marketing-home .hero{grid-template-columns:51% 49%;min-height:640px}
 .sales-marketing-home .hero-copy{padding:68px 4.5vw 60px 7vw}
 .sales-marketing-home .hero-copy:before{display:none}
+.sales-marketing-home .hero-copy:after,.sales-marketing-home .work-intro:before,.sales-marketing-home .portfolio-card:before,.sales-marketing-home .service-card:before,.sales-marketing-home .service-card:after{content:none;display:none}
 .sales-marketing-home .hero h1{font-size:clamp(43px,4.15vw,66px);line-height:1.1;letter-spacing:-.025em;font-variant-ligatures:none}
 .sales-marketing-home .hero h1 em{white-space:nowrap}
 .sales-marketing-home .hero-lead{max-width:520px;font-size:17px;line-height:1.75;margin-bottom:30px}
@@ -19,14 +20,17 @@
 .sales-marketing-home .testimonial-strip>p{font-size:25px;line-height:1.45;max-width:760px}
 .sales-marketing-home #services{background:#f7f3ec}
 .sales-marketing-home .service-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid #ccd4d7;border-left:1px solid #ccd4d7}
-.sales-marketing-home .service-card{display:flex;flex-direction:column;align-items:flex-start;padding:30px;border:0;border-right:1px solid #ccd4d7;border-bottom:1px solid #ccd4d7;background:transparent;box-shadow:none;border-radius:0}
+.sales-marketing-home .service-card{display:flex;flex-direction:column;align-items:flex-start;grid-column:auto;color:#202522;padding:30px;border:0;border-right:1px solid #ccd4d7;border-bottom:1px solid #ccd4d7;background:transparent;box-shadow:none;border-radius:0}
 .sales-marketing-home .service-card h3{font-size:31px;margin-bottom:15px}
 .sales-marketing-home .service-card .service-kicker{color:#315f8c;font-size:11px;letter-spacing:.08em;line-height:1.5;margin:0 0 18px}
 .sales-marketing-home .service-card p:not(.service-kicker){font-size:15px;line-height:1.75;margin-bottom:15px}
-.sales-marketing-home .service-card .service-link{margin-top:auto;font-size:14px}
+.sales-marketing-home .service-card .service-link{margin-top:auto;font-size:14px;color:#202522;border-color:#b4b4aa}
+.sales-marketing-home .service-card .service-link span{color:#315f8c}
+.sales-marketing-home .service-card:hover{transform:none;box-shadow:none}
 .sales-marketing-home .work-heading h2{max-width:650px}
 .sales-marketing-home .office-portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:50px 34px}
-.sales-marketing-home .portfolio-meta>span{letter-spacing:.08em;color:#315f8c}
+.sales-marketing-home .office-portfolio-grid .portfolio-card{grid-column:auto;margin:0}
+.sales-marketing-home .portfolio-meta>span{letter-spacing:.08em;color:#9fc9e8}
 .sales-marketing-home .portfolio-meta>strong{font-size:30px;line-height:1.2;display:block;margin-block:10px}
 .sales-marketing-home .portfolio-meta>small{font-size:12px;line-height:1.6;display:block}
 .sales-marketing-home .marketing-example .portfolio-image{aspect-ratio:1.6;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#e9e8e2}
