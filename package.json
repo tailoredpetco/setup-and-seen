@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build:static": "node migration/apply-static-content.cjs && node migration/apply-offer-clarity.cjs && node migration/apply-homepage-review.cjs && node migration/apply-studio-voice.cjs && node migration/apply-yell-audit.cjs && node migration/apply-performance-case-studies.cjs",
-    "test": "node migration/test-first-website.cjs && node migration/test-static-content.cjs && node migration/test-analytics-consent.cjs"
+    "test": "node migration/test-first-website.cjs && node migration/test-static-content.cjs && node migration/test-analytics-consent.cjs && node migration/test-marketing-consent.cjs"
   },
   "devDependencies": {
     "acorn": "8.18.0",

@@ -82,6 +82,9 @@ async function handleEnquiry(event, form) {
         }
       } catch (analyticsError) { /* Analytics must never block confirmation. */ }
       showEnquiryConfirmation(form);
+      try {
+        if (typeof window.setUpAndSeenTrackLead === "function") window.setUpAndSeenTrackLead();
+      } catch (marketingError) { /* Tracking must never block a successful enquiry. */ }
     } catch (error) {
       setButtonState(form, false, "");
       showError(form, "error-message", "Sorry, your enquiry could not be sent. Please call us on 01384 492406.");
