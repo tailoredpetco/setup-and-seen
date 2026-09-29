@@ -48,7 +48,7 @@ for (const e of examples) {
   // Stage the original supplied artwork in native HTML; never redraw the identity.
   card.querySelector('.portfolio-image').classList.add('brand-artwork');
   card.querySelector('.portfolio-image').setAttribute('aria-label','Explore Set Up and Seen branding services');
-  card.querySelector('.portfolio-image').innerHTML='<span class="brand-paper"><img src="/assets/marketing-work/original-wordmark-colour.svg" alt="Set Up and Seen original logo" width="807" height="175" loading="lazy" decoding="async"><span>The identity,<br><em>brought together.</em></span></span><img class="brand-blue-card" src="/assets/marketing-work/brand-card.webp" alt="Our original blue brand card: A clear presence. A confident next step." width="1200" height="777" loading="lazy" decoding="async"><span class="portfolio-view">Explore branding services ↗</span>';
+  card.querySelector('.portfolio-image').innerHTML='<span class="brand-paper"><img src="/assets/marketing-work/original-wordmark-colour.svg" alt="Set Up and Seen original logo" width="807" height="175" loading="lazy" decoding="async"><span class="brand-palette" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span><img class="brand-blue-card" src="/assets/marketing-work/brand-card.webp" alt="Our original blue brand card: A clear presence. A confident next step." width="1200" height="777" loading="lazy" decoding="async"><span class="portfolio-view">Explore branding services ↗</span>';
  }
  q('.portfolio-grid').append(card);
 }
