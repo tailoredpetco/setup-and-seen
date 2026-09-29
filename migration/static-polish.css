@@ -8,6 +8,12 @@
 .cookie-actions button { min-height: 44px; font-size: 12px; text-transform: none; letter-spacing: 0; }
 .cookie-settings { min-height: 32px; }
 .site-header nav.open { height: auto; max-height: calc(100dvh - 82px); }
+/* Moving a fixed widget with a transform does not reflow the page. */
+.message-us-widget {
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  transform: translateY(calc(-1 * var(--message-cookie-offset)));
+  transition: opacity .18s ease, visibility .18s ease;
+}
 @media (max-width: 700px) {
   .cookie-banner { padding: 16px; bottom: 40px; }
   .cookie-banner strong { font-size: 20px; }
@@ -15,6 +21,7 @@
   .cookie-actions { margin-top: 12px; }
   .cookie-actions button { padding: 11px 8px; }
   .message-us-widget { max-width: calc(100vw - 24px); }
+  .message-us-widget { bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
 }
 /* Keep navigation available when scripting is disabled or fails to load. */
 @media (max-width: 950px) {

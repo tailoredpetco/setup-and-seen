@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://www.setupandseen.co.uk/</loc>
+<loc>https://www.setupandseen.co.uk/</loc><lastmod>2026-09-29</lastmod>
 <changefreq>monthly</changefreq>
 <priority>1</priority>
 </url>
@@ -90,9 +90,9 @@
 <url><loc>https://www.setupandseen.co.uk/services/vehicle-advert-management</loc><lastmod>2026-09-14</lastmod></url>
   <url><loc>https://www.setupandseen.co.uk/services/garage-website-design</loc></url>
   <url><loc>https://www.setupandseen.co.uk/services/pet-business-website-design</loc></url>
-  <url><loc>https://www.setupandseen.co.uk/our-work/clent-auto-repairs</loc></url>
-  <url><loc>https://www.setupandseen.co.uk/our-work/clent-hills-campers-and-vans</loc></url>
-  <url><loc>https://www.setupandseen.co.uk/our-work/the-tailored-pet-co</loc></url>
+  <url><loc>https://www.setupandseen.co.uk/our-work/clent-auto-repairs</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://www.setupandseen.co.uk/our-work/clent-hills-campers-and-vans</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://www.setupandseen.co.uk/our-work/the-tailored-pet-co</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://www.setupandseen.co.uk/our-work/the-office-partner</loc><lastmod>2026-09-23</lastmod></url>
 </urlset>
 
