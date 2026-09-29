@@ -35,3 +35,13 @@ only after acceptance, disable measurement and delete the site's Analytics
 cookies on withdrawal. Advertising consent remains denied. The existing
 consent-gated `generate_lead` event is preserved; reporting and conversion
 imports in Google Analytics/Ads require separate account verification.
+
+The 29 September mobile-performance and portfolio corrections are maintained in
+`migration/apply-performance-case-studies.cjs`, the last static build step. It
+bundles the homepage styles in their original cascade order, preloads the
+approved display fonts, prevents the enhanced mobile header changing height at
+startup, and preserves ordered consent and interaction scripts. The original
+logo files remain unchanged; `node migration/optimise-approved-logos.cjs` creates
+the lossless responsive derivatives using Sharp. Existing cached assets remain
+available. Individual case studies retain their URLs, sitemap entries and
+enquiry routes, with specific descriptions grounded in their existing screenshots.

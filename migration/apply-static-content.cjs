@@ -67,6 +67,11 @@ for (const file of files(root).filter(f => f.endsWith('.html') && !f.endsWith('/
   const route = '/' + relative.replace(/(^|\/)index\.html$/, '');
   const dom = new JSDOM(old,{url:'https://www.setupandseen.co.uk' + route,runScripts:'outside-only'});
   const {document} = dom.window;
+  // Restore the base reference before the final performance pass rebundles the
+  // homepage. Each input stylesheet is rebuilt from its maintained source.
+  document.querySelectorAll('link[data-home-bundle]').forEach(link => {
+    link.href='/assets/site-sep13.css';link.removeAttribute('data-home-bundle');
+  });
   document.querySelectorAll('script').forEach(script => {
     if (script.id === '_R_' || script.textContent.includes('__VINEXT_')) script.remove();
     else if (script.getAttribute('src') === '/netlify-migration-v2.js') script.setAttribute('src','/site-interactions-sep13.js');

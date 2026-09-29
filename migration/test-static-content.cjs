@@ -21,7 +21,7 @@ for (const file of pages) {
  assert.ok(!text.includes('__VINEXT_'),'Old rendering payload removed: '+route);
  assert.ok(!d.querySelector('script#_R_'),'No hydration entry: '+route);
  assert.equal(d.querySelectorAll('script[src^="/site-interactions-sep13.js"]').length,1,route);
- assert.equal(d.querySelectorAll('link[href^="/assets/site-sep13.css?v="]').length,1,route);
+ assert.equal(d.querySelectorAll('link[href^="/assets/site-sep13.css?v="],link[data-home-bundle]').length,1,route);
  for(const script of d.querySelectorAll('script[type="application/ld+json"]')) JSON.parse(script.textContent);
  for(const asset of d.querySelectorAll('script[src],link[rel="stylesheet"],link[as="font"],img[src]')) {
   const url=asset.getAttribute('src')||asset.getAttribute('href');
