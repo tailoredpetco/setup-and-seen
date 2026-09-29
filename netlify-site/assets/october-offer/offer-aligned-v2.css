@@ -2,3 +2,40 @@
 .offer-campaign .aligned-home{width:300px;max-width:58%;display:block}.offer-campaign .aligned-head .aligned-home img{width:100%;max-width:100%;height:auto}.offer-campaign .aligned-head{position:static}.offer-campaign .aligned-portfolio img{height:auto;aspect-ratio:1.5;object-fit:contain;background:#fff}.offer-campaign .privacy-check{display:flex;gap:9px;align-items:flex-start}.offer-campaign .privacy-check input{flex:0 0 auto;margin-top:5px}.offer-campaign .form-honeypot{display:none}.offer-campaign .aligned-button:hover{background:#244968}.offer-campaign :target{scroll-margin-top:25px}@media(max-width:650px){.offer-campaign .aligned-home{width:225px;max-width:75%}}
 
 .offer-campaign a.aligned-button{color:#fff}.offer-campaign .aligned-head a{color:#202522}
+
+/* This landing page has inline navigation, not the main site's mobile menu. */
+.offer-campaign .aligned-head nav,
+.offer-campaign footer nav {
+  position: static;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  inset: auto;
+}
+.offer-campaign footer nav { flex-wrap: wrap; gap: 8px; }
+.offer-campaign .aligned-note a,
+.offer-campaign .aligned-panel > a,
+.offer-campaign .aligned-portfolio a,
+.offer-campaign .aligned-contact > div > a,
+.offer-campaign .privacy-check a,
+.offer-campaign footer a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Give cookie choices and enquiry actions priority over the floating contact UI. */
+.offer-campaign:has(.cookie-banner) .message-us-widget,
+.offer-campaign.offer-cta-visible .message-us-widget {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (max-width: 650px) {
+  .offer-campaign .aligned-head { gap: 16px; }
+  .offer-campaign .aligned-home { max-width: calc(100% - 84px); }
+  .offer-campaign .aligned-head nav { flex: 0 0 auto; }
+}
