@@ -1,0 +1,51 @@
+/* Sales and marketing: original identity, real work, restrained native layout. */
+.sales-marketing-home .hero{grid-template-columns:51% 49%;min-height:640px}
+.sales-marketing-home .hero-copy{padding:68px 4.5vw 60px 7vw}
+.sales-marketing-home .hero-copy:before{display:none}
+.sales-marketing-home .hero-copy:after,.sales-marketing-home .work-intro:before,.sales-marketing-home .portfolio-card:before,.sales-marketing-home .service-card:before,.sales-marketing-home .service-card:after{content:none;display:none}
+.sales-marketing-home .hero h1{font-size:clamp(43px,4.15vw,66px);line-height:1.1;letter-spacing:-.025em;font-variant-ligatures:none}
+.sales-marketing-home .hero h1 em{white-space:nowrap}
+.sales-marketing-home .hero-lead{max-width:520px;font-size:17px;line-height:1.75;margin-bottom:30px}
+.sales-marketing-home .hero-office-highlight{min-height:640px;padding:45px 8%;justify-content:center}
+.sales-marketing-home .hero-project-stamp .home-project-scope{margin-top:14px;max-width:400px}
+.sales-marketing-home .hero-actions{align-items:center;gap:24px}
+.sales-marketing-home .hero-actions .primary{background:#315f8c;color:#fff;min-height:52px;padding:16px 24px;line-height:1.4}
+.sales-marketing-home .hero-actions .text-link{font-size:14px;min-height:44px;display:inline-flex;align-items:center}
+.sales-marketing-home .reassurance{font-size:12px;margin-top:22px;letter-spacing:0}
+.sales-marketing-home .october-offer-banner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:23px 7vw;background:#e7eff2;color:#202522;border-block:1px solid #c6d6df}
+.sales-marketing-home .october-offer-banner p{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px 18px;margin:0;font-size:15px;line-height:1.5;color:inherit}
+.sales-marketing-home .october-offer-banner strong{font-weight:600;font-size:17px;color:inherit}
+.sales-marketing-home .october-offer-button{padding:8px 0;min-height:44px;background:transparent;border:0;border-bottom:1px solid #315f8c;border-radius:0;color:#315f8c;box-shadow:none;font-size:14px;white-space:nowrap}
+.sales-marketing-home .testimonial-strip{padding:32px 7vw;background:#f7f3ec;border-bottom:1px solid #d8d9d2}
+.sales-marketing-home .testimonial-strip>p{font-size:25px;line-height:1.45;max-width:760px}
+.sales-marketing-home #services{background:#f7f3ec}
+.sales-marketing-home .service-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid #ccd4d7;border-left:1px solid #ccd4d7}
+.sales-marketing-home .service-card{display:flex;flex-direction:column;align-items:flex-start;grid-column:auto;color:#202522;padding:30px;border:0;border-right:1px solid #ccd4d7;border-bottom:1px solid #ccd4d7;background:transparent;box-shadow:none;border-radius:0}
+.sales-marketing-home .service-card h3{font-size:31px;margin-bottom:15px}
+.sales-marketing-home .service-card .service-kicker{color:#315f8c;font-size:11px;letter-spacing:.08em;line-height:1.5;margin:0 0 18px}
+.sales-marketing-home .service-card p:not(.service-kicker){font-size:15px;line-height:1.75;margin-bottom:15px}
+.sales-marketing-home .service-card .service-link{margin-top:auto;font-size:14px;color:#202522;border-color:#b4b4aa}
+.sales-marketing-home .service-card .service-link span{color:#315f8c}
+.sales-marketing-home .service-card:hover{transform:none;box-shadow:none}
+.sales-marketing-home .work-heading h2{max-width:650px}
+.sales-marketing-home .office-portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:50px 34px}
+.sales-marketing-home .office-portfolio-grid .portfolio-card{grid-column:auto;margin:0}
+.sales-marketing-home .portfolio-meta>span{letter-spacing:.08em;color:#9fc9e8}
+.sales-marketing-home .portfolio-meta>strong{font-size:30px;line-height:1.2;display:block;margin-block:10px}
+.sales-marketing-home .portfolio-meta>small{font-size:12px;line-height:1.6;display:block}
+.sales-marketing-home .marketing-example .portfolio-image{aspect-ratio:1.6;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#e9e8e2}
+.sales-marketing-home .marketing-example .portfolio-image img{position:static;max-width:100%;max-height:100%;height:100%;width:auto;object-fit:contain;transform:none;box-shadow:0 10px 25px #071b2d12}
+.sales-marketing-home .marketing-example.brand .portfolio-image{background:#dfe8eb}
+.sales-marketing-home .marketing-example.brand .portfolio-image img{height:auto;width:88%;max-height:100%}
+.sales-marketing-home .marketing-example.social .portfolio-image{background:#e9e6df}
+.sales-marketing-home .contact-next-steps{list-style:none;display:block;padding:20px 0;margin:24px 0;border-block:1px solid #ccd4d7;font-size:15px;line-height:1.75}
+.sales-marketing-home .contact-next-steps strong{display:block;margin-bottom:6px;font-size:16px;font-weight:600}
+.sales-marketing-home:has(.cookie-banner) .message-us-widget,.sales-marketing-home:has(.cookie-banner) .cookie-settings{visibility:hidden}
+.sales-marketing-home .cookie-banner{max-width:850px;bottom:18px;padding:20px 24px;gap:16px;border:1px solid #c6d6df;box-shadow:0 8px 30px #071b2d20}
+.sales-marketing-home .cookie-banner p{font-size:13px;line-height:1.55}
+.sales-marketing-home .cookie-banner strong{font-size:21px}
+.sales-marketing-home .cookie-banner .cookie-actions{margin-top:12px;gap:8px}
+.sales-marketing-home .cookie-banner .cookie-actions button{font-size:12px;padding:10px;min-height:44px}
+@media(max-width:1100px){.sales-marketing-home .hero h1{font-size:44px}.sales-marketing-home .hero-copy{padding:55px 5vw}.sales-marketing-home .hero-office-highlight{padding:40px 6%}.sales-marketing-home .hero-actions{flex-direction:column;align-items:flex-start;gap:12px}.sales-marketing-home .service-card{padding:25px}.sales-marketing-home .service-card h3{font-size:28px}}
+@media(max-width:950px){.sales-marketing-home .hero{grid-template-columns:1fr;min-height:0}.sales-marketing-home .hero-copy{padding:52px 7vw 42px}.sales-marketing-home .hero h1{font-size:clamp(43px,6.6vw,65px)}.sales-marketing-home .hero-lead{max-width:650px}.sales-marketing-home .hero-office-highlight{min-height:0;padding:36px 7vw;gap:18px}.sales-marketing-home .hero-actions{flex-direction:row;align-items:center;gap:24px}.sales-marketing-home .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sales-marketing-home .october-offer-banner p{display:block}.sales-marketing-home .october-offer-banner p span{display:block;margin-bottom:4px}}
+@media(max-width:700px){.sales-marketing-home .hero-copy{padding:36px 6vw 34px}.sales-marketing-home .hero h1{font-size:clamp(36px,9.3vw,54px);margin-bottom:22px;line-height:1.12}.sales-marketing-home .hero-copy .eyebrow{font-size:10px;letter-spacing:.1em;margin-bottom:20px}.sales-marketing-home .hero-lead{font-size:16px;line-height:1.7;margin-bottom:24px}.sales-marketing-home .hero-actions{flex-direction:column;align-items:flex-start;gap:10px}.sales-marketing-home .hero-actions .primary{width:100%;justify-content:space-between}.sales-marketing-home .reassurance{margin-top:16px;font-size:11px}.sales-marketing-home .hero-office-highlight{padding:30px 6vw}.sales-marketing-home .hero-project-stamp strong{font-size:28px}.sales-marketing-home .october-offer-banner{padding:23px 6vw;align-items:flex-start;flex-direction:column;gap:7px}.sales-marketing-home .october-offer-banner p{font-size:14px}.sales-marketing-home .october-offer-banner strong{font-size:17px}.sales-marketing-home .testimonial-strip{padding:28px 6vw}.sales-marketing-home .testimonial-strip>p{font-size:24px}.sales-marketing-home .service-grid{grid-template-columns:1fr;border-left:0}.sales-marketing-home .service-card{padding:27px 0;border-right:0}.sales-marketing-home .service-card .service-kicker{margin-bottom:11px}.sales-marketing-home .service-card h3{font-size:31px}.sales-marketing-home .office-portfolio-grid{grid-template-columns:1fr;gap:38px}.sales-marketing-home .portfolio-meta>strong{font-size:29px}.sales-marketing-home .cookie-banner{bottom:12px;left:12px;right:12px;width:auto;max-width:none;padding:16px;gap:10px}.sales-marketing-home .cookie-banner p{font-size:12px;line-height:1.5;margin-block:8px}.sales-marketing-home .cookie-banner strong{font-size:19px}.sales-marketing-home .cookie-banner .cookie-actions{margin-top:8px;gap:6px}.sales-marketing-home .cookie-banner .cookie-actions button{font-size:11px;line-height:1.3;padding:9px 6px}.sales-marketing-home .message-us-trigger{min-height:44px;font-size:13px}}
