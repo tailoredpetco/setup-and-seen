@@ -37,9 +37,8 @@ html('#services .home-resource-links', '<a href="/services/website-audit">Websit
 html('.work-heading h2', 'Good work.<br><em>Made for real businesses.</em>');
 text('.work-heading > p', 'A closer look at the websites, identities and social content we create. Each project has its own scope, agreed around the business and its customers.');
 for (const el of d.querySelectorAll('.portfolio-meta > span')) el.textContent = el.textContent.replace(/^\d+\s*·\s*/, '');
-d.querySelectorAll('[data-marketing-example]').forEach(el => el.remove());
+d.querySelectorAll('[data-marketing-example], [data-portfolio-invitation]').forEach(el => el.remove());
 const examples = [
- {kind:'Social content',name:'The Office Partner',scope:'Brand identity · Social media design',copy:'Launch content that carries the identity and message from the website into the social feed.',src:'/assets/marketing-work/office-partner-social.webp',alt:'An original Office Partner social post: Office work, taken care of',cls:'social',width:1080,height:1350,href:'/our-work/the-office-partner',label:'Explore the full launch'},
  {kind:'Brand identity',name:'Set Up & Seen',scope:'Visual identity · Branded materials',copy:'Our own identity, brought together through the original wordmark, considered typography and a consistent palette.',src:'/assets/marketing-work/brand-card.webp',alt:'Set Up and Seen blue brand card with original wordmark and the message A clear presence. A confident next step.',cls:'brand',width:2008,height:1300,href:'/services/branding-logo-design',label:'Explore branding services'}
 ];
 for (const e of examples) {
@@ -47,6 +46,11 @@ for (const e of examples) {
  card.innerHTML = `<a class="portfolio-image" href="${e.href}"><img src="${e.src}" alt="${e.alt}" width="${e.width}" height="${e.height}" loading="lazy" decoding="async"><span class="portfolio-view">${e.label} ↗</span></a><div class="portfolio-meta"><span>${e.kind}</span><strong>${e.name}</strong><small>${e.scope}</small><p>${e.copy}</p><div class="portfolio-actions"><a href="${e.href}">${e.label} <span aria-hidden="true">↗</span></a></div></div>`;
  q('.portfolio-grid').append(card);
 }
+const invitation=d.createElement('article');
+invitation.className='portfolio-card portfolio-invitation';invitation.dataset.portfolioInvitation='';
+invitation.setAttribute('aria-labelledby','next-project-title');
+invitation.innerHTML='<p class="invitation-eyebrow">Start a conversation</p><h3 id="next-project-title">Your business,<br><em>next.</em></h3><p class="invitation-copy">A new website, a stronger brand or marketing support that brings everything together.</p><a class="button primary" href="#contact">Tell us what you need <span aria-hidden="true">↗</span></a><p class="invitation-note">A single project or ongoing support.<br>A clear plan, shaped around your business.</p>';
+q('[data-marketing-example]').before(invitation);
 text('#pricing .section-heading .eyebrow', 'Website options');
 html('#pricing .section-heading h2', 'A professional website.<br><em>A clear starting point.</em>');
 text('#pricing .section-heading > p', 'Our website options sit alongside the wider marketing services. For branding, campaigns or ongoing support, tell us what you need and we will prepare a tailored quote.');

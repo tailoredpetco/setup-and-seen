@@ -38,6 +38,14 @@
 .sales-marketing-home .marketing-example.brand .portfolio-image{background:#dfe8eb}
 .sales-marketing-home .marketing-example.brand .portfolio-image img{height:auto;width:88%;max-height:100%}
 .sales-marketing-home .marketing-example.social .portfolio-image{background:#e9e6df}
+.sales-marketing-home .office-portfolio-grid .portfolio-invitation{padding:clamp(30px,3.4vw,52px);background:#f7f3ec;border:1px solid #e0ded4;color:#202522;align-items:flex-start;justify-content:center}
+.sales-marketing-home .invitation-eyebrow{margin:0 0 30px;color:#315f8c;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.sales-marketing-home .portfolio-invitation h3{margin:0 0 25px;font-family:"Playfair Display",Georgia,serif;font-weight:500;font-size:clamp(42px,4.4vw,65px);line-height:1.08;letter-spacing:-.025em;font-variant-ligatures:none}
+.sales-marketing-home .portfolio-invitation h3 em{color:#315f8c;font-weight:500}
+.sales-marketing-home .invitation-copy{font-size:17px;line-height:1.75;margin:0 0 28px;max-width:360px}
+.sales-marketing-home .portfolio-invitation .button{background:#315f8c;color:#fff;border:1px solid #315f8c;padding:16px 22px;min-height:50px;line-height:1.4;font-size:12px;white-space:normal;gap:22px}
+.sales-marketing-home .portfolio-invitation .button:focus-visible{outline-color:#315f8c}
+.sales-marketing-home .invitation-note{font-size:13px;line-height:1.7;margin:30px 0 0;padding-top:22px;border-top:1px solid #cbd2d3;width:100%;color:#555d5a}
 .sales-marketing-home .contact-next-steps{list-style:none;display:block;padding:20px 0;margin:24px 0;border-block:1px solid #ccd4d7;font-size:15px;line-height:1.75}
 .sales-marketing-home .contact-next-steps strong{display:block;margin-bottom:6px;font-size:16px;font-weight:600}
 .sales-marketing-home:has(.cookie-banner) .message-us-widget,.sales-marketing-home:has(.cookie-banner) .cookie-settings{visibility:hidden}
