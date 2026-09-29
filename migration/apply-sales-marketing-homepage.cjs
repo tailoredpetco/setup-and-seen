@@ -39,17 +39,23 @@ text('.work-heading > p', 'A closer look at the websites, identities and social 
 for (const el of d.querySelectorAll('.portfolio-meta > span')) el.textContent = el.textContent.replace(/^\d+\s*·\s*/, '');
 d.querySelectorAll('[data-marketing-example], [data-portfolio-invitation]').forEach(el => el.remove());
 const examples = [
- {kind:'Brand identity',name:'Set Up & Seen',scope:'Visual identity · Branded materials',copy:'Our own identity, brought together through the original wordmark, considered typography and a consistent palette.',src:'/assets/marketing-work/brand-card.webp',alt:'Set Up and Seen blue brand card with original wordmark and the message A clear presence. A confident next step.',cls:'brand',width:2008,height:1300,href:'/services/branding-logo-design',label:'Explore branding services'}
+ {kind:'Brand identity',name:'Set Up & Seen',scope:'Visual identity · Branded materials',copy:'From the first impression to the finer details. Our own identity, carried consistently across every touchpoint.',src:'/assets/marketing-work/brand-card.webp',alt:'Set Up and Seen blue brand card with original wordmark and the message A clear presence. A confident next step.',cls:'brand',width:2008,height:1300,href:'/services/branding-logo-design',label:'Explore branding services'}
 ];
 for (const e of examples) {
  const card = d.createElement('article'); card.className = 'portfolio-card marketing-example '+e.cls;card.dataset.marketingExample='';
  card.innerHTML = `<a class="portfolio-image" href="${e.href}"><img src="${e.src}" alt="${e.alt}" width="${e.width}" height="${e.height}" loading="lazy" decoding="async"><span class="portfolio-view">${e.label} ↗</span></a><div class="portfolio-meta"><span>${e.kind}</span><strong>${e.name}</strong><small>${e.scope}</small><p>${e.copy}</p><div class="portfolio-actions"><a href="${e.href}">${e.label} <span aria-hidden="true">↗</span></a></div></div>`;
+ if(e.cls==='brand') {
+  // Stage the original supplied artwork in native HTML; never redraw the identity.
+  card.querySelector('.portfolio-image').classList.add('brand-artwork');
+  card.querySelector('.portfolio-image').setAttribute('aria-label','Explore Set Up and Seen branding services');
+  card.querySelector('.portfolio-image').innerHTML='<span class="brand-paper"><img src="/assets/marketing-work/original-wordmark-colour.svg" alt="Set Up and Seen original logo" width="807" height="175" loading="lazy" decoding="async"><span>The identity,<br><em>brought together.</em></span></span><img class="brand-blue-card" src="/assets/marketing-work/brand-card.webp" alt="Our original blue brand card: A clear presence. A confident next step." width="1200" height="777" loading="lazy" decoding="async"><span class="portfolio-view">Explore branding services ↗</span>';
+ }
  q('.portfolio-grid').append(card);
 }
 const invitation=d.createElement('article');
 invitation.className='portfolio-card portfolio-invitation';invitation.dataset.portfolioInvitation='';
-invitation.setAttribute('aria-labelledby','next-project-title');
-invitation.innerHTML='<p class="invitation-eyebrow">Start a conversation</p><h3 id="next-project-title">Your business,<br><em>next.</em></h3><p class="invitation-copy">A new website, a stronger brand or marketing support that brings everything together.</p><a class="button primary" href="#contact">Tell us what you need <span aria-hidden="true">↗</span></a><p class="invitation-note">A single project or ongoing support.<br>A clear plan, shaped around your business.</p>';
+invitation.setAttribute('aria-labelledby','next-project-title');invitation.id='your-next-chapter';
+invitation.innerHTML='<div class="invitation-heading"><p class="invitation-eyebrow">Your next chapter</p><img src="/assets/marketing-work/original-ampersand-white.svg" alt="" width="128" height="121" loading="lazy" decoding="async"></div><div class="invitation-message"><h3 id="next-project-title">Your business,<br><em>next.</em></h3><p class="invitation-copy">Let’s give your business a presence you’re proud to share.</p><p class="invitation-services">Websites, branding and marketing,<br>thoughtfully brought together.</p></div><div class="invitation-footer"><a class="button primary" href="#contact">Tell us what you need <span aria-hidden="true">↗</span></a><p class="invitation-note">One project or ongoing support. Built around you.</p></div>';
 q('[data-marketing-example]').before(invitation);
 text('#pricing .section-heading .eyebrow', 'Website options');
 html('#pricing .section-heading h2', 'A professional website.<br><em>A clear starting point.</em>');
