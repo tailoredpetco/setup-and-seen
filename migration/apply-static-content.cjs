@@ -51,7 +51,7 @@ runtime += '\n\nfunction addAcquisitionContextNotice() {\n' + attribution.slice(
 runtime += '\n' + fs.readFileSync('migration/static-interactions.js', 'utf8');
 // The September campaign update refines attribution and enquiry confirmation.
 // Keep these maintained sources after the legacy extraction transforms.
-const campaignSource = fs.readFileSync('migration/campaign-runtime.js','utf8');
+const campaignSource = fs.readFileSync('migration/campaign-runtime.js','utf8') + '\n' + fs.readFileSync('migration/cookie-choices.js','utf8');
 const campaignFunctions = acorn.parse(campaignSource,{ecmaVersion:'latest'}).body.filter(n=>n.type==='FunctionDeclaration');
 const campaignOverrides = Object.fromEntries(campaignFunctions.map(n=>[n.id.name,campaignSource.slice(n.start,n.end)]));
 for(const node of acorn.parse(runtime,{ecmaVersion:'latest'}).body.filter(n=>n.type==='FunctionDeclaration').reverse()) {
