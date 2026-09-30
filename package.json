@@ -2,11 +2,13 @@
   "name": "setup-and-seen-maintenance",
   "private": true,
   "scripts": {
-    "build:static": "node migration/apply-static-content.cjs && node migration/apply-offer-clarity.cjs && node migration/apply-homepage-review.cjs && node migration/apply-studio-voice.cjs && node migration/apply-yell-audit.cjs && node migration/apply-sales-marketing-homepage.cjs && node migration/apply-performance-case-studies.cjs",
-    "test": "node migration/test-first-website.cjs && node migration/test-static-content.cjs && node migration/test-analytics-consent.cjs && node migration/test-marketing-consent.cjs"
+    "build:static": "node migration/apply-static-content.cjs && node migration/apply-offer-clarity.cjs && node migration/apply-homepage-review.cjs && node migration/apply-studio-voice.cjs && node migration/apply-yell-audit.cjs && node migration/apply-sales-marketing-homepage.cjs && node migration/apply-performance-case-studies.cjs && node migration/apply-social-preview.cjs",
+    "build:social-preview": "node migration/build-social-preview.cjs",
+    "test": "node migration/test-first-website.cjs && node migration/test-static-content.cjs && node migration/test-analytics-consent.cjs && node migration/test-marketing-consent.cjs && node migration/test-social-preview.cjs"
   },
   "devDependencies": {
     "acorn": "8.18.0",
+    "fontkit": "^2.0.4",
     "jsdom": "30.0.1",
     "sharp": "^0.35.5"
   }
