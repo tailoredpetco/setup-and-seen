@@ -1,5 +1,12 @@
 # Set Up & Seen
 
+The approved 40-second introduction is maintained in
+`migration/apply-introduction-video.cjs` and `migration/introduction-video.css`,
+applied after the existing static build passes. Its original MP4, extracted
+poster and generated CSS live in `netlify-site/assets/video/`. Keep the original
+voice, artwork and burned-in captions. The native player uses `preload="none"`,
+has no autoplay and is accompanied by a keyboard-accessible transcript.
+
 The production website is the saved HTML, CSS, fonts and scripts in `netlify-site/`.
 Netlify publishes this directory directly from `main`. Use a branch and pull
 request preview to check changes before merging.
