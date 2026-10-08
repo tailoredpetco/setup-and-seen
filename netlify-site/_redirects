@@ -12,8 +12,8 @@ https://setupandseen.co.uk/* https://www.setupandseen.co.uk/:splat 301!
 /your-first-business-website /your-first-business-website/index.html 200!
 /advice/small-business-website-cost-uk /advice/small-business-website-cost-uk/index.html 200!
 /advice/diy-website-or-professional-website /advice/diy-website-or-professional-website/index.html 200!
-/competition /website-offer 302!
-/competition/index.html /website-offer 302!
+/competition /competition/index.html 200!
+/competition/index.html /competition 301!
 /competition/terms /competition/terms/index.html 200!
 /competition/thank-you /competition/thank-you/index.html 200!
 /services/website-audit /services/website-audit/index.html 200!

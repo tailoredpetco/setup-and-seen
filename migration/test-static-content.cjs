@@ -173,10 +173,12 @@ function interactive(route,search='') {
  // The retired entry page must not accept new website entries.
  const retired=byRoute.get('/competition').d;
  assert.equal(retired.querySelector('form'),null);
- assert.match(retired.querySelector('meta[http-equiv="refresh"]').content,/\/website-offer/);
+ assert.equal(retired.querySelector('meta[http-equiv="refresh"]'),null);
+ assert.match(retired.querySelector('h1').textContent,/prize draw has closed/);
+ assert.ok(retired.querySelector('a[href="/competition/terms"]'));
  assert.equal(home.querySelector('.competition-home-banner'),null);
  assert.equal(home.querySelector('a[href="/competition"]'),null);
- assert.match(fs.readFileSync(path.join(root,'_redirects'),'utf8'),/^\/competition \/website-offer 302!$/m);
+ assert.match(fs.readFileSync(path.join(root,'_redirects'),'utf8'),/^\/competition \/competition\/index\.html 200!$/m);
  for(const {dom} of byRoute.values()) dom.window.close();
  console.log(`${pages.length} pages: static content, links, metadata, assets and form contracts passed. Native menus, cookie choices, contact panel, package preselection, enquiry success/failure passed with local network mocks.`);
 })().catch(e=>{console.error(e);process.exitCode=1;});
