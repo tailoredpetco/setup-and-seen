@@ -1,3 +1,97 @@
+/* Homepage audit: clearer offer journey within the approved identity. */
+.home-reviewed .section-pad{padding-block:76px}
+.home-reviewed .section-heading{gap:7%;margin-bottom:38px}
+.home-reviewed .section-heading h2,.home-reviewed .about h2,.home-reviewed .faqs h2,.home-reviewed .contact h2{font-size:clamp(34px,3.5vw,50px);line-height:1.15}
+.home-reviewed .hero{min-height:650px;grid-template-columns:49% 51%}
+.home-reviewed .hero-copy{padding:78px 5vw 64px 7vw}
+.home-reviewed .hero-copy:before{top:34px}
+.home-reviewed .hero h1{font-size:clamp(45px,4.4vw,65px);line-height:1.08;margin-bottom:24px}
+.home-reviewed .hero-lead{font-size:17px;line-height:1.7;margin-bottom:24px}
+.home-reviewed .hero-actions{gap:20px;align-items:flex-start}
+.home-reviewed .home-offer-button{background:#315f8c;color:#fff;white-space:normal;line-height:1.5;min-height:52px}
+.home-reviewed .home-offer-note{font-size:14px;line-height:1.7;color:#4e504a;margin:22px 0 0;max-width:470px}
+.home-reviewed .home-offer-note a{color:#315f8c;text-underline-offset:3px}
+.home-reviewed .reassurance{font-size:12px;line-height:1.7;letter-spacing:.025em;margin-top:22px}
+.home-reviewed .hero-office-highlight{min-height:650px;padding:45px 7%;gap:22px}
+.home-project-label{margin:0;color:#f6f3eb;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.office-screenshot-crop{display:block;position:relative;aspect-ratio:1332/856;overflow:hidden;background:#f5f4f0}
+.hero-office-highlight .office-screenshot-crop img{display:block;position:absolute;top:0;left:0;width:101.2012%;height:auto;aspect-ratio:1348/926;max-width:none}
+.home-reviewed .hero-project-stamp strong{font-size:clamp(27px,2.7vw,38px)}
+.home-reviewed .hero-project-stamp>span{font-size:12px;letter-spacing:.025em;text-transform:none}
+.home-reviewed .hero-case-study{margin-top:14px;font-size:15px}
+.home-reviewed .hero-case-study span{display:inline;font-size:inherit;letter-spacing:0}
+.home-reviewed .hero-project-stamp .home-project-scope{font-family:"DM Sans",sans-serif;font-size:12px;line-height:1.6;color:#f6f3eb;margin:18px 0 0;max-width:370px}
+.home-reviewed .testimonial-strip{padding-block:36px}
+.home-reviewed .testimonial-strip>p{font-size:clamp(23px,2vw,29px)}
+.home-reviewed .testimonial-strip a{font-size:12px;letter-spacing:.03em}
+.home-reviewed .october-package-note{margin-bottom:32px}
+.home-reviewed .pricing-grid{gap:20px}
+.home-reviewed .price-card{padding:32px 25px}
+.home-reviewed .price-card h3{font-size:29px}
+.home-reviewed .price-card .button{font-size:14px;line-height:1.5;white-space:normal;padding:15px 17px}
+.home-reviewed .price-card.featured{background:#e4edf3;color:#202522;border-color:#a6bdce;box-shadow:none;transform:none}
+.home-reviewed .price-card.featured p,.home-reviewed .price-card.featured li,.home-reviewed .price-card.featured small,.home-reviewed .price-card.featured .price{color:#202522}
+.home-reviewed .price-card.featured .package-detail-link{color:#315f8c}
+.home-reviewed #pricing .eyebrow,.home-reviewed #about .eyebrow{color:#315f8c}
+.home-reviewed .price-card.featured .price span{color:#202522}
+.home-reviewed .offer-options{padding:28px 0 0;margin-top:30px;border-top:1px solid #ccd9df}
+.home-reviewed .launch-choice-heading h3{font:500 28px/1.25 "Playfair Display",Georgia,serif;margin:10px 0}
+.home-reviewed .launch-choice-heading>p:not(.eyebrow){font-size:15px;line-height:1.7;max-width:800px}
+.home-reviewed .price-note{font-size:13px;line-height:1.75;margin-top:28px}
+.home-reviewed .work-heading{margin-bottom:35px}
+.home-reviewed .work-heading h2{font-size:clamp(34px,3.5vw,50px)}
+.home-reviewed .office-portfolio-grid{row-gap:35px}
+.home-reviewed .office-portfolio-card .portfolio-image{overflow:hidden}
+.home-reviewed .office-portfolio-card .portfolio-image img{width:101.2012%;height:auto;max-width:none;transform:none}
+.home-reviewed .portfolio-meta{padding-top:23px}
+.home-reviewed .portfolio-meta>p{font-size:15px;line-height:1.65}
+.home-reviewed .service-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.home-reviewed .service-card{padding:30px 25px;min-height:0}
+.home-reviewed .service-card h3{font-size:30px;margin-bottom:15px}
+.home-reviewed .service-card p:not(.service-kicker){font-size:16px;line-height:1.7}
+.home-reviewed .service-card .service-link{font-size:14px;min-height:44px;display:flex;align-items:center}
+.home-resource-links{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:25px}
+.home-resource-links a{font-size:14px;line-height:1.6;color:#315f8c;min-height:44px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:4px}
+.home-reviewed .brand-ampersand{display:inline-block;position:relative;width:.854em;height:.8em;margin-inline:.025em;vertical-align:-.025em;letter-spacing:0;font-style:normal}
+.home-reviewed .brand-ampersand svg{display:block;width:100%;height:100%;overflow:hidden}
+.home-reviewed .brand-ampersand-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.home-reviewed .approach .section-heading{align-items:start}
+.home-reviewed .approach h2{letter-spacing:0;font-kerning:normal;font-variant-ligatures:none}
+.home-reviewed .approach .section-heading>p{max-width:440px;margin:0;padding-top:6px}
+.home-reviewed .steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+.home-reviewed .steps article{min-height:0;padding:28px 24px;border-right:1px solid var(--stone)}
+.home-reviewed .steps article:last-child{border-right:0}
+.home-reviewed .steps h3{font-size:clamp(22px,1.9vw,26px);line-height:1.3;letter-spacing:0;margin:0 0 16px;min-height:2.6em}
+.home-reviewed .steps p{font-size:16px;line-height:1.7;max-width:none;margin:0}
+.home-reviewed .about{grid-template-columns:.85fr 1.15fr;gap:34px 9%;align-items:start;background:#e7eff2;border-block:1px solid #ccd9df}
+.home-reviewed .studio-intro h2{font-size:clamp(36px,3.8vw,54px);line-height:1.13;margin:0}
+.home-reviewed .studio-intro h2 em{color:#315f8c;font-weight:500}
+.home-reviewed .studio-location{font-size:13px;line-height:1.7;color:#315f8c;margin:25px 0 0}
+.home-reviewed .studio-summary>p{font-size:18px;line-height:1.8;margin:0 0 18px;max-width:600px}
+.home-reviewed .studio-summary .text-link{display:inline-flex;align-items:center;min-height:44px;line-height:1.6;margin-top:6px;font-size:15px;white-space:normal}
+.home-reviewed .studio-principles{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px;margin:4px 0 0;padding:30px 0 0;border-top:1px solid #b6c6ce}
+.home-reviewed .studio-principles dt{font-weight:600;font-size:17px;line-height:1.5;margin-bottom:8px}
+.home-reviewed .studio-principles dd{font-size:15px;line-height:1.7;margin:0;max-width:280px;color:#4e504a}
+.home-reviewed .health-check-strip{padding-block:38px}
+.home-reviewed .faqs{gap:8%}
+.home-reviewed .faq-group h3{font-size:16px}
+.home-reviewed .faq-list summary{font-size:17px;line-height:1.6;gap:20px}
+.home-reviewed .faq-list p{font-size:16px;line-height:1.75}
+.home-reviewed .contact{gap:7%}
+.home-reviewed .contact-next-steps{font-size:14px;line-height:1.7}
+.home-reviewed form label{font-size:14px;line-height:1.5;letter-spacing:.035em;text-transform:none}
+.home-reviewed input,.home-reviewed select,.home-reviewed textarea{font-size:16px;min-width:0;max-width:100%}
+.home-reviewed .form-note,.home-reviewed .privacy-check{font-size:13px;line-height:1.7}
+.home-reviewed a:focus-visible,.home-reviewed button:focus-visible,.home-reviewed summary:focus-visible{outline:3px solid #315f8c;outline-offset:5px}
+.home-reviewed .hero-office-highlight a:focus-visible,.home-reviewed footer a:focus-visible,.home-reviewed .october-offer-banner a:focus-visible{outline-color:#f7f3ec}
+.home-reviewed #main-content{scroll-margin-top:100px}
+@media(max-width:1050px){.home-reviewed .service-grid{grid-template-columns:1fr}.home-reviewed .service-card{padding:27px}.home-reviewed .service-card .service-kicker{margin-bottom:10px}.home-reviewed .pricing-grid{max-width:none}.home-reviewed .hero h1{font-size:48px}}
+@media(max-width:950px){.home-reviewed .hero{grid-template-columns:1fr;min-height:0}.home-reviewed .hero-copy{padding:74px 7vw 50px}.home-reviewed .hero-office-highlight{min-height:0;padding:40px 7vw}.home-reviewed .hero-browser-main,.home-reviewed .hero-project-stamp,.home-project-label{max-width:720px;width:100%;align-self:center}.home-reviewed .hero h1{font-size:clamp(43px,6.5vw,64px)}.home-reviewed .pricing-grid{grid-template-columns:1fr}.home-reviewed .steps{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.home-reviewed .section-pad{padding:52px 6vw}.home-reviewed .hero-copy{padding:66px 6vw 40px}.home-reviewed .hero-copy:before{left:6vw;top:28px}.home-reviewed .hero h1{font-size:clamp(39px,10.8vw,58px)}.home-reviewed .hero-actions{flex-direction:column;gap:17px}.home-reviewed .home-offer-button{padding:16px 20px;width:100%;justify-content:space-between;max-width:420px}.home-reviewed .hero-lead{font-size:16px}.home-reviewed .home-offer-note{font-size:14px}.home-reviewed .hero-office-highlight{padding:32px 6vw;gap:20px}.home-reviewed .testimonial-strip{padding:30px 6vw;gap:22px}.home-reviewed .testimonial-strip>p{font-size:24px}.home-reviewed .hero-project-stamp strong{font-size:30px}.home-reviewed .section-heading{margin-bottom:30px;gap:22px}.home-reviewed .steps{grid-template-columns:1fr}.home-reviewed .steps article{padding:28px 0}.home-reviewed .about{grid-template-columns:1fr;gap:26px}.home-reviewed .studio-summary>p{font-size:16px}.home-reviewed .studio-principles{grid-template-columns:1fr;gap:23px;padding-top:26px;margin:0}.home-reviewed .studio-principles dd{max-width:none}.home-reviewed .studio-location{margin-top:20px}.home-reviewed .office-portfolio-grid .portfolio-card{margin-bottom:0}.home-reviewed .portfolio-meta>strong{font-size:28px}.home-reviewed .portfolio-actions a{font-size:13px;min-height:44px;display:flex;align-items:center}.home-reviewed .health-check-strip{padding:30px 6vw}.home-reviewed .faqs{gap:32px}.home-reviewed .contact{gap:36px}.home-reviewed .direct-contact a{overflow-wrap:anywhere}.home-reviewed .price-card{padding:28px 24px}.home-reviewed .home-resource-links{gap:8px 22px}}
+@media(prefers-reduced-motion:reduce){.home-reviewed *{scroll-behavior:auto!important;animation:none!important;transition:none!important}.home-reviewed .reveal{opacity:1!important;transform:none!important}}
+@media(max-width:1100px){.home-reviewed .steps{grid-template-columns:repeat(2,minmax(0,1fr))}.home-reviewed .steps article:nth-child(2n){border-right:0}.home-reviewed .steps article:nth-child(-n+2){border-bottom:1px solid var(--stone)}.home-reviewed .steps h3{min-height:0}}
+@media(max-width:700px){.home-reviewed .steps{grid-template-columns:1fr}.home-reviewed .steps article{padding:24px 0!important;border-right:0;border-bottom:1px solid var(--stone)}.home-reviewed .steps article:last-child{border-bottom:0}.home-reviewed .steps h3{font-size:24px;margin:0 0 12px}.home-reviewed .approach .section-heading>p{padding-top:0}}
+
 /* Sales and marketing: original identity, real work, restrained native layout. */
 .sales-marketing-home .hero{grid-template-columns:51% 49%;min-height:640px}
 .sales-marketing-home .hero-copy{padding:68px 4.5vw 60px 7vw}

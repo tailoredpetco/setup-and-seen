@@ -12,8 +12,8 @@ function installMessageUsWidget() {
       '<h2 id="message-us-title">Message us</h2>' +
       '<p>Choose WhatsApp or email.</p>' +
       '<div class="message-us-options">' +
-      '<a class="message-us-option" href="https://wa.me/447999071045" target="_blank" rel="noreferrer noopener" aria-label="WhatsApp us – opens in a new tab"><span>WhatsApp us</span><span aria-hidden="true">↗</span></a>' +
-      '<a class="message-us-option" href="mailto:info@setupandseen.co.uk" aria-label="Email us at info@setupandseen.co.uk"><span>Email us</span><span aria-hidden="true">→</span></a>' +
+      '<a class="message-us-option" href="https://wa.me/447999071045" target="_blank" rel="noreferrer noopener" aria-label="WhatsApp us – opens in a new tab"><span>WhatsApp us</span></a>' +
+      '<a class="message-us-option" href="mailto:info@setupandseen.co.uk" aria-label="Email us at info@setupandseen.co.uk"><span>Email us</span></a>' +
       '</div>' +
       '<button class="message-us-close" type="button" aria-label="Close message options">×</button>' +
       '</div>' +
@@ -452,7 +452,7 @@ function updateEnquirySelection(form, value) {
   }
   var submit = form.querySelector('button[type="submit"]');
   if (submit) {
-    submit.innerHTML = (detail ? 'Request this package' : 'Send my enquiry') + ' <span aria-hidden="true">↗</span>';
+    submit.textContent = detail ? 'Request this package' : 'Send my enquiry';
     delete submit.dataset.originalLabel;
   }
 }

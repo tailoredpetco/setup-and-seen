@@ -32,8 +32,8 @@ const services = [
  ['Stay in touch', 'Email marketing', 'Newsletters and campaign emails that keep your business in mind, explain your offers and guide readers to the next step.', '/services/marketing-support', 'Discuss email marketing'],
  ['From strategy to everyday support', 'Marketing support', 'Practical planning, copywriting, campaign materials and ongoing help. We agree the priorities and take care of the work you need support with.', '/services/marketing-support', 'Explore marketing support']
 ];
-html('.service-grid', services.map(([k,h,p,url,label]) => `<article class="service-card"><p class="service-kicker">${k}</p><h3>${h}</h3><p>${p}</p><a class="service-link" href="${url}">${label} <span aria-hidden="true">↗</span></a></article>`).join(''));
-html('#services .home-resource-links', '<a href="/services/website-audit">Website reviews →</a><a href="/services/website-hosting-care">Hosting &amp; care →</a><a href="/advice">Advice &amp; guides →</a>');
+html('.service-grid', services.map(([k,h,p,url,label]) => `<article class="service-card"><p class="service-kicker">${k}</p><h3>${h}</h3><p>${p}</p><a class="service-link" href="${url}">${label}</a></article>`).join(''));
+html('#services .home-resource-links', '<a href="/services/website-audit">Website reviews</a><a href="/services/website-hosting-care">Hosting &amp; care</a><a href="/advice">Advice &amp; guides</a>');
 html('.work-heading h2', 'Good work.<br><em>Made for real businesses.</em>');
 text('.work-heading > p', 'A closer look at the websites, identities and social content we create. Each project has its own scope, agreed around the business and its customers.');
 for (const el of d.querySelectorAll('.portfolio-meta > span')) el.textContent = el.textContent.replace(/^\d+\s*·\s*/, '');

@@ -45,7 +45,7 @@
     result.querySelector('[data-result-costs]').textContent = pack.costs;
     result.querySelector('[data-result-timing]').textContent = pack.timing;
     result.querySelector('[data-result-details]').href = pack.url;
-    result.querySelector('[data-result-enquire]').textContent = answer.key === 'bespoke' ? 'Help us plan our website ↗' : 'Enquire about this package ↗';
+    result.querySelector('[data-result-enquire]').textContent = answer.key === 'bespoke' ? 'Help us plan our website' : 'Enquire about this package';
     var url = new URL('/#contact', location.origin);
     url.searchParams.set('service',answer.key==='bespoke'?'Not sure yet':pack.name);
     url.searchParams.set('finder',answer.key);

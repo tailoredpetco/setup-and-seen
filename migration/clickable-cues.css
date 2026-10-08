@@ -1,0 +1,31 @@
+/* Clear click targets without decorative arrows. Keep the approved brand colours. */
+body .service-card .service-link {
+  color: #202522;
+  background: #e9eff4;
+  border-color: #9bafbf;
+  max-width: 100%;
+  text-align: center;
+}
+body .service-card .service-link:hover,
+body .service-card .service-link:focus-visible {
+  color: #202522;
+  background: #dce7ef;
+  border-color: #315f8c;
+}
+body :is(.button, .aligned-button, .service-link, .october-offer-button, .message-us-option) {
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+body :is(.button, .aligned-button, .service-link, .october-offer-button, .message-us-option):not(:disabled):hover {
+  box-shadow: 0 0 0 3px rgb(49 95 140 / 14%);
+}
+body :is(.button, .aligned-button, .service-link, .october-offer-button, .message-us-option, .text-link, .portfolio-actions a):focus-visible {
+  outline: 2px solid #315f8c;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 85%);
+}
+@media (prefers-reduced-motion: reduce) {
+  body :is(.button, .aligned-button, .service-link, .october-offer-button, .message-us-option) {
+    transition: none;
+  }
+}

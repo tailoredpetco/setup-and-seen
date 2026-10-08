@@ -170,8 +170,8 @@
       '<h2 id="message-us-title">Message us</h2>' +
       '<p>Choose WhatsApp or email.</p>' +
       '<div class="message-us-options">' +
-      '<a class="message-us-option" href="https://wa.me/447999071045" target="_blank" rel="noreferrer noopener" aria-label="WhatsApp us – opens in a new tab"><span>WhatsApp us</span><span aria-hidden="true">↗</span></a>' +
-      '<a class="message-us-option" href="mailto:info@setupandseen.co.uk" aria-label="Email us at info@setupandseen.co.uk"><span>Email us</span><span aria-hidden="true">→</span></a>' +
+      '<a class="message-us-option" href="https://wa.me/447999071045" target="_blank" rel="noreferrer noopener" aria-label="WhatsApp us – opens in a new tab"><span>WhatsApp us</span></a>' +
+      '<a class="message-us-option" href="mailto:info@setupandseen.co.uk" aria-label="Email us at info@setupandseen.co.uk"><span>Email us</span></a>' +
       '</div>' +
       '<button class="message-us-close" type="button" aria-label="Close message options">×</button>' +
       '</div>' +
@@ -301,7 +301,7 @@
       '<p>A focused one-page business website for customers who need a professional presence without the usual wait.</p>' +
       '<div class="launch-choice-price"><strong>£495</strong><span>one-off project</span></div>' +
       '<ul><li>One scrolling page with up to six sections</li><li>Mobile-friendly design and enquiry form</li><li>Ready to launch within one booked working day</li></ul>' +
-      '<a class="text-link" href="/services/one-day-website">See the One-Day Website <span>→</span></a>' +
+      '<a class="text-link" href="/services/one-day-website">See the One-Day Website </a>' +
       '</article>' +
       '<article class="launch-choice-card">' +
       '<small>No large upfront build cost</small>' +
@@ -310,7 +310,7 @@
       '<div class="launch-choice-price"><strong>£149</strong><span>a month for 12 months</span></div>' +
       '<p class="launch-choice-total">Total payable £1,788. Managed hosting and care included during the plan.</p>' +
       '<ul><li>Five-page mobile-friendly website</li><li>One standard .co.uk domain</li><li>One small content update each month</li></ul>' +
-      '<a class="text-link" href="/services/managed-website-starter">See the monthly plan <span>→</span></a>' +
+      '<a class="text-link" href="/services/managed-website-starter">See the monthly plan </a>' +
       '</article>' +
       '</div>';
 
@@ -593,7 +593,7 @@
         finderButton.setAttribute("data-package-finder-hero", "true");
         finderButton.classList.add("package-finder-home-button");
         finderButton.href = finderPath;
-        finderButton.textContent = "Find a website package ↗";
+        finderButton.textContent = "Find a website package";
       }
       if (!document.querySelector("[data-finder-home-note]")) {
         var finderNote = document.createElement("p");

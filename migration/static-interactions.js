@@ -60,7 +60,7 @@ function updateEnquirySelection(form, value) {
   }
   var submit = form.querySelector('button[type="submit"]');
   if (submit) {
-    submit.innerHTML = (detail ? 'Request this package' : 'Send my enquiry') + ' <span aria-hidden="true">↗</span>';
+    submit.textContent = detail ? 'Request this package' : 'Send my enquiry';
     delete submit.dataset.originalLabel;
   }
 }
