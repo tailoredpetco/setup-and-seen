@@ -103,7 +103,7 @@ for (const script of d.querySelectorAll('script[type="application/ld+json"]')) {
 const amp=q('h2 .brand-ampersand').cloneNode(true), heading=q('.hero h1'), first=heading.firstChild;
 const parts=first.textContent.split('&');first.replaceWith(d.createTextNode(parts[0]),amp,d.createTextNode(parts[1]));
 const main=q('main');
-for(const s of ['.hero','.october-offer-banner','.testimonial-strip','#services','#work','#pricing','#approach','#about','.health-check-strip','#faqs','#contact'])main.append(q(s));
+for(const s of ['.hero','.october-offer-banner','#services','#work','#pricing','#approach','#about','.health-check-strip','#faqs','#contact'])main.append(q(s));
 // Fold the new native layout into the existing single stylesheet bundle.
 const css=fs.readFileSync(path.join(__dirname,'homepage-review.css'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sales-marketing-homepage.css'),'utf8');
 const name='homepage-review-'+crypto.createHash('sha256').update(css).digest('hex').slice(0,12)+'.css';
