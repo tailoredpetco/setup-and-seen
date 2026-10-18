@@ -275,8 +275,8 @@ function showEnquiryConfirmation(form) {
       '<div class="enquiry-confirmation" role="status" tabindex="-1">' +
       '<span aria-hidden="true">✓</span>' +
       '<p class="eyebrow">Enquiry received</p>' +
-      '<h3>Thank you. We have received your enquiry.</h3>' +
-      '<p>We will email you to discuss what you need and confirm the scope, full costs and timescale. No payment has been taken.</p>' +
+      '<h3>Thank you. I have received your enquiry.</h3>' +
+      '<p>I will email you to discuss what you need and confirm the scope, full costs and timescale. No payment has been taken.</p>' +
       '<button class="text-button" type="button" data-send-another-enquiry>Send another enquiry</button>' +
       "</div>";
 
@@ -337,7 +337,7 @@ async function handleEnquiry(event, form) {
       } catch (marketingError) { /* Tracking must never block a successful enquiry. */ }
     } catch (error) {
       setButtonState(form, false, "");
-      showError(form, "error-message", "Sorry, your enquiry could not be sent. Please call us on 01384 492406.");
+      showError(form, "error-message", "Sorry, your enquiry could not be sent. Please call me on 01384 492406.");
     }
   }
 
@@ -445,7 +445,7 @@ function updateEnquirySelection(form, value) {
     var panel = document.createElement('div');
     panel.className = 'selected-package';
     panel.setAttribute('role', 'status');
-    [['small', 'YOUR SELECTED PACKAGE'], ['strong', select.value], ['span', detail.join(' · ')], ['p', 'No payment is taken today. We will confirm the final scope, price and timescale in writing before you commit.']].forEach(function (item) {
+    [['small', 'YOUR SELECTED PACKAGE'], ['strong', select.value], ['span', detail.join(' · ')], ['p', 'No payment is taken today. I will confirm the final scope, price and timescale in writing before you commit.']].forEach(function (item) {
       var element = document.createElement(item[0]); element.textContent = item[1]; panel.appendChild(element);
     });
     form.insertBefore(panel, form.querySelector('label'));
@@ -469,7 +469,7 @@ function installEnquirySelection() {
     var link = event.target.closest('[data-enquiry-service]');
     if (link) updateEnquirySelection(form, link.getAttribute('data-enquiry-service'));
   });
-  if (params.get('form') === 'error') showError(form, 'error-message', 'Sorry, your enquiry could not be sent. Please call us on 01384 492406.');
+  if (params.get('form') === 'error') showError(form, 'error-message', 'Sorry, your enquiry could not be sent. Please call me on 01384 492406.');
 }
 
 function initialiseStaticPage() {
