@@ -1,62 +1,49 @@
 # Set Up & Seen
 
-The approved 40-second introduction is maintained in
-`migration/apply-introduction-video.cjs` and `migration/introduction-video.css`,
-applied after the existing static build passes. Its original MP4, extracted
-poster and generated CSS live in `netlify-site/assets/video/`. Keep the original
-voice, artwork and burned-in captions. The native player uses `preload="none"`,
-has no autoplay and is accompanied by a keyboard-accessible transcript.
+The production website is the saved HTML, CSS, fonts, artwork and scripts in
+`netlify-site/`. Netlify publishes this directory from `main`.
 
-The production website is the saved HTML, CSS, fonts and scripts in `netlify-site/`.
-Netlify publishes this directory directly from `main`. Use a branch and pull
-request preview to check changes before merging.
+## Current creative direction
 
-## Website maintenance
+The 18 October 2026 brief uses **I, my and me** for the independent business.
+This supersedes September’s we/our wording. Preserve genuine client quotations,
+customer questions and consent statements. The Office Partner and The Tailored
+Pet Co are owned businesses and must be labelled accordingly. They demonstrate
+design work and must not be presented as independent endorsements.
 
-Website business copy uses **we, our and us**, as confirmed by Maria on 27 September 2026. Preserve genuine client quotations and customer consent wording.
+The homepage, relevant service examples and portfolio motion are maintained in
+`migration/apply-creative-review.cjs`, `migration/creative-home.html`,
+`migration/creative-review.css` and `migration/creative-motion.js`.
+See `migration/CREATIVE_REVIEW_20261018.md` for the implementation and QA notes.
 
-- Keep current copy, package links and navigation in HTML. Do not add content
-  through a delayed client-side patch.
-- Headings and display text use self-hosted Playfair Display. Preserve the
-  existing wordmark and decorative brand lettering, which retain their original
-  styling. Keep the existing site colour palette and DM Sans body text.
-- `migration/static-interactions.js` contains the native menu and enquiry
-  selection behaviour. `migration/static-polish.css` contains shared refinements.
-- After changing these maintenance sources, run `npm ci`, `npm run build:static`
-  and `npm test`, then commit both the sources and generated site files.
-- `apply-static-content.cjs` saves the previously approved navigation, package
-  cards and contact links in the HTML, removes the former Sites rendering
-  runtime, and generates `site-interactions-sep13.js` and `assets/site-sep13.css`.
-  It reuses the established Netlify form handlers without changing form names,
-  field contracts, endpoints or consent-gated lead tracking.
-- `migration/rebuild-current-live.sh` is a historical migration utility that
-  expects the old rendering payload. Do not use it to rebuild the current site;
-  use the production Git history when a restoration is needed.
+Keep the original logo artwork and proportions, self-hosted Playfair Display and
+DM Sans, and existing brand palette. Genuine screenshots and approved artwork
+are used without fabricated results or altered portfolio features.
 
-The £149 monthly plan, £1,788 minimum commitment, post-term options and existing
-payment links are separate from these SEO and typography changes.
+## Maintenance
 
-The broader sales and marketing homepage is maintained in
-`migration/apply-sales-marketing-homepage.cjs` and
-`migration/sales-marketing-homepage.css`, after the earlier copy audits and before
-the final performance bundle. It preserves the approved horizontal logo and
-original brand artwork. The two additional portfolio images are optimised copies
-of the approved Office Partner social post and Set Up & Seen business card.
-Keep website offer pricing and form contracts separate from homepage positioning.
+- Make content available in HTML rather than inserting it after page load.
+- Run `npm ci`, `npm run build:static` and `npm test`. Also run
+  `node migration/test-vehicle-advert-service.cjs` when that service changes.
+- Commit both maintenance sources and generated site files. Review a branch
+  before publishing, unless direct publication is explicitly authorised.
+- `build:static` applies the current creative review. Earlier migration scripts
+  are retained as historical transformations and must not be chained against
+  the new layout: they reintroduce obsolete sections and wording.
+- Use Git history to restore a previous version. The historical
+  `migration/rebuild-current-live.sh` expects the former rendering payload.
 
-The 28 September audit corrections are maintained in `apply-yell-audit.cjs`.
-`migration/analytics-consent.js` uses basic consent mode: load Google Analytics
-only after acceptance, disable measurement and delete the site's Analytics
-cookies on withdrawal. Advertising consent remains denied. The existing
-consent-gated `generate_lead` event is preserved; reporting and conversion
-imports in Google Analytics/Ads require separate account verification.
+The homepage animation loads only on eligible desktop viewports when visible,
+with a pause control. Mobile, reduced-motion and data-saving preferences receive
+still images. The work-page portfolio video is user-controlled. The former
+40-second introduction remains archived in `netlify-site/assets/video/`.
 
-The 29 September mobile-performance and portfolio corrections are maintained in
-`migration/apply-performance-case-studies.cjs`, the last static build step. It
-bundles the homepage styles in their original cascade order, preloads the
-approved display fonts, prevents the enhanced mobile header changing height at
-startup, and preserves ordered consent and interaction scripts. The original
-logo files remain unchanged; `node migration/optimise-approved-logos.cjs` creates
-the lossless responsive derivatives using Sharp. Existing cached assets remain
-available. Individual case studies retain their URLs, sitemap entries and
-enquiry routes, with specific descriptions grounded in their existing screenshots.
+Preserve the Netlify enquiry form name, field contract, honeypot, success/error
+behaviour and service preselection. Tests simulate network submissions rather
+than sending live enquiries. Keep Analytics and advertising consent separate;
+tracking must remain disabled until the appropriate permission is given.
+
+Do not change prices, payment links, offer deadlines or legal terms as part of a
+design change. The £199 offer and optional £29 care plan have their own published
+terms; standard website packages, the £149 monthly plan and its £1,788 minimum
+commitment remain separate. Confirm current scope before any future promotion.
