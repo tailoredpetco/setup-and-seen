@@ -34,6 +34,8 @@ fs.writeFileSync(file,dom.serialize());dom.window.close();
 // Retain form field names, choices, privacy statement and submission behaviour.
 const homeFile=path.join(root,'index.html');
 const home=new JSDOM(fs.readFileSync(homeFile,'utf8')),hd=home.window.document;
+// Keep the shared navigation visible above the enquiry in the same brand voice.
+for(const a of hd.querySelectorAll('header a[href="/our-work"],footer a[href="/our-work"]'))if(a.textContent.trim()==='My work')a.textContent='Our work';
 hd.querySelector('#contact .contact-intro>p:not(.eyebrow)').textContent='Tell us a little about your business and the help you need. Use the form, email, phone or WhatsApp, whichever suits you.';
 const reassurance=hd.querySelector('#enquiry-next-steps');
 for(const node of reassurance.childNodes)if(node.nodeType===3)node.nodeValue=node.nodeValue.replace('I will discuss','We will discuss');
