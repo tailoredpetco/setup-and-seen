@@ -1,0 +1,43 @@
+.marketing-support-page{--marketing-blue:#315f8c;--marketing-cream:#f7f3ec;--marketing-ink:#202522}
+.marketing-support-page .marketing-hero{grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:64px;align-items:center;padding-top:76px;padding-bottom:76px}
+.marketing-support-page .marketing-hero h1{font-size:clamp(46px,5.3vw,76px);line-height:1.08;max-width:820px;letter-spacing:-.035em;margin:24px 0}
+.marketing-support-page em{font-weight:500;color:var(--marketing-blue)}
+.marketing-support-page .marketing-opening{font-size:22px;line-height:1.5;max-width:680px;margin:0 0 18px}
+.marketing-support-page .service-page-lead{font-size:18px;line-height:1.75;max-width:720px}
+.marketing-support-page .hero-actions{gap:22px;flex-wrap:wrap;margin-top:28px}
+.marketing-support-page .hero-actions .button{font-size:13px;padding:19px 23px}
+.marketing-support-page .marketing-location{font-size:13px;line-height:1.6;color:#525f5b;margin:24px 0 0}
+.marketing-support-page .marketing-start{background:var(--marketing-blue);color:var(--marketing-cream);padding:38px 32px;border:0;box-shadow:14px 14px 0 #d6ddd6;transform:rotate(1deg)}
+.marketing-support-page .marketing-start strong{font-size:34px;line-height:1.2;color:inherit;display:block;margin:22px 0}
+.marketing-support-page .marketing-start small{color:inherit;letter-spacing:.07em}
+.marketing-support-page .marketing-start ul{list-style:none;padding:0;margin:25px 0;display:grid;gap:0}
+.marketing-support-page .marketing-start li{padding:13px 0;border-bottom:1px solid #ffffff35;font-size:18px;line-height:1.4}
+.marketing-support-page .marketing-start p{font-size:15px;line-height:1.7;margin:24px 0 0}
+.marketing-support-page .marketing-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 36px}
+.marketing-support-page .marketing-service-grid article{border-top:2px solid var(--marketing-blue);padding-top:22px}
+.marketing-support-page .marketing-category{font-size:12px;line-height:1.5;letter-spacing:.05em;text-transform:uppercase;color:var(--marketing-blue);margin:0 0 14px}
+.marketing-support-page .marketing-service-grid h3,.marketing-support-page .marketing-options-grid h3{font-family:"Playfair Display",Georgia,serif;font-size:29px;line-height:1.2;margin:0 0 20px;font-weight:500}
+.marketing-support-page .marketing-service-grid article>p:not(.marketing-category){font-size:16px;line-height:1.75;margin:0 0 15px}
+.marketing-support-page .marketing-service-grid .marketing-deliverable{color:#435e65;border-left:2px solid #9bafbd;padding-left:14px}
+.marketing-support-page .marketing-proof{grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:70px}
+.marketing-support-page .marketing-proof em{color:#d5e3ed}
+.marketing-support-page .marketing-proof .marketing-proof-note{font-size:13px;line-height:1.6;color:#cbd8e1;margin-top:30px}
+.marketing-support-page .marketing-proof figure{max-width:340px;transform:rotate(2deg)}
+.marketing-support-page .marketing-options{background:#eeeee7}
+.marketing-support-page .marketing-options-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+.marketing-support-page .marketing-options-grid article{background:var(--marketing-cream);border:1px solid #cbd1cb;padding:34px;display:flex;flex-direction:column;align-items:flex-start}
+.marketing-support-page .marketing-options-grid p,.marketing-support-page .marketing-options-grid li{font-size:17px;line-height:1.7}
+.marketing-support-page .marketing-options-grid .marketing-category{font-size:12px}
+.marketing-support-page .marketing-options-grid ul{padding-left:20px;margin:8px 0 28px}
+.marketing-support-page .marketing-options-grid li{padding:5px 0}
+.marketing-support-page .marketing-options-grid a{margin-top:auto}
+.marketing-support-page .marketing-cost-note{font-size:14px;line-height:1.7;max-width:900px;margin:25px 0 0}
+.marketing-support-page .marketing-process .service-process{gap:30px}
+.marketing-support-page .marketing-no-payment{font-size:14px;margin-top:20px}
+.marketing-support-page .vehicle-related{border-top:1px solid #ccd2cb;padding-top:45px;padding-bottom:45px;background:#eeeee7}
+.marketing-support-page .vehicle-related h2{font-size:32px}
+.marketing-support-page .vehicle-related .section-heading{margin-bottom:24px}
+.marketing-support-page :is(a,button,summary):focus-visible{outline:3px solid #5483b2;outline-offset:5px}
+.marketing-support-page :is(#marketing-services,#support-options){scroll-margin-top:110px}
+@media(max-width:1000px){.marketing-support-page .marketing-hero{gap:35px;grid-template-columns:minmax(0,1.5fr) minmax(240px,.8fr)}.marketing-support-page .marketing-hero h1{font-size:58px}.marketing-support-page .marketing-start{padding:28px 24px}.marketing-support-page .marketing-start strong{font-size:30px}.marketing-support-page .marketing-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.marketing-support-page .marketing-proof{gap:35px}}
+@media(max-width:700px){.marketing-support-page .section-pad{padding:48px 24px}.marketing-support-page .marketing-hero{display:block;padding-top:38px}.marketing-support-page .marketing-hero h1{font-size:clamp(42px,10vw,58px)}.marketing-support-page .marketing-opening{font-size:20px}.marketing-support-page .service-page-lead{font-size:17px}.marketing-support-page .hero-actions{align-items:flex-start;gap:22px}.marketing-support-page .hero-actions .button{font-size:12px;max-width:100%;white-space:normal;text-align:center}.marketing-support-page .marketing-start{margin:40px 10px 10px 0;transform:none}.marketing-support-page .marketing-service-grid,.marketing-support-page .marketing-options-grid,.marketing-support-page .marketing-proof{grid-template-columns:minmax(0,1fr)}.marketing-support-page .marketing-service-grid{gap:30px}.marketing-support-page .marketing-service-grid h3{font-size:29px}.marketing-support-page .marketing-options-grid article{padding:26px 22px}.marketing-support-page .marketing-proof figure{width:90%;margin:5px auto;transform:none}.marketing-support-page .section-heading{display:block}.marketing-support-page .section-heading>p{margin-top:24px}.marketing-support-page .marketing-process .service-process{grid-template-columns:1fr;gap:24px}.marketing-support-page .service-page-cta h2{font-size:38px}.marketing-support-page .vehicle-related h2{font-size:30px}}

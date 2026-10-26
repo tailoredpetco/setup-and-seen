@@ -5,8 +5,12 @@ The production website is the saved HTML, CSS, fonts, artwork and scripts in
 
 ## Current creative direction
 
-The 18 October 2026 brief uses **I, my and me** for the independent business.
-This supersedes September’s we/our wording. Preserve genuine client quotations,
+The 26 October 2026 decision uses **we, us and our** for Set Up & Seen business
+copy. This supersedes the 18 October singular-voice brief. The marketing-support
+page and its linked enquiry copy are maintained by
+`migration/apply-marketing-support.cjs`, applied after the retained creative pass.
+Older pages and the historical creative sources still contain singular wording;
+use the latest voice when reviewing them. Preserve genuine client quotations,
 customer questions and consent statements. The Office Partner and The Tailored
 Pet Co are owned businesses and must be labelled accordingly. They demonstrate
 design work and must not be presented as independent endorsements.
