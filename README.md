@@ -5,12 +5,12 @@ The production website is the saved HTML, CSS, fonts, artwork and scripts in
 
 ## Current creative direction
 
-The 26 October 2026 decision uses **we, us and our** for Set Up & Seen business
-copy. This supersedes the 18 October singular-voice brief. The marketing-support
-page and its linked enquiry copy are maintained by
+The 14 November 2026 project instructions use **I/my** for Set Up & Seen copy.
+This supersedes the 26 October studio-voice instruction. The marketing-support
+page and its linked enquiry copy still contain the earlier voice and are maintained by
 `migration/apply-marketing-support.cjs`, applied after the retained creative pass.
-Older pages and the historical creative sources still contain singular wording;
-use the latest voice when reviewing them. Preserve genuine client quotations,
+Use the latest voice for new copy; keep unrelated content changes out of bounded
+portfolio updates. Preserve genuine client quotations,
 customer questions and consent statements. The Office Partner and The Tailored
 Pet Co are owned businesses and must be labelled accordingly. They demonstrate
 design work and must not be presented as independent endorsements.
@@ -19,6 +19,14 @@ The homepage, relevant service examples and portfolio motion are maintained in
 `migration/apply-creative-review.cjs`, `migration/creative-home.html`,
 `migration/creative-review.css` and `migration/creative-motion.js`.
 See `migration/CREATIVE_REVIEW_20261018.md` for the implementation and QA notes.
+
+The Wags & Wiggles portfolio feature, homepage entry and case study are maintained
+by `migration/apply-wags-and-wiggles.cjs`, which runs last in `build:static`.
+Its genuine website screenshots are in `netlify-site/assets/wags-and-wiggles/`.
+The supplied five-star Google review is transcribed verbatim and attributed to
+the displayed reviewer name, `daniel doy`; excerpts are labelled. The project
+scope is website design and launch. Do not infer branding work, booking-system
+development, commercial results, reviewer job title or an exact review date.
 
 Keep the original logo artwork and proportions, self-hosted Playfair Display and
 DM Sans, and existing brand palette. Genuine screenshots and approved artwork
